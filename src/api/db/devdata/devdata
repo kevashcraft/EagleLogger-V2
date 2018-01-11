@@ -6,6 +6,6 @@ PWD=`pwd`
 
 cd $BASEDIR
 
-PGUSER="$DB" PGPASSWORD="$DB" psql --quiet < dev.sql
+PGUSER="$DB" PGPASSWORD="$DB" psql --quiet < devdata.sql
 
 cd $PWD

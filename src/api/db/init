@@ -21,6 +21,6 @@ if [ "$fccdata" == "true" ]; then
   DB=$DB fccdata/fccdata
 fi
 
-if [ "$dev" == "true" ]; then
-  DB=$DB dev/dev
+if [ "$devdata" == "true" ]; then
+  DB=$DB devdata/devdata
 fi
