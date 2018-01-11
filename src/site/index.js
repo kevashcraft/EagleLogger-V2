@@ -1,18 +1,22 @@
-import Vue         from 'vue'
-import Vuetify     from 'vuetify'
+import Vue from 'vue'
+import Vuetify from 'vuetify'
 
-import App         from './components/App.vue'
-import router      from './components/router.js'
-
-import '../../node_modules/vuetify/dist/vuetify.min.css'
-import '../../node_modules/mdi/css/materialdesignicons.min.css'
+import App from './app/App.vue'
+import data from './app/data.js'
+import methods from './app/methods.js'
+import mounted from './app/mounted.js'
+import router from './app/router.js'
+import store from './app/store.js'
+import './app/imports'
 
 Vue.use(Vuetify)
 
 new Vue({
   el: '#app',
+  data,
+  methods,
+  mounted,
   router,
-  thing: 'this',
+  store,
   render (h) { return h(App) }
 })
-
