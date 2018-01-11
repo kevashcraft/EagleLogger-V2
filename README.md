@@ -5,7 +5,7 @@ An amateur radio net logging web application built with Vue, Vuetify, and Socket
 ## Getting Started
 
 * [Create the Database](#database-schema)
-* [Install Dependencies](#debendency-modules)
+* [Install Dependencies](#dependency-modules)
 
 ### Database Schema
 
