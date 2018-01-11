@@ -26,8 +26,6 @@
 </template>
 
 <script>
-  import ajax from './ajax'
-
   export default {
     data () {
       return {

@@ -1,14 +1,11 @@
 <template>
-  <div>I am {{ where }}!</div>
+  <router-view></router-view>
 </template>
 
 <script>
   export default {
     data () {
-      return {
-        where: 'about page'
-      }
+      return {}
     }
   }
 </script>
-
