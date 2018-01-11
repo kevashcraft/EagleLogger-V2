@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# FCC Database Retriever
+#
+# 1. create database & user
+# 2. download database files
+# 3. extract files
+# 4. remove non-ascii characters
+# 5. run import queries for each file
+# 6. refresh joined view
+#
+# FCC database schema: http://wireless.fcc.gov/uls/documentation/pa_ddef50.pdf
+
+BASEDIR=`dirname $0`
+PWD=`pwd`
+
+cd $BASEDIR
+
+if [ "$reset" == "reset" ]; then
+  rm tmp -rf
+fi
+
+if [ ! -d "tmp" ]; then
+  mkdir tmp
+fi
+
+if [ ! -f "tmp/l_amat.zip" ]; then
+  if [ -z "$l_amat_url" ]; then
+    l_amat_url="http://wireless.fcc.gov/uls/data/complete/l_amat.zip"
+  fi
+
+  wget -O tmp/l_amat.zip $l_amat_url
+fi
+
+unzip -d tmp -o tmp/l_amat.zip
+
+sed -i 's/\\|/|/' tmp/EN.dat
+perl -pi -e 's/[^[:ascii:]]//g' tmp/EN.dat
+
+sed -i 's/\\|/|/' tmp/HD.dat
+perl -pi -e 's/[^[:ascii:]]//g' tmp/HD.dat
+
+PGUSER="$DB" PGPASSWORD="$DB" psql --quiet < import_en.sql
+PGUSER="$DB" PGPASSWORD="$DB" psql --quiet < import_hd.sql
+PGUSER="$DB" PGPASSWORD="$DB" psql --quiet -c 'REFRESH MATERIALIZED VIEW fcc_l_amat'
+
+cd $PWD

@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Postgres Initialization
+#
+
+if [ -z "$DB" ]; then
+  DB="eaglelogger"
+fi
+
+if [ "$force" == "true" ]; then
+  sudo -u postgres psql --quiet -c "DROP DATABASE $DB"
+  sudo -u postgres psql --quiet -c "DROP USER $DB"
+fi
+
+sudo -u postgres psql --quiet -c "CREATE DATABASE $DB"
+sudo -u postgres psql --quiet -c "CREATE USER $DB WITH PASSWORD '$DB'"
+
+DB=$DB schema/schema
+
+if [ "$fccdata" == "true" ]; then
+  DB=$DB fccdata/fccdata
+fi
+
+if [ "$dev" == "true" ]; then
+  DB=$DB dev/dev
+fi
