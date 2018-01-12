@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import AboutPage from './components/AboutPage.vue'
-import HomePage from './components/HomePage.vue'
-import RouterView from './components/RouterView.vue'
-import NetPage from './components/NetPage.vue'
-import NetListPage from './components/NetListPage.vue'
+import AboutPage from '../../components/About/AboutPage.vue'
+import HomePage from '../../components/Home/HomePage.vue'
+import RouterView from '../../components/Misc/RouterView.vue'
+import NetPage from '../../components/Nets/NetPage.vue'
+import NetListPage from '../../components/Nets/NetListPage.vue'
 
 Vue.use(Router)
 

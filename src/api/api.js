@@ -1,7 +1,7 @@
 import { Server } from 'http'
 import IO from 'socket.io'
 
-import router from './router'
+import router from './app/router'
 
 let http = Server()
 let io = IO(http)

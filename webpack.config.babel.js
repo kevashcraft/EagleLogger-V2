@@ -4,7 +4,7 @@ import path from 'path'
 import webpack from 'webpack'
 
 module.exports = {
-  entry: './src/site/index.js',
+  entry: './src/site/site.js',
   output: {
     path: path.resolve(__dirname, 'dist/site'),
     publicPath: '/',

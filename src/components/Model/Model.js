@@ -1,4 +1,4 @@
-import db from '../../postgres'
+import db from '../../api/app/postgres'
 
 let camelCase = (str) => {
   return str.replace(/_([a-z])/g, (g) => {

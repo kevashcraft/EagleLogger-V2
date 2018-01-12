@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import ENetList from './ENetList.vue'
+  import ENetList from '../Nets/ENetList.vue'
 
   export default {
     data () {
