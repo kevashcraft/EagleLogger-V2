@@ -52,5 +52,11 @@ module.exports = {
       {from: './src/site/static', flatten: true}
     ]),
     new webpack.NamedModulesPlugin()
-  ]
+  ],
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
 }

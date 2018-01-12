@@ -1,3 +1,9 @@
+[![GitHub version](https://badge.fury.io/gh/kevashcraft%2FEagleLogger.svg)](https://badge.fury.io/gh/kevashcraft%2FEagleLogger)
+
+[![Coverage Status](https://coveralls.io/repos/github/kevashcraft/EagleLogger/badge.svg?branch=master)](https://coveralls.io/github/kevashcraft/EagleLogger?branch=master)
+
+[![Build Status](https://travis-ci.org/kevashcraft/EagleLogger.svg?branch=master)](https://travis-ci.org/kevashcraft/EagleLogger)
+
 # EagleLogger
 
 An amateur radio net logging web application built with Vue, Vuetify, and SocketIO.

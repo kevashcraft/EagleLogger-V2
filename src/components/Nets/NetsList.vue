@@ -26,7 +26,8 @@
   export default {
     data () {
       return {
-        nets: []
+        nets: [],
+        thing: ['something']
       }
     },
     props: {
