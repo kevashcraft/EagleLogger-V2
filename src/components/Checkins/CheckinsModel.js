@@ -10,6 +10,10 @@ exports.create = async (req) => {
   return Model.query(sql, bind, true, true)
 }
 
+exports.filter = async (fields) => {
+  return Model.filter('checkins_view', fields)
+}
+
 exports.list = async (deleted) => {
   let sql = `
     SELECT * FROM checkins

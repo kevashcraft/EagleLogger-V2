@@ -16,6 +16,16 @@
             </v-list-tile-content>
           </v-list-tile>
         </router-link>
+        <router-link to="/nets">
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon>mdi-playlist-check</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Nets</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
         <router-link to="/about">
           <v-list-tile @click="">
             <v-list-tile-action>

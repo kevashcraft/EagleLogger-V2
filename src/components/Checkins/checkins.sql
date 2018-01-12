@@ -8,3 +8,15 @@ CREATE TABLE checkins (
   deleted boolean DEFAULT false NOT NULL,
   PRIMARY KEY (id)
 );
+
+DROP VIEW IF EXISTS checkins_view;
+CREATE VIEW checkins_view AS
+  SELECT
+    checkins.*,
+    checkins.id as checkin_id,
+    callsigns.created as callsign_created,
+    callsigns.callsign as callsign
+  FROM checkins
+  JOIN callsigns ON callsigns.id = checkins.callsign_id
+;
+

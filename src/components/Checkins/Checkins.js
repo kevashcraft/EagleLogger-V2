@@ -11,8 +11,12 @@ exports.delete = async (req) => {
 }
 
 exports.list = async (req) => {
-  let deleted = !!req.deleted
-  return CheckinsModel.list(deleted)
+  let fields = {
+    deleted: !!req.deleted,
+    net_id: req.netId
+  }
+
+  return CheckinsModel.filter(fields)
 }
 
 exports.retrieve = async (req) => {

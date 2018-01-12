@@ -19,7 +19,7 @@
   "watch": {
     "api:dev": {
       "patterns": [
-        "src/components/Nets/*.js"
+        "src/**/*.js"
       ]
     },
     "db:build": {

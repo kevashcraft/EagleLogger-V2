@@ -26,7 +26,7 @@ exports.list = async (deleted) => {
 
 exports.retrieve = async (id) => {
   let sql = `
-    SELECT * FROM nets
+    SELECT * FROM nets_view
     WHERE id = $1
       AND NOT deleted
   `
