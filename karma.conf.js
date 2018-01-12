@@ -2,6 +2,8 @@
 // Generated on Fri Jan 12 2018 10:30:31 GMT-0500 (EST)
 import webpack from './webpack.config.babel.js'
 
+let browser = process.env.TRAVIS ? 'Chrome_travis_ci' : 'Chrome'
+
 module.exports = function (config) {
   config.set({
 
@@ -66,7 +68,13 @@ module.exports = function (config) {
 
   // start these browsers
   // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [browser],
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
   // Continuous Integration mode
   // if true, Karma captures browsers, runs the tests and exits
