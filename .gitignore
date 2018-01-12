@@ -2,5 +2,6 @@
 /dist/
 /.git/
 tmp/
+/test/coverage
 
 config.js

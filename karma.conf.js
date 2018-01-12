@@ -26,7 +26,7 @@ module.exports = function (config) {
   // preprocess matching files before serving them to the browser
   // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/testSpec.js': ['webpack']
+      'test/testSpec.js': ['webpack', 'coverage']
     },
     plugins: [
       'karma-mocha',
@@ -85,7 +85,7 @@ module.exports = function (config) {
     concurrency: Infinity,
 
     coverageReporter: {
-      dir: './coverage',
+      dir: './test/coverage',
       reporters: [
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
