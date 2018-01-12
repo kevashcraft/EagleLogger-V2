@@ -71,6 +71,7 @@
     "socket.io-file": "^2.0.15",
     "socket.io-file-client": "^2.0.121",
     "style-loader": "^0.19.1",
+    "sync-exec": "^0.6.2",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "vue": "^2.5.13",
@@ -80,7 +81,6 @@
     "vuetify": "^0.17.6",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.4.2",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.1"
+    "webpack": "^3.10.0"
   }
 }
