@@ -35,9 +35,6 @@ module.exports = function (config) {
       'karma-webpack',
       'karma-sourcemap-loader',
 
-      'karma-phantomjs-launcher',
-      'karma-phantomjs-shim',
-
       'karma-chrome-launcher',
 
       'karma-babel-preprocessor'
