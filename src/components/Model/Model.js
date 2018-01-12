@@ -21,6 +21,18 @@ let convertRows = (rows) => {
   return rows
 }
 
+exports.filter = (table, fields) => {
+  let filter = exports.formatFields(fields, 'filter')
+
+  let sql = `
+    SELECT * FROM ${table}
+    WHERE ${filter.set}
+    ORDER BY id DESC
+  `
+
+  return exports.query(sql, filter.bind)
+}
+
 exports.query = async (sql, bind, astr = false, asv = false) => {
   try {
     let results = await db.query(sql, bind)
@@ -54,7 +66,7 @@ exports.run = async (sql, bind) => {
 }
 
 exports.update = (table, fields, id) => {
-  let update = exports.updateFields(fields)
+  let update = exports.formatFields(fields, 'update')
 
   let sql = `
     UPDATE ${table} SET ${update.set}
@@ -65,29 +77,36 @@ exports.update = (table, fields, id) => {
   exports.run(sql, update.bind)
 }
 
-exports.updateFields = (fields) => {
+exports.formatFields = (fields, type = 'update') => {
   let count = 0
   let bind = []
+  let joiner = type === 'update' ? ',' : ' AND '
+  let modifier = 0
   let set = Object
     .keys(fields)
     .map((field, index) => {
       if (fields[field] && typeof fields[field] === 'object') {
         let key = Object.keys(fields[field])[0]
         if (key === 'safe') {
-          return field + ' = ' + fields[field].safe
+          modifier--
+          if (type === 'filter' && fields[field].safe === 'NULL') {
+            return field + ' is ' + fields[field].safe
+          } else {
+            return field + ' = ' + fields[field].safe
+          }
         }
         if (key === 'bind') {
           count++
           bind.push(fields[field].bind)
-          return field + ' = $' + (index + 1)
+          return field + ' = $' + (index + 1 + modifier)
         }
       } else {
         count++
         bind.push(fields[field])
-        return field + ' = $' + (index + 1)
+        return field + ' = $' + (index + 1 + modifier)
       }
     })
-    .join(',')
+    .join(joiner)
 
   return {
     count,

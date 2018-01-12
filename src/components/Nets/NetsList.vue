@@ -2,7 +2,7 @@
   <v-card color="blue" style="margin-top: 48px">
     <v-card-text>
       <v-card>
-        <v-card-title>Recent Nets</v-card-title>
+        <v-card-title v-show="title" v-text="title" style="font-size: 18px; font-weight: bold"></v-card-title>
         <v-card-text>
           <v-list style="max-height: 250px; overflow-y: auto">
             <template v-for="net in nets">
@@ -14,7 +14,7 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title v-text="net.name"></v-list-tile-title>
-                  <v-list-tile-sub-title v-text="net.description"></v-list-tile-sub-title>
+                  <v-list-tile-sub-title v-text="net.title"></v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </template>
@@ -30,10 +30,32 @@
     data () {
       return {
         nets: [],
+        all: false,
       }
     },
-    async created () {
-      this.nets = await ajax.get('/nets.json')
+    props: {
+      all: {
+        default: false,
+        type: Boolean
+      },
+      title: {
+        default: null,
+        type: String
+      }
+    },
+    mounted () {
+      this.list()
+    },
+    methods: {
+      list () {
+        console.log('this.all', this.all)
+        let req = {}
+        if (this.all) req.all = true
+
+        this.$root.req('Nets:list', req).then(response => {
+          this.nets = response
+        })
+      }
     }
   }
 </script>

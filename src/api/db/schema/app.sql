@@ -1,5 +1,5 @@
-\i ../../modules/Callsigns/callsigns.sql
-\i ../../modules/Users/users.sql
-\i ../../modules/NetTypes/nettypes.sql
-\i ../../modules/Nets/nets.sql
-\i ../../modules/Checkins/checkins.sql
+\i ../../../components/Callsigns/callsigns.sql
+\i ../../../components/Users/users.sql
+\i ../../../components/NetTypes/nettypes.sql
+\i ../../../components/Nets/nets.sql
+\i ../../../components/Checkins/checkins.sql

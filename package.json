@@ -10,16 +10,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "api:build": "rimraf ./dist/api/ && babel ./src/api/ --out-dir ./dist/api/ --copy-files --source-maps inline && babel ./src/components/ --out-dir ./dist/components/ --copy-files --source-maps inline",
     "api:dev": "npm run api:build && node ./dist/api/api.js",
+    "db:build": "devdata=true force=true ./src/api/db/init && echo 'BUILDING'",
     "site:build": "webpack --progress --colors",
     "site:dev": "webpack-dev-server --content-base ./src/site/static --content-base generated --inline --hot --history-api-fallback --host 0.0.0.0 --colors",
     "build": "npm run api:build && npm run site:build",
-    "dev": "npm run site:dev | npm-watch api:dev"
+    "dev": "npm run site:dev | npm-watch"
   },
   "watch": {
     "api:dev": {
       "patterns": [
-        "src/**/*.js"
+        "src/components/Nets/*.js"
       ]
+    },
+    "db:build": {
+      "patterns": ["src"],
+      "extensions": "sql"
     }
   },
   "dependencies": {

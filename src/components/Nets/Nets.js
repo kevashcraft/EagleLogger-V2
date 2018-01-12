@@ -11,8 +11,28 @@ exports.delete = async (req) => {
 }
 
 exports.list = async (req) => {
-  let deleted = !!req.deleted
-  return NetsModel.list(deleted)
+  let fields = {deleted: !!req.deleted}
+  if (!req.all) fields.stopped = { safe: 'NULL' }
+  let nets = await NetsModel.filter(fields)
+
+  if (req.all) {
+    let activeNets = nets.filter(net => { return !net.stopped })
+    let closedNets = nets.filter(net => { return net.stopped })
+
+    nets = []
+
+    if (activeNets.length) {
+      nets.push({header: 'Active Nets'})
+      nets = nets.concat(activeNets)
+    }
+
+    if (closedNets.length) {
+      nets.push({header: 'Closed Nets'})
+      nets = nets.concat(closedNets)
+    }
+  }
+
+  return nets
 }
 
 exports.retrieve = async (req) => {

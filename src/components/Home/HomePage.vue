@@ -14,14 +14,14 @@
     </v-layout>
     <v-layout row justify-space-around>
       <v-flex xs12 md8 lg6>
-        <e-net-list></e-net-list>
+        <nets-list title="Active Nets"></nets-list>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  import ENetList from '../Nets/ENetList.vue'
+  import NetsList from '../Nets/NetsList.vue'
 
   export default {
     data () {
@@ -30,7 +30,7 @@
       }
     },
     components: {
-      ENetList
+      NetsList
     }
   }
 </script>

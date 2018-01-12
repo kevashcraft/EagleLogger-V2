@@ -3,17 +3,22 @@
 # Postgres Initialization
 #
 
+BASEDIR=`dirname $0`
+PWD=`pwd`
+
+cd $BASEDIR
+
 if [ -z "$DB" ]; then
   DB="eaglelogger"
 fi
 
 if [ "$force" == "true" ]; then
-  sudo -u postgres psql --quiet -c "DROP DATABASE $DB"
-  sudo -u postgres psql --quiet -c "DROP USER $DB"
+  psql -U postgres --quiet -c "DROP DATABASE $DB"
+  psql -U postgres --quiet -c "DROP USER $DB"
 fi
 
-sudo -u postgres psql --quiet -c "CREATE DATABASE $DB"
-sudo -u postgres psql --quiet -c "CREATE USER $DB WITH PASSWORD '$DB'"
+psql -U postgres --quiet -c "CREATE DATABASE $DB"
+psql -U postgres --quiet -c "CREATE USER $DB WITH PASSWORD '$DB'"
 
 DB=$DB schema/schema
 
@@ -24,3 +29,5 @@ fi
 if [ "$devdata" == "true" ]; then
   DB=$DB devdata/devdata
 fi
+
+cd $PWD
