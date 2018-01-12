@@ -7,7 +7,7 @@
   "author": "Kevin Ashcraft <kevin@kevashcraft.com> (https://www.kevashcraft.com)",
   "license": "ISC",
   "scripts": {
-    "test": "babel-cli -- ./node_modules/karma/bin/karma start",
+    "test": "babel-node -- ./node_modules/karma/bin/karma start",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "api:build": "rimraf ./dist/api/ && babel ./src/api/ --out-dir ./dist/api/ --copy-files --source-maps inline && babel ./src/components/ --out-dir ./dist/components/ --copy-files --source-maps inline",
     "api:dev": "npm run api:build && node ./dist/api/api.js",
