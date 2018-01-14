@@ -65,7 +65,7 @@ exports.run = async (sql, bind) => {
   }
 }
 
-exports.update = (table, fields, id) => {
+exports.update = (table, id, fields) => {
   let update = exports.formatFields(fields, 'update')
 
   let sql = `

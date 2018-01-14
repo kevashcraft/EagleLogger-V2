@@ -31,6 +31,22 @@ exports.retrieve = async (id) => {
   return Model.query(sql, bind, true)
 }
 
+exports.search = async (req) => {
+  let sql = `
+    SELECT
+      callsigns.*,
+      callsigns.callsign as text,
+      callsigns.id as value
+    FROM callsigns
+    WHERE callsigns.callsign ilike ANY(ARRAY[${req.queryString}])
+    ORDER BY similarity(callsigns.callsign, $1) DESC
+    LIMIT 10
+  `
+  let bind = [req.query]
+
+  return Model.query(sql, bind)
+}
+
 exports.update = async (req) => {
   Model.update('callsigns', req.fields, req.callsignId)
 }

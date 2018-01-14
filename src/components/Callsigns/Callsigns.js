@@ -18,3 +18,8 @@ exports.list = async (req) => {
 exports.retrieve = async (req) => {
   return CallsignsModel.retrieve(req.callsignId)
 }
+
+exports.search = async (req) => {
+  req.queryString = "'%" + req.query.replace(' ', "%', '%") + "%'"
+  return CallsignsModel.search(req)
+}

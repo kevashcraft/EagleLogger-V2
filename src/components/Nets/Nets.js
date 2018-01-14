@@ -36,7 +36,7 @@ exports.list = async (req) => {
 }
 
 exports.retrieve = async (req) => {
-  return NetsModel.retrieve(req.netId)
+  return NetsModel.retrieve(req.id)
 }
 
 exports.start = async (req) => {

@@ -1,7 +1,7 @@
 import NetTypesModel from './NetTypesModel'
 
 exports.create = async (req) => {
-  return NetTypesModel.create(req)
+  return NetTypesModel.create(req.name)
 }
 
 exports.delete = async (req) => {

@@ -1,11 +1,13 @@
 import Model from '../Model/Model'
 
-exports.create = async (req) => {
+exports.create = async (netId, callsignId) => {
   let sql = `
     INSERT INTO checkins (net_id, callsign_id)
     VALUES ($1, $2)
+    ON CONFLICT (net_id, callsign_id) DO UPDATE SET deleted = false
+    RETURNING id
   `
-  let bind = [req.netId, req.callsignId]
+  let bind = [netId, callsignId]
 
   return Model.query(sql, bind, true, true)
 }
@@ -35,6 +37,6 @@ exports.retrieve = async (id) => {
   return Model.query(sql, bind, true)
 }
 
-exports.update = async (req) => {
-  Model.update('checkins', req.fields, req.checkinId)
+exports.update = async (id, fields) => {
+  Model.update('checkins', id, fields)
 }

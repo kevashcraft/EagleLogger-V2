@@ -1,18 +1,19 @@
 import Model from '../Model/Model'
 
-exports.create = async (req) => {
+exports.create = async (name) => {
   let sql = `
-    INSERT INTO nettypes (name, nts, skywarn)
-    VALUES ($1, $2)
+    INSERT INTO net_types (name)
+    VALUES ($1)
+    RETURNING id
   `
-  let bind = [req.net, req.nts, req.skywarn]
+  let bind = [name]
 
   return Model.query(sql, bind, true, true)
 }
 
 exports.list = async (deleted) => {
   let sql = `
-    SELECT * FROM nettypes
+    SELECT * FROM net_types_view
     WHERE deleted = $1
   `
   let bind = [deleted]
@@ -22,7 +23,7 @@ exports.list = async (deleted) => {
 
 exports.retrieve = async (id) => {
   let sql = `
-    SELECT * FROM nettypes
+    SELECT * FROM net_types
     WHERE id = $1
       AND NOT deleted
   `
@@ -32,5 +33,5 @@ exports.retrieve = async (id) => {
 }
 
 exports.update = async (req) => {
-  Model.update('nettypes', req.fields, req.netTypeId)
+  Model.update('net_types', req.fields, req.netTypeId)
 }

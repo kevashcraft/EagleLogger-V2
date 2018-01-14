@@ -6,7 +6,8 @@ CREATE TABLE checkins (
   callsign_id int REFERENCES callsigns(id) NOT NULL,
   traffic boolean DEFAULT false NOT NULL,
   deleted boolean DEFAULT false NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE(net_id, callsign_id)
 );
 
 DROP VIEW IF EXISTS checkins_view;

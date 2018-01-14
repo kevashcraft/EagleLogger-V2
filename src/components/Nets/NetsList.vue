@@ -10,8 +10,8 @@
               <v-divider v-else-if="net.divider" :inset="net.inset"></v-divider>
               <v-list-tile v-else :key="net.id" @click="gotoNet(net.id)">
                 <v-list-tile-content>
-                  <v-list-tile-title v-text="net.name"></v-list-tile-title>
-                  <v-list-tile-sub-title v-text="net.title"></v-list-tile-sub-title>
+                  <v-list-tile-title v-text="net.title"></v-list-tile-title>
+                  <v-list-tile-sub-title v-text="net.subtitle"></v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </template>

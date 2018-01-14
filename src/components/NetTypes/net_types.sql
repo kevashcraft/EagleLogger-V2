@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS nettypes;
-CREATE TABLE nettypes (
+DROP TABLE IF EXISTS net_types;
+CREATE TABLE net_types (
   id serial NOT NULL,
   created timestamp DEFAULT current_timestamp NOT NULL,
   name varchar(32),

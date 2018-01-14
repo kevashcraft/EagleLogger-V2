@@ -1,11 +1,11 @@
 SET client_min_messages TO WARNING;
 
-TRUNCATE nettypes CASCADE;
+TRUNCATE net_types CASCADE;
 TRUNCATE nets CASCADE;
 TRUNCATE callsigns CASCADE;
 TRUNCATE checkins CASCADE;
 
-INSERT INTO nettypes (name, description, freq, starttime) VALUES
+INSERT INTO net_types (name, description, freq, starttime) VALUES
   ('Test AAAAA', 'Test Net AAAAA', '123.45MHz', current_timestamp),
   ('Test BBBBB', 'Test Net BBBBB', '123.45MHz', current_timestamp),
   ('Test CCCCC', 'Test Net CCCCC', '123.45MHz', current_timestamp),
@@ -34,7 +34,7 @@ INSERT INTO nettypes (name, description, freq, starttime) VALUES
   ('Test ZZZZZ', 'Test Net ZZZZZ', '123.45MHz', current_timestamp)
 ;
 
-INSERT INTO nets (nettype_id, started, stopped) VALUES
+INSERT INTO nets (net_type_id, started, stopped) VALUES
   (1, current_timestamp - interval '1 hours', NULL),
   (2, current_timestamp - interval '2 hours', NULL),
   (3, current_timestamp - interval '3 hours', current_timestamp - interval '2 hours'),

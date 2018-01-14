@@ -1,13 +1,13 @@
 import CheckinsModel from './CheckinsModel'
 
 exports.create = async (req) => {
-  return CheckinsModel.create(req)
+  return CheckinsModel.create(req.netId, req.callsignId)
 }
 
 exports.delete = async (req) => {
-  req.fields = { deleted: true }
+  let fields = { deleted: true }
 
-  CheckinsModel.update(req)
+  CheckinsModel.update(req.id, fields)
 }
 
 exports.list = async (req) => {
