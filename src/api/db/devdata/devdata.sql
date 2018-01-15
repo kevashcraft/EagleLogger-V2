@@ -5,8 +5,8 @@ TRUNCATE nets CASCADE;
 TRUNCATE callsigns CASCADE;
 TRUNCATE checkins CASCADE;
 
-INSERT INTO net_types (name, description, freq, starttime) VALUES
-  ('Test AAAAA', 'Test Net AAAAA', '123.45MHz', current_timestamp),
+INSERT INTO net_types (name, description, frequency, start_time) VALUES
+  ('Test AAAAA', 'Test Net AAAAA', '123.45MHz', '20:30:00'),
   ('Test BBBBB', 'Test Net BBBBB', '123.45MHz', current_timestamp),
   ('Test CCCCC', 'Test Net CCCCC', '123.45MHz', current_timestamp),
   ('Test DDDDD', 'Test Net DDDDD', '123.45MHz', current_timestamp),

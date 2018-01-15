@@ -6,7 +6,6 @@
         <v-select
           label="Callsign"
           autocomplete
-          autofocus
           clearable
           placeholder="Search for a callsign"
           return-object
@@ -59,9 +58,6 @@
       create (callsignId) {
         let req = {netId: this.netId, callsignId}
         this.$root.req('Checkins:create', req).then(response => {
-          if (response) {
-            this.$emit('update')
-          }
         })
       },
     }

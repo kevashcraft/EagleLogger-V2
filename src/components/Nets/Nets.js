@@ -1,13 +1,20 @@
 import NetsModel from './NetsModel'
+import moment from 'moment'
 
 exports.create = async (req) => {
-  return NetsModel.create(req)
+  let started = moment()
+  let timeArray = req.startTime.split(':')
+  started.hour(timeArray[0])
+  started.minute(timeArray[1])
+  started.second(0)
+  started.millisecond(0)
+  return NetsModel.create(req.netTypeId, started)
 }
 
 exports.delete = async (req) => {
-  req.fields = { deleted: true }
+  let fields = { deleted: true }
 
-  NetsModel.update(req)
+  NetsModel.update(req.id, fields)
 }
 
 exports.list = async (req) => {
@@ -35,6 +42,12 @@ exports.list = async (req) => {
   return nets
 }
 
+exports.reopen = async (req) => {
+  let fields = {stopped: {safe: 'NULL'}}
+
+  return NetsModel.update(req.id, fields)
+}
+
 exports.retrieve = async (req) => {
   return NetsModel.retrieve(req.id)
 }
@@ -46,7 +59,18 @@ exports.start = async (req) => {
 }
 
 exports.stop = async (req) => {
-  req.fields = { stopped: req.stopped }
+  let stopped = moment()
+  let timeArray = req.stopTime.split(':')
+  let minute = timeArray[1].slice(0, 2)
+  let ampm = timeArray[1].slice(-2)
+  let hour = parseInt(timeArray[0])
+  if (ampm === 'pm') hour += 12
+  stopped.hour(hour)
+  stopped.minute(minute)
+  stopped.second(0)
+  stopped.millisecond(0)
 
-  NetsModel.update(req)
+  let fields = {stopped}
+
+  return NetsModel.update(req.id, fields)
 }

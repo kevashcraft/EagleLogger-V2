@@ -10,13 +10,13 @@ CREATE VIEW nets_view AS
     nets.deleted,
     net_types.name,
     net_types.description,
-    net_types.freq,
-    net_types.starttime,
+    net_types.frequency,
+    net_types.start_time,
     net_types.nts,
     net_types.skywarn,
     net_types.name ||
-      COALESCE(' (' || net_types.freq || ')', '') ||
-      COALESCE(' - ' || TO_CHAR(nets.started, 'Dy, Mon fmDDth @ HH24:MM'), '')
+      COALESCE(' (' || net_types.frequency || ')', '') ||
+      COALESCE(' - ' || TO_CHAR(nets.started, 'Dy, Mon fmDDth @ HH24:MI'), '')
       as title,
     net_types.description ||
       COALESCE(' - ' || count(checkins.*) || ' checkins', '')
@@ -27,3 +27,4 @@ CREATE VIEW nets_view AS
   GROUP BY nets.id,
     net_types.id
 ;
+

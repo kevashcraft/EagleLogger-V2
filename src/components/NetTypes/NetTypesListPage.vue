@@ -5,7 +5,7 @@
         <net-types-list ref="NetTypesList"></net-types-list>
       </v-flex>
     </v-layout>
-    <net-type-dialog ref="NetTypeDialog" @update="$refs.NetTypesList.list()"></net-type-dialog>
+    <net-type-dialog ref="NetTypeDialog"></net-type-dialog>
     <v-btn fab absolute right @click="$refs.NetTypeDialog.open('create')" dark>
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>

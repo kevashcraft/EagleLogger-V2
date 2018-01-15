@@ -26,15 +26,17 @@
         netTypes: []
       }
     },
+    created () {
+      this.$root.$on('NetTypesUpdated', (data) => {
+        this.list()
+      })
+    },
     mounted () {
       this.list()
     },
     methods: {
       list () {
-        let req = {}
-        if (this.all) req.all = true
-
-        this.$root.req('NetTypes:list', req).then(response => {
+        this.$root.req('NetTypes:list').then(response => {
           this.netTypes = response
         })
       }

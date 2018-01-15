@@ -1,4 +1,5 @@
 import db from '../../api/app/postgres'
+import moment from 'moment'
 
 let camelCase = (str) => {
   return str.replace(/_([a-z])/g, (g) => {
@@ -65,16 +66,16 @@ exports.run = async (sql, bind) => {
   }
 }
 
-exports.update = (table, id, fields) => {
+exports.update = async (table, id, fields) => {
   let update = exports.formatFields(fields, 'update')
-
   let sql = `
     UPDATE ${table} SET ${update.set}
     WHERE id = $${update.count + 1}
   `
   update.bind.push(id)
 
-  exports.run(sql, update.bind)
+  await exports.run(sql, update.bind)
+  return true
 }
 
 exports.formatFields = (fields, type = 'update') => {
@@ -85,7 +86,10 @@ exports.formatFields = (fields, type = 'update') => {
   let set = Object
     .keys(fields)
     .map((field, index) => {
-      if (fields[field] && typeof fields[field] === 'object') {
+      if (fields[field] &&
+        typeof fields[field] === 'object' &&
+        !moment.isMoment(fields[field])
+        ) {
         let key = Object.keys(fields[field])[0]
         if (key === 'safe') {
           modifier--

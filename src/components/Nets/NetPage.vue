@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div>{{ net.name }} - {{ net.title }}</div>
+    <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div>
     <v-list style="max-height: 500px; overflow-y: auto" class="list">
       <template v-for="checkin in checkins">
         <v-list-tile :key="checkin.id" class="item">
@@ -16,8 +16,10 @@
         </v-list-tile>
       </template>
     </v-list>
-    <checkin-dialog ref="CheckinDialog" @update="retrieveCheckins" :net-id="net.id"></checkin-dialog>
-    <v-btn fab absolute right @click="$refs.CheckinDialog.open()" dark>
+    <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
+    <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
+    <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
+    <v-btn daark fab absolute right @click="$refs.CheckinDialog.open()" v-show="!net.stopped">
       <v-icon dark>mdi-account-check</v-icon>
     </v-btn>
   </v-container>
@@ -37,17 +39,31 @@
 
 <script>
   import CheckinDialog from '../Checkins/CheckinDialog'
+  import NetReopenDialog from './NetReopenDialog'
+  import NetStopDialog from './NetStopDialog'
 
   export default {
     data () {
       return {
-        net: {},
+        net: {id: 0},
         checkins: [],
       }
     },
-    components: { CheckinDialog },
+    created () {
+      this.$root.$on('NetsUpdated', (data) => {
+        if (data = this.net.id) {
+          this.retrieveNet()
+        }
+      })
+      this.$root.$on('CheckinsUpdated', (data) => {
+        if (data = this.net.id) {
+          this.retrieveCheckins()
+        }
+      })
+    },
+    components: { CheckinDialog, NetReopenDialog, NetStopDialog },
     mounted () {
-      this.net.id = this.$route.params.id
+      this.net.id = parseInt(this.$route.params.id)
       this.retrieveNet()
     },
     methods: {

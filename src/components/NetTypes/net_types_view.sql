@@ -6,8 +6,8 @@ CREATE VIEW net_types_view AS
     net_types.created,
     net_types.name,
     net_types.description,
-    net_types.freq,
-    net_types.starttime,
+    net_types.frequency,
+    TO_CHAR(net_types.start_time, 'HH24:MI') as start_time,
     net_types.nts,
     net_types.skywarn,
     net_types.deleted

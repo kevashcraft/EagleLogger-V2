@@ -10,9 +10,9 @@
             v-model="netType.name"
           ></v-text-field>
           <v-text-field
-            label="Frequenct"
+            label="Frequency"
             placeholder="Net frequency"
-            v-model="netType.freq"
+            v-model="netType.frequency"
           ></v-text-field>
           <v-btn @click="post">Click</v-btn>
         </v-form>
@@ -27,7 +27,10 @@
       return {
         action: 'Create',
         opened: false,
-        netType: {}
+        netType: {
+          name: null,
+          frequency: null
+        }
       }
     },
     created () {
@@ -50,10 +53,7 @@
       },
       create () {
         this.$root.req('NetTypes:create', this.netType).then(response => {
-          if (response) {
-            this.$emit('update')
-            this.close()
-          }
+          this.close()
         })
       },
     }
