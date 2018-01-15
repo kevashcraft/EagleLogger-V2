@@ -9,7 +9,7 @@
   "scripts": {
     "unit": "babel-node -- ./node_modules/karma/bin/karma start test/unit/karma.conf.js --single-run",
     "e2e": "babel-node -- node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
+    "test": "npm run unit",
     "coveralls": "cat ./test/unit/coverage/lcov.info | coveralls",
     "api:build": "rimraf ./dist/api/ && babel ./src/api/ --out-dir ./dist/api/ --copy-files --source-maps inline && babel ./src/components/ --out-dir ./dist/components/ --copy-files --source-maps inline",
     "api:dev": "npm run api:build && node ./dist/api/api.js",
