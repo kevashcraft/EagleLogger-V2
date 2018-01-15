@@ -21,10 +21,11 @@ psql -U postgres --quiet -c "CREATE DATABASE $DB"
 psql -U postgres --quiet -c "CREATE USER $DB WITH PASSWORD '$DB'"
 psql -U postgres --quiet -d $DB -c "CREATE EXTENSION pg_trgm"
 
+DB=$DB zipcodes/zipcodes
 DB=$DB schema/schema
 
 if [ "$fccdata" == "true" ]; then
-  DB=$DB fccdata/fccdata
+  DB=$DB forcefcc=$forcefcc fccdata/fccdata
 fi
 
 if [ "$devdata" == "true" ]; then

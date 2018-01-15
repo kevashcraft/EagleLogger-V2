@@ -20,6 +20,11 @@ exports.retrieve = async (req) => {
 }
 
 exports.search = async (req) => {
-  req.queryString = "'%" + req.query.replace(' ', "%', '%") + "%'"
-  return CallsignsModel.search(req)
+  let query = req.query.toUpperCase()
+  let queryString = "'%" + query.replace(' ', "%', '%") + "%'"
+  let results = await CallsignsModel.search(query, queryString)
+  return {
+    results,
+    t: req.t
+  }
 }

@@ -40,6 +40,11 @@
         type: String
       }
     },
+    created () {
+      this.$root.$on('NetsUpdated', (data) => {
+        this.list()
+      })
+    },
     mounted () {
       this.list()
     },

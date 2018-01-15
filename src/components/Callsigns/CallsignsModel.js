@@ -31,18 +31,18 @@ exports.retrieve = async (id) => {
   return Model.query(sql, bind, true)
 }
 
-exports.search = async (req) => {
+exports.search = async (query, queryString) => {
   let sql = `
     SELECT
       callsigns.*,
-      callsigns.callsign as text,
+      callsigns.callsign || ' - ' || callsigns.name as text,
       callsigns.id as value
     FROM callsigns
-    WHERE callsigns.callsign ilike ANY(ARRAY[${req.queryString}])
-    ORDER BY similarity(callsigns.callsign, $1) DESC
-    LIMIT 10
+    WHERE callsigns.callsign like ANY(ARRAY[${queryString}])
+    ORDER BY similarity(callsigns.callsign || ' ' || callsigns.name, $1) DESC
+    LIMIT 5
   `
-  let bind = [req.query]
+  let bind = [query]
 
   return Model.query(sql, bind)
 }

@@ -17,7 +17,8 @@
     "site:build": "webpack --progress --colors",
     "site:dev": "webpack-dev-server --content-base ./src/site/static --content-base generated --inline --hot --history-api-fallback --host 0.0.0.0 --colors",
     "build": "npm run api:build && npm run site:build",
-    "dev": "npm run site:dev | npm-watch"
+    "dev:withdb": "npm run site:dev | npm-watch",
+    "dev": "npm run site:dev | npm-watch api:dev"
   },
   "watch": {
     "api:dev": {

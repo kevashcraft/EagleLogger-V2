@@ -9,6 +9,7 @@
           clearable
           placeholder="Search for a callsign"
           return-object
+          :filter="searchFilter"
           :items="searchResults"
           :search-input.sync="searchInput"
           v-model="callsign"
@@ -35,9 +36,16 @@
     watch: {
       searchInput (query) {
         if (query) {
-          this.$root.req('Callsigns:search', {query}).then(response => {
-            this.searchResults = response
-          })
+          if (this.searching) clearTimeout(this.searching)
+          this.searching = setTimeout(() => {
+            let t = Date.now()
+            this.$root.req('Callsigns:search', {query, t}).then(response => {
+              if (response.t === t) {
+                this.searchResults = response.results
+              }
+              this.searching = false
+            })
+          }, 250)
         }
       },
       callsign (callsign) {
@@ -60,6 +68,20 @@
         this.$root.req('Checkins:create', req).then(response => {
         })
       },
+      searchFilter (item, queryText, itemText) {
+        // const hasValue = val => val != null ? val : ''
+
+        // const text = hasValue(itemText)
+        // const query = hasValue(queryText)
+
+        // return text.toString()
+        //   .toLowerCase()
+        //   .indexOf(query.toString().toLowerCase()) > -1
+        //           console.log('item', item)
+        // console.log('queryText', queryText)
+        // console.log('itemText', itemText)
+        return true
+      }
     }
   }
 </script>
