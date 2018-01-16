@@ -1,4 +1,4 @@
-import db from '../../api/app/postgres'
+import db from '../../api/postgres'
 import moment from 'moment'
 
 let camelCase = (str) => {

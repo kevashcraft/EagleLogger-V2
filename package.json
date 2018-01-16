@@ -13,11 +13,9 @@
     "coveralls": "cat ./test/unit/coverage/lcov.info | coveralls",
     "api:build": "rimraf ./dist/api/ && babel ./src/api/ --out-dir ./dist/api/ --copy-files --source-maps inline && babel ./src/components/ --out-dir ./dist/components/ --copy-files --source-maps inline",
     "api:dev": "npm run api:build && node ./dist/api/api.js",
-    "db:build": "devdata=true force=true ./src/api/db/init && echo 'BUILDING'",
     "site:build": "webpack --progress --colors",
     "site:dev": "webpack-dev-server --content-base ./src/site/static --content-base generated --inline --hot --history-api-fallback --host 0.0.0.0 --colors",
     "build": "npm run api:build && npm run site:build",
-    "dev:withdb": "npm run site:dev | npm-watch",
     "dev": "npm run site:dev | npm-watch api:dev"
   },
   "watch": {
@@ -25,12 +23,6 @@
       "patterns": [
         "src/**/*.js"
       ]
-    },
-    "db:build": {
-      "patterns": [
-        "src"
-      ],
-      "extensions": "sql"
     }
   },
   "dependencies": {

@@ -1,7 +1,0 @@
-export default {
-  postgres: {
-    database: 'eaglelogger',
-    username: 'eaglelogger',
-    password: 'eaglelogger'
-  }
-}

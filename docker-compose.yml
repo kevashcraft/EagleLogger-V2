@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - 8080:8080
+      - 3001:3001
+    depends_on:
+      - postgres
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+  postgres:
+    build: './db'
+    ports:
+      - 8081:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

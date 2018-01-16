@@ -1,6 +1,5 @@
 /node_modules/
 /dist/
-/.git/
 tmp/
 /test/unit/coverage
 

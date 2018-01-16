@@ -1,8 +1,8 @@
 import { Server } from 'http'
 import IO from 'socket.io'
 
-import router from './app/router'
-import broadcastables from './app/broadcastables'
+import router from './router'
+import broadcastables from './broadcastables'
 
 let http = Server()
 let io = IO(http)
