@@ -1,0 +1,20 @@
+FROM node:9.4 as builder
+
+RUN mkdir /app/src -p
+RUN mkdir /app/build -p
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY ./build/webpack.config.babel.js ./build/
+COPY .babelrc ./
+COPY ./src ./src/
+
+RUN npm install
+RUN npm run site:build
+
+FROM nginx:1.13
+
+COPY --from=builder /app/dist/site /usr/share/nginx/html
+
+EXPOSE 80

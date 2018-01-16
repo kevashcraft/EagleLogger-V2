@@ -1,0 +1,24 @@
+FROM node:9.4 as builder
+
+RUN mkdir /app/src -p
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY .babelrc ./
+COPY ./src ./src/
+
+RUN npm install
+RUN npm run api:build
+RUN find ./dist/components -name "*.vue" -type f -delete
+
+FROM node:9.4
+ENV NODE_ENV=production
+RUN mkdir /app
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY --from=builder /app/dist/api /app/api
+COPY --from=builder /app/dist/components /app/components
+EXPOSE 3001
+CMD ["node", "api/api"]

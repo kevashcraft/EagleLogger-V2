@@ -6,7 +6,7 @@ import webpack from 'webpack'
 module.exports = {
   entry: './src/site/site.js',
   output: {
-    path: path.resolve(__dirname, 'dist/site'),
+    path: path.resolve(__dirname, '../dist/site'),
     publicPath: '/',
     filename: '[name]-[hash].js'
   },
@@ -56,7 +56,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': path.resolve(__dirname, 'src')
+      '@': path.resolve(__dirname, '../src')
     }
   }
 }

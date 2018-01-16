@@ -1,0 +1,25 @@
+version: '3'
+services:
+  site:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-site
+    ports:
+      - 8088:80
+  api:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-api
+    ports:
+      - 3001:3001
+  postgres:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-postgres
+    ports:
+      - 8081:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -7,8 +7,8 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
   CREATE USER $DB_NAME WITH PASSWORD '$DB_NAME';
   CREATE DATABASE $DB_NAME;
   GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_NAME;
-  CREATE EXTENSION pg_trgm
   \c $DB_NAME
+  CREATE EXTENSION pg_trgm;
   SET ROLE $DB_NAME;
   \i schema/zip_codes.sql
   \i schema/fcc.sql
