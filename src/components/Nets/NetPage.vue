@@ -49,6 +49,7 @@
         checkins: [],
       }
     },
+    components: { CheckinDialog, NetReopenDialog, NetStopDialog },
     created () {
       this.$root.$on('NetsUpdated', (data) => {
         if (data = this.net.id) {
@@ -61,10 +62,13 @@
         }
       })
     },
-    components: { CheckinDialog, NetReopenDialog, NetStopDialog },
     mounted () {
       this.net.id = parseInt(this.$route.params.id)
       this.retrieveNet()
+    },
+    beforeDestroy () {
+      this.$root.$off('NetsUpdated')
+      this.$root.$off('CheckinsUpdated')
     },
     methods: {
       deleteCheckin (id) {

@@ -1,11 +1,14 @@
 import { Server } from 'http'
 import IO from 'socket.io'
+import redisAdapter from 'socket.io-redis'
 
 import router from './router'
 import broadcastables from './broadcastables'
 
 let http = Server()
 let io = IO(http)
+
+io.adapter(redisAdapter({host: 'redis', port: 6379}))
 
 io.on('connection', (socket) => {
   socket.on('request', async (request, callback) => {

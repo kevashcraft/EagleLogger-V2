@@ -10,6 +10,18 @@ import Model from '../Model/Model'
 //   return Model.query(sql, bind, true, true)
 // }
 
+exports.find = async (callsign) => {
+  let sql = `
+    SELECT * FROM callsigns
+    WHERE callsign = $1
+    WHERE valid_end > current_date
+    LIMIT 1
+  `
+  let bind = [callsign]
+
+  return Model.query(sql, bind, true)
+}
+
 exports.list = async (deleted) => {
   let sql = `
     SELECT * FROM callsigns

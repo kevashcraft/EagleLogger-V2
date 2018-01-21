@@ -5,7 +5,7 @@ RUN mkdir /app/src -p
 WORKDIR /app
 
 COPY package*.json ./
-COPY webpack.config.babel.js ./
+COPY ./build/webpack.config.babel.js ./build/
 COPY .babelrc ./
 
 RUN npm install
