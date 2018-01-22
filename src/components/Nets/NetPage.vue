@@ -19,7 +19,7 @@
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
     <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
     <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
-    <v-btn daark fab absolute right @click="$refs.CheckinDialog.open()" v-show="!net.stopped">
+    <v-btn daark fab absolute right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
       <v-icon dark>mdi-account-check</v-icon>
     </v-btn>
   </v-container>
@@ -42,6 +42,8 @@
   import NetReopenDialog from './NetReopenDialog'
   import NetStopDialog from './NetStopDialog'
 
+  import { mapState } from 'vuex'
+
   export default {
     data () {
       return {
@@ -49,6 +51,7 @@
         checkins: [],
       }
     },
+    computed: mapState(['token']),
     components: { CheckinDialog, NetReopenDialog, NetStopDialog },
     created () {
       this.$root.$on('NetsUpdated', (data) => {
@@ -63,6 +66,7 @@
       })
     },
     mounted () {
+      console.log('this.token', this.token)
       this.net.id = parseInt(this.$route.params.id)
       this.retrieveNet()
     },

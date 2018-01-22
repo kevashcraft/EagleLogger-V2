@@ -1,12 +1,12 @@
 import Model from '../Model/Model'
 
-exports.create = async (netTypeId, started) => {
+exports.create = async (netTypeId, ncsId, started) => {
   let sql = `
-    INSERT INTO nets (net_type_id, started)
-    VALUES ($1, $2)
+    INSERT INTO nets (net_type_id, ncs_id, started)
+    VALUES ($1, $2, $3)
     RETURNING id
   `
-  let bind = [netTypeId, started]
+  let bind = [netTypeId, ncsId, started]
 
   return Model.query(sql, bind, true, true)
 }

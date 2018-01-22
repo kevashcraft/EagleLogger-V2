@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="opened">
+  <v-dialog v-model="opened" max-width="450px">
     <v-card>
-      <v-card-title center>Checkin</v-card-title>
+      <v-card-title class="title flex-center">Checkin</v-card-title>
       <v-card-text>
         <v-select
           label="Callsign"
@@ -9,6 +9,7 @@
           clearable
           placeholder="Search for a callsign"
           return-object
+          debounce-search="500"
           :filter="searchFilter"
           :items="searchResults"
           :search-input.sync="searchInput"
@@ -36,16 +37,12 @@
     watch: {
       searchInput (query) {
         if (query) {
-          if (this.searching) clearTimeout(this.searching)
-          this.searching = setTimeout(() => {
-            let t = Date.now()
-            this.$root.req('Callsigns:search', {query, t}).then(response => {
-              if (response.t === t) {
-                this.searchResults = response.results
-              }
-              this.searching = false
-            })
-          }, 250)
+          this.t = Date.now()
+          this.$root.req('Callsigns:search', {query, t: this.t}).then(response => {
+            if (response.t === this.t) {
+              this.searchResults = response.results
+            }
+          })
         }
       },
       callsign (callsign) {
@@ -59,14 +56,23 @@
     methods: {
       open () {
         this.opened = true
-        setTimeout(() => {
-          this.$refs.search.focus()
-        }, 1250)
+        this.focusSearch()
       },
       create (callsignId) {
         let req = {netId: this.netId, callsignId}
         this.$root.req('Checkins:create', req).then(response => {
         })
+      },
+      focusSearch () {
+        setTimeout(() => {
+          let el = document.querySelector('.dialog__content.dialog__content__active .input-group--select__autocomplete')
+          if (el) {
+            el.click()
+            el.focus()
+          } else {
+            this.focusSearch()
+          }
+        }, 250)
       },
       searchFilter (item, queryText, itemText) {
         // const hasValue = val => val != null ? val : ''

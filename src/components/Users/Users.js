@@ -20,7 +20,7 @@ exports.create = async (req) => {
 
   let to = callsign.callsign + '@arrl.net'
   let link = `http://localhost:8080/activate/${userId}/${code}`
-  let subject = 'EagleLogger New Account'
+  let subject = 'New EagleLogger Account Activation'
   let message = `
     Hello ${callsign.callsign},
 

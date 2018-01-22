@@ -1,12 +1,17 @@
 <template>
-  <v-dialog v-model="opened">
+  <v-dialog v-model="opened" max-width="450px">
     <v-card>
-      <v-card-title center>Sign Up</v-card-title>
+      <v-card-title class="title flex-center">Sign Up</v-card-title>
       <v-card-text>
+        <p class="body-1">
+          To create an account, enter your callsign and a good password.<br>
+          An email will be sent to your ARRL email address for confirmation.
+        </p>
         <v-form>
           <v-text-field
             label="Callsign"
             placeholder="Your callsign"
+            ref="autofocus"
             v-model="user.callsign"
           ></v-text-field>
           <v-text-field
@@ -21,7 +26,12 @@
             disabled
             placeholder="Your ARRL email address"
           ></v-text-field>
-          <v-btn @click="create">Get User Name <v-icon dark right>mdi-plus</v-icon></v-btn>
+          <div class="text-xs-right">
+            <v-btn @click="create" color="primary">
+              <v-icon left>mdi-account-plus</v-icon>
+              <span>Create Account</span>
+            </v-btn>
+          </div>
         </v-form>
       </v-card-text>
     </v-card>
@@ -52,9 +62,14 @@
         }
       }
     },
+    created () {
+      this.userEmpty = JSON.stringify(this.user)
+    },
     methods: {
       open () {
         this.opened = true
+        this.user = JSON.parse(this.userEmpty)
+        this.$nextTick(this.$refs.autofocus.focus)
       },
       create () {
         this.$root.req('Users:create', this.user).then(response => {

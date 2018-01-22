@@ -19,6 +19,16 @@ exports.activate = async (req) => {
   }
 }
 
+exports.code = () => {
+  let seconds = Date.now()
+  let string = randomString.generate(32)
+  let uuid = uuidV4()
+
+  let code = createHash('sha256').update(seconds + string + uuid).digest('hex')
+
+  return code
+}
+
 exports.create = async (req) => {
   let callsign = await CallsignsModel.find(req.callsign)
   if (!callsign) return false
@@ -30,19 +40,14 @@ exports.create = async (req) => {
   let valid = await bcrypt.compare(req.password, user.passwordHash)
 
   if (valid) {
-    let tokenId = await AuthModel.create(user.id, exports.code())
-    return tokenId
+    let code = exports.code()
+    await AuthModel.create(user.id, code)
+    return {
+      status: true,
+      code: code,
+      userId: user.id
+    }
   } else {
-    return false
+    return {status: false}
   }
-}
-
-exports.code = () => {
-  let seconds = Date.now()
-  let string = randomString.generate(32)
-  let uuid = uuidV4()
-
-  let code = createHash('sha256').update(seconds + string + uuid).digest('hex')
-
-  return code
 }

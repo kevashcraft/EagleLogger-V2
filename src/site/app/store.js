@@ -8,7 +8,9 @@ export default new Vuex.Store({
   plugins: [ persistedState() ],
   state: {
     modal: '',
-    modalStack: []
+    modalStack: [],
+    token: {authed: false},
+    user: {}
   },
   mutations: {
     modalSet (state, modal) {
@@ -24,9 +26,23 @@ export default new Vuex.Store({
     },
     modalStackSplice (state, index) {
       state.modalStack.splice(index, 1)
+    },
+    tokenSet (state, token) {
+      state.token = token
+    },
+    userSet (state, user) {
+      state.user = user
     }
   },
   actions: {
+    login ({commit}, token) {
+      let v = {authed: true, ...token}
+      console.log('v', v)
+      commit('tokenSet', {authed: true, ...token})
+    },
+    logout ({commit}) {
+      commit('tokenSet', {authed: false})
+    },
     modalClear ({ commit, state }) {
       commit('modalSet', '')
       commit('modalStackSet', [])

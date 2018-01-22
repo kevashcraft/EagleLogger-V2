@@ -1,17 +1,32 @@
 import NetsModel from './NetsModel'
+import AuthModel from '../Auth/AuthModel'
+
 import moment from 'moment'
 
+let auth = async (req) => {
+  let token = await AuthModel.retrieve(req.token.userId, req.token.code)
+  if (!req.id) {
+    return !!token
+  }
+  let net = await NetsModel.retrieve(req.id)
+  return (net.ncsId === token.userId)
+}
+
 exports.create = async (req) => {
+  if (!(await auth(req))) return false
+
   let started = moment()
   let timeArray = req.startTime.split(':')
   started.hour(timeArray[0])
   started.minute(timeArray[1])
   started.second(0)
   started.millisecond(0)
-  return NetsModel.create(req.netTypeId, started)
+  return NetsModel.create(req.netTypeId, token.userId, started)
 }
 
 exports.delete = async (req) => {
+  if (!(await auth(req))) return false
+
   let fields = { deleted: true }
 
   NetsModel.update(req.id, fields)
@@ -43,6 +58,7 @@ exports.list = async (req) => {
 }
 
 exports.reopen = async (req) => {
+  if (!(await auth(req))) return false
   let fields = {stopped: {safe: 'NULL'}}
 
   return NetsModel.update(req.id, fields)
@@ -52,13 +68,15 @@ exports.retrieve = async (req) => {
   return NetsModel.retrieve(req.id)
 }
 
-exports.start = async (req) => {
-  req.fields = { started: req.started }
+// exports.start = async (req) => {
+//   req.fields = { started: req.started }
 
-  NetsModel.update(req)
-}
+//   NetsModel.update(req)
+// }
 
 exports.stop = async (req) => {
+  if (!(await auth(req))) return false
+
   let stopped = moment()
   let timeArray = req.stopTime.split(':')
   let minute = timeArray[1].slice(0, 2)

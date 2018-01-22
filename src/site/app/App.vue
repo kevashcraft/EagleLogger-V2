@@ -46,8 +46,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </router-link>
-        <v-btn @click="$refs.UserSignUpDialog.open()">Sign Up</v-btn>
-        <v-btn @click="$refs.AuthLoginDialog.open()">Login</v-btn>
+        <v-btn @click="$refs.UserSignUpDialog.open()" v-show="!token.authed">Sign Up</v-btn>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app color="blue">
@@ -55,6 +54,24 @@
       <v-spacer></v-spacer>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-menu bottom left
+        transition="slide-y-transition"
+        >
+        <v-btn icon slot="activator" dark>
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile @click="$refs.AuthLoginDialog.open()" v-show="!token.authed">
+            <v-list-tile-title>Login</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="$store.dispatch('logout')" v-show="token.authed">
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="">
+            <v-list-tile-title>About</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content>
       <router-view></router-view>
@@ -68,6 +85,8 @@
   import AuthLoginDialog from '@/components/Auth/AuthLoginDialog'
   import UserSignUpDialog from '@/components/Users/UserSignUpDialog'
 
+  import { mapState } from 'vuex'
+
   export default {
     components: {
       AuthLoginDialog,
@@ -78,7 +97,8 @@
         title: 'EagleLogger',
         drawer: null
       }
-    }
+    },
+    computed: mapState(['token']),
   }
 </script>
 

@@ -1,12 +1,13 @@
 <template>
-  <v-dialog v-model="opened">
+  <v-dialog v-model="opened" max-width="400px">
     <v-card>
-      <v-card-title center>Login</v-card-title>
+      <v-card-title class="title flex-center">Login</v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="create">
           <v-text-field
             label="Callsign"
             placeholder="Your callsign"
+            ref="autofocus"
             v-model="user.callsign"
           ></v-text-field>
           <v-text-field
@@ -15,7 +16,9 @@
             v-model="user.password"
             placeholder="Your new password"
           ></v-text-field>
-          <v-btn @click="create">Login</v-btn>
+          <div class="text-xs-right">
+            <v-btn color="primary" type="submit">Login</v-btn>
+          </div>
         </v-form>
       </v-card-text>
     </v-card>
@@ -23,21 +26,21 @@
 </template>
 
 <style>
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus
-input:-webkit-autofill,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  border: 1px solid green;
-  -webkit-text-fill-color: green;
-  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
-  transition: background-color 5000s ease-in-out 0s;
-}
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 1px solid #fff;
+    -webkit-text-fill-color: #000;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 </style>
 
 <script>
@@ -53,17 +56,31 @@ select:-webkit-autofill:focus {
     },
     watch: {
       'user.callsign' (callsign) {
-        if (callsign !== callsign.toUpperCase()) {
+        if (callsign && callsign !== callsign.toUpperCase()) {
           this.user.callsign = callsign.toUpperCase()
         }
       }
     },
+    created () {
+      this.userEmpty = JSON.stringify(this.user)
+    },
     methods: {
       open () {
         this.opened = true
+        this.user = JSON.parse(this.userEmpty)
+        this.$nextTick(this.$refs.autofocus.focus)
+      },
+      close () {
+        this.opened = false
       },
       create () {
         this.$root.req('Auth:create', this.user).then(response => {
+          if (response.status) {
+            this.$store.dispatch('login', {userId: response.userId, code: response.code})
+            this.close()
+          } else {
+            this.$store.dispatch('logout')
+          }
         })
       }
     }

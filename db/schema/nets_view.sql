@@ -5,6 +5,7 @@ CREATE VIEW nets_view AS
     nets.id,
     nets.created,
     nets.net_type_id,
+    nets.ncs_id,
     nets.started,
     nets.stopped,
     nets.deleted,
