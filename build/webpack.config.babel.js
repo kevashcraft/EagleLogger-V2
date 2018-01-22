@@ -18,7 +18,7 @@ module.exports = env => {
     // context: path.resolve(__dirname, '../'),
     output: {
       path: path.resolve(__dirname, '../dist/site'),
-      publicPath: '',
+      publicPath: cordova ? '' : '/',
       filename: '[name]-[hash].js'
     },
     module: {

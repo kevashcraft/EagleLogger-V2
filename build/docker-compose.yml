@@ -11,6 +11,8 @@ services:
       - postgres
     volumes:
       - ../src:/app/src
+      - ../build:/app/build
+      - ../.babelrc:/app/.babelrc
       - ../node_modules:/app/node_modules
   postgres:
     build:

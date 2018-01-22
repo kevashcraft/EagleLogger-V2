@@ -46,6 +46,8 @@
             </v-list-tile-content>
           </v-list-tile>
         </router-link>
+        <v-btn @click="$refs.UserSignUpDialog.open()">Sign Up</v-btn>
+        <v-btn @click="$refs.AuthLoginDialog.open()">Login</v-btn>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app color="blue">
@@ -57,11 +59,20 @@
     <v-content>
       <router-view></router-view>
     </v-content>
+    <user-sign-up-dialog ref="UserSignUpDialog"></user-sign-up-dialog>
+    <auth-login-dialog ref="AuthLoginDialog"></auth-login-dialog>
   </v-app>
 </template>
 
 <script>
+  import AuthLoginDialog from '@/components/Auth/AuthLoginDialog'
+  import UserSignUpDialog from '@/components/Users/UserSignUpDialog'
+
   export default {
+    components: {
+      AuthLoginDialog,
+      UserSignUpDialog
+    },
     data () {
       return {
         title: 'EagleLogger',

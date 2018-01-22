@@ -8,8 +8,7 @@ exports.create = async(req) => {
     to: req.to,
     from: config.sendgrid.from,
     subject: req.subject,
-    text: req.message,
-    html: req.messageHtml || req.message
+    text: req.message
   }
 
   let res = await sgMail.send(msg)

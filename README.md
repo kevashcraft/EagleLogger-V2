@@ -5,6 +5,12 @@ An amateur radio net logging web application built with Vue, Vuetify, and Socket
 
 ## Getting Started
 
+To start developing EagleLogger, launch the development containers with docker-compose.
+
+`docker-compose -f build/docker-compose.yml up`
+
+## Containers
+
 * [Initialize the Database](#initialize-database)
 * [Install Dependencies](#install-dependencies)
 * [Launch Dev Environment](#launch-dev-environment)

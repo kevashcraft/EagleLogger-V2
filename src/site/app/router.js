@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import AboutPage from '../../components/About/AboutPage.vue'
+import AuthActivationPage from '../../components/Auth/AuthActivationPage.vue'
 import HomePage from '../../components/Home/HomePage.vue'
 import RouterView from '../../components/Misc/RouterView.vue'
 import NetPage from '../../components/Nets/NetPage.vue'
@@ -18,6 +19,14 @@ export default new Router({
     }, {
       path: '/about',
       component: AboutPage
+    }, {
+      path: '/activate/:userId/:code',
+      component: AuthActivationPage,
+      props: true,
+      children: [
+        { path: ':userId', component: AuthActivationPage },
+        { path: ':userId/:code', component: AuthActivationPage }
+      ]
     }, {
       path: '/nets',
       component: RouterView,

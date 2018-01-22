@@ -14,7 +14,7 @@ exports.find = async (callsign) => {
   let sql = `
     SELECT * FROM callsigns
     WHERE callsign = $1
-    WHERE valid_end > current_date
+      AND valid_end > current_date
     LIMIT 1
   `
   let bind = [callsign]
@@ -36,7 +36,6 @@ exports.retrieve = async (id) => {
   let sql = `
     SELECT * FROM callsigns
     WHERE id = $1
-      AND NOT deleted
   `
   let bind = [id]
 

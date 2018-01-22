@@ -1,28 +1,37 @@
 import UsersModel from './UsersModel'
+import Auth from '../Auth/Auth'
+import AuthModel from '../Auth/AuthModel'
 import CallsignsModel from '../Callsigns/CallsignsModel'
 import Mail from '../Mail/Mail'
 
-import randomString from 'randomstring'
+import bcrypt from 'bcrypt'
 
 exports.create = async (req) => {
-  let authCode = randomString.generate(32)
-  let callsign = await CallsignsModel.retrieve(req.callsign)
+  let passwordHash = await bcrypt.hash(req.password, 10)
+  let callsign = await CallsignsModel.find(req.callsign)
   if (!callsign) {
     return {success: false, message: 'Could not find the callsign'}
   }
-  let userId = await UsersModel.create(callsign.id, authCode)
+
+  let userId = await UsersModel.create(callsign.id, passwordHash)
+
+  let code = Auth.code()
+  await AuthModel.create(userId, code)
 
   let to = callsign.callsign + '@arrl.net'
-  let link = 'https://eaglelogger.com/activate?code=' + authCode
+  let link = `http://localhost:8080/activate/${userId}/${code}`
   let subject = 'EagleLogger New Account'
   let message = `
     Hello ${callsign.callsign},
 
-    To activate your EagleLogger account please click the below link.
+    To activate your EagleLogger account please click this link:
 
     ${link}
 
-    Thanks!
+
+    73,
+
+    --EagleLogger
   `
   Mail.create({to, subject, message})
 
