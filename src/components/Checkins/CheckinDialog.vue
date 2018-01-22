@@ -10,6 +10,7 @@
           placeholder="Search for a callsign"
           return-object
           debounce-search="500"
+          :loading="searchLoading"
           :filter="searchFilter"
           :items="searchResults"
           :search-input.sync="searchInput"
@@ -29,6 +30,7 @@
         callsign: {},
         searchResults: [],
         searchInput: null,
+        searchLoading: false
       }
     },
     props: {
@@ -38,15 +40,19 @@
       searchInput (query) {
         if (query) {
           this.t = Date.now()
+          this.searchLoading = true
           this.$root.req('Callsigns:search', {query, t: this.t}).then(response => {
             if (response.t === this.t) {
               this.searchResults = response.results
+              this.searchLoading = false
             }
           })
+        } else {
+          this.searchResults = []
         }
       },
       callsign (callsign) {
-        if (callsign.id) {
+        if (callsign && callsign.id) {
           this.searchInput = null
           this.callsign = {}
           this.create(callsign.id)

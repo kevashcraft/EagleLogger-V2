@@ -21,7 +21,7 @@ exports.create = async (req) => {
   started.minute(timeArray[1])
   started.second(0)
   started.millisecond(0)
-  return NetsModel.create(req.netTypeId, token.userId, started)
+  return NetsModel.create(req.netTypeId, req.token.userId, started)
 }
 
 exports.delete = async (req) => {

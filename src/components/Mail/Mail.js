@@ -10,6 +10,7 @@ exports.create = async(req) => {
     subject: req.subject,
     text: req.message
   }
+  if (req.html) msg.html = req.html
 
   let res = await sgMail.send(msg)
   console.log('res', res)

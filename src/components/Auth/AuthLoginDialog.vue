@@ -14,10 +14,16 @@
             label="Password"
             type="password"
             v-model="user.password"
-            placeholder="Your new password"
+            placeholder="Your password"
           ></v-text-field>
+          <v-layout justify-space-between>
+            <v-btn flat left @click="close">close</v-btn>
+            <v-btn color="primary" type="submit">
+              <v-icon left>mdi-account-key</v-icon>
+              <span>Login</span>
+            </v-btn>
+          </v-layout>
           <div class="text-xs-right">
-            <v-btn color="primary" type="submit">Login</v-btn>
           </div>
         </v-form>
       </v-card-text>

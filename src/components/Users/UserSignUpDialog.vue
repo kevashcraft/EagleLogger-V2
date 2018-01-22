@@ -5,7 +5,7 @@
       <v-card-text>
         <p class="body-1">
           To create an account, enter your callsign and a good password.<br>
-          An email will be sent to your ARRL email address for confirmation.
+          An email will be sent to your <a href="http://www.arrl.org/e-mail-forwarding" target="_blank" rel="noreferrer noopener">ARRL email address</a> for confirmation.
         </p>
         <v-form>
           <v-text-field
@@ -26,12 +26,13 @@
             disabled
             placeholder="Your ARRL email address"
           ></v-text-field>
-          <div class="text-xs-right">
+          <v-layout justify-space-between>
+            <v-btn flat left @click="close">close</v-btn>
             <v-btn @click="create" color="primary">
               <v-icon left>mdi-account-plus</v-icon>
               <span>Create Account</span>
             </v-btn>
-          </div>
+          </v-layout>
         </v-form>
       </v-card-text>
     </v-card>
@@ -70,6 +71,9 @@
         this.opened = true
         this.user = JSON.parse(this.userEmpty)
         this.$nextTick(this.$refs.autofocus.focus)
+      },
+      close () {
+        this.opened = false
       },
       create () {
         this.$root.req('Users:create', this.user).then(response => {

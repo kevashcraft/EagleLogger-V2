@@ -1,4 +1,5 @@
 import UsersModel from './UsersModel'
+import UserSignUpEmail from './UserSignUpEmail'
 import Auth from '../Auth/Auth'
 import AuthModel from '../Auth/AuthModel'
 import CallsignsModel from '../Callsigns/CallsignsModel'
@@ -20,7 +21,8 @@ exports.create = async (req) => {
 
   let to = callsign.callsign + '@arrl.net'
   let link = `http://localhost:8080/activate/${userId}/${code}`
-  let subject = 'New EagleLogger Account Activation'
+  let html = UserSignUpEmail(callsign.callsign, link)
+  let subject = 'EagleLogger Account Activation'
   let message = `
     Hello ${callsign.callsign},
 
@@ -33,7 +35,7 @@ exports.create = async (req) => {
 
     --EagleLogger
   `
-  Mail.create({to, subject, message})
+  Mail.create({to, subject, message, html})
 
   if (userId) {
     return {success: true, message: 'Account created! Click the activation link in your email.'}

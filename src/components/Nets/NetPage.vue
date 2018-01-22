@@ -1,27 +1,32 @@
 <template>
-  <v-container>
-    <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div>
-    <v-list style="max-height: 500px; overflow-y: auto" class="list">
-      <template v-for="checkin in checkins">
-        <v-list-tile :key="checkin.id" class="item">
-          <v-list-tile-content>
-            <v-list-tile-title v-text="checkin.callsign"></v-list-tile-title>
-            <v-list-tile-sub-title v-text="checkin.title"></v-list-tile-sub-title>
-          </v-list-tile-content>
-          <v-list-tile-action class="delete">
-            <v-btn icon @click="deleteCheckin(checkin.id)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </template>
-    </v-list>
+  <v-container style="position: absolute; top: 50px; left: 0; right: 0; bottom: 0; padding: 0">
+    <div class="flex-container">
+      <div style="position: relative; display: flex; flex-direction: column; flex-stretch: 2">
+        <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div>
+        <v-list style="overflow-y: auto" class="list" ref="list">
+          <template v-for="checkin in checkins">
+            <v-list-tile :key="checkin.id" class="item">
+              <v-list-tile-content>
+                <v-list-tile-title v-text="checkin.callsign"></v-list-tile-title>
+                <v-list-tile-sub-title v-text="checkin.title"></v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action class="delete">
+                <v-btn icon @click="deleteCheckin(checkin.id)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+          </template>
+        </v-list>
+        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
+          <v-icon dark>mdi-account-check</v-icon>
+        </v-btn>
+      </div>
+      <chat-box :net-id="net.id"></chat-box>
+    </div>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
     <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
     <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
-    <v-btn daark fab absolute right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
-      <v-icon dark>mdi-account-check</v-icon>
-    </v-btn>
   </v-container>
 </template>
 
@@ -35,9 +40,20 @@
       opacity: 1;
     }
   }
+  .flex-container {
+    height: 100%;
+    display: flex;
+    justify-content: stretch;
+    flex-direction: column;
+    > div {
+      height: 100px;
+      flex: 1;
+    }
+  }
 </style>
 
 <script>
+  import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
   import NetReopenDialog from './NetReopenDialog'
   import NetStopDialog from './NetStopDialog'
@@ -52,7 +68,7 @@
       }
     },
     computed: mapState(['token']),
-    components: { CheckinDialog, NetReopenDialog, NetStopDialog },
+    components: { ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
     created () {
       this.$root.$on('NetsUpdated', (data) => {
         if (data = this.net.id) {
@@ -66,7 +82,6 @@
       })
     },
     mounted () {
-      console.log('this.token', this.token)
       this.net.id = parseInt(this.$route.params.id)
       this.retrieveNet()
     },
@@ -88,7 +103,14 @@
       },
       retrieveCheckins () {
         this.$root.req('Checkins:list', this.net).then(response => {
+          let list = this.$refs.list
+          let scroll = list.$el.scrollTop === list.$el.scrollHeight - list.$el.offsetHeight
           this.checkins = response
+          if (scroll) {
+            this.$nextTick(() => {
+              list.$el.scrollTop = list.$el.scrollHeight
+            })
+          }
         })
       }
     }

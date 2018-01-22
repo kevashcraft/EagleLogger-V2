@@ -1,4 +1,7 @@
 export default {
+  Chat: {
+    create: {data: 'netId'}
+  },
   Nets: {
     create: {},
     stop: {data: 'id'},
