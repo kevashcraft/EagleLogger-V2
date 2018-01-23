@@ -8,12 +8,3 @@ CREATE TABLE chat (
   deleted boolean DEFAULT false NOT NULL,
   PRIMARY KEY (id)
 );
-
-DROP VIEW IF EXISTS chat_view;
-CREATE VIEW chat_view AS
-  SELECT
-    chat.*,
-    'name' as user
-  FROM chat
-;
-

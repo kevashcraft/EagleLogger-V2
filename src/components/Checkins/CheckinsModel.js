@@ -18,7 +18,7 @@ exports.filter = async (fields) => {
 
 exports.list = async (deleted) => {
   let sql = `
-    SELECT * FROM checkins
+    SELECT * FROM checkins_view
     WHERE deleted = $1
   `
   let bind = [deleted]

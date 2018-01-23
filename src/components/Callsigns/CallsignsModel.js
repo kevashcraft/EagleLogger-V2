@@ -60,6 +60,7 @@ exports.search = async (query, queryString) => {
   return Model.query(sql, bind)
 }
 
-exports.update = async (req) => {
-  Model.update('callsigns', req.fields, req.callsignId)
+exports.update = async (id, fields) => {
+  await Model.update('callsigns', id, fields)
+  return true
 }

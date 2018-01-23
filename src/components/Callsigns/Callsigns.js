@@ -1,5 +1,12 @@
 import CallsignsModel from './CallsignsModel'
 
+import AuthModel from '../Auth/AuthModel'
+
+let auth = async (req) => {
+  let token = await AuthModel.retrieve(req.token.userId, req.token.code)
+  return !!token
+}
+
 exports.create = async (req) => {
   return CallsignsModel.create(req)
 }
@@ -27,4 +34,13 @@ exports.search = async (req) => {
     results,
     t: req.t
   }
+}
+
+exports.update = async (req) => {
+  if (!(await auth(req))) return false
+  let fields = {
+    name: req.name
+  }
+
+  return CallsignsModel.update(req.id, fields)
 }

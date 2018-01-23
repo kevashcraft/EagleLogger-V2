@@ -8,23 +8,35 @@
           <template v-for="checkin, index in checkins">
             <v-list-tile :key="checkin.id" class="item">
               <v-list-tile-content>
-                <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.callsign"></v-list-tile-title>
-                <v-list-tile-sub-title v-text="checkin.title"></v-list-tile-sub-title>
+                <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.title"></v-list-tile-title>
+                <v-list-tile-sub-title v-text="checkin.subtitle"></v-list-tile-sub-title>
               </v-list-tile-content>
-              <v-list-tile-action class="delete">
-                <v-btn icon @click="deleteCheckin(checkin.id)">
-                  <v-icon>mdi-delete</v-icon>
+              <v-menu left
+                class="menu"
+                v-show="!net.stopped && net.ncsId === token.userId"
+                >
+                <v-btn icon slot="activator">
+                  <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
-              </v-list-tile-action>
+                <v-list>
+                  <v-list-tile @click="$refs.CallsignDialog.open(checkin.callsignId)">
+                    <v-list-tile-title><v-icon>mdi-account-edit</v-icon> Edit {{ checkin.callsign }}</v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile @click="deleteCheckin(checkin.id)">
+                    <v-list-tile-title><v-icon>mdi-delete</v-icon> Delete Checkin</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
             </v-list-tile>
           </template>
         </v-list>
-        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId" style="bottom: 0">
+        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
           <v-icon dark>mdi-account-check</v-icon>
         </v-btn>
       </div>
       <chat-box :net-id="net.id"></chat-box>
     </div>
+    <callsign-dialog ref="CallsignDialog"></callsign-dialog>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
     <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
     <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
@@ -32,12 +44,12 @@
 </template>
 
 <style lang="scss">
-  .delete {
+  .menu {
     opacity: 0;
   }
   .item:hover {
     background: rgba(0, 0, 0, .45);
-    .delete {
+    .menu {
       opacity: 1;
     }
   }
@@ -68,6 +80,7 @@
 </style>
 
 <script>
+  import CallsignDialog from '../Callsigns/CallsignDialog'
   import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
   import NetReopenDialog from './NetReopenDialog'
@@ -83,7 +96,7 @@
       }
     },
     computed: mapState(['token']),
-    components: { ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
+    components: { CallsignDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
     created () {
       this.$root.$on('NetsUpdated', (data) => {
         if (data = this.net.id) {

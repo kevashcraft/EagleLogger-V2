@@ -22,11 +22,7 @@ export default new Router({
     }, {
       path: '/activate/:userId/:code',
       component: AuthActivationPage,
-      props: true,
-      children: [
-        { path: ':userId', component: AuthActivationPage },
-        { path: ':userId/:code', component: AuthActivationPage }
-      ]
+      props: true
     }, {
       path: '/nets',
       component: RouterView,

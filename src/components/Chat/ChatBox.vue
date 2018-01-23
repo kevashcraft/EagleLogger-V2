@@ -5,14 +5,14 @@
       <template v-for="c in chat">
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title v-text="c.user"></v-list-tile-title>
-            <v-list-tile-sub-title v-text="c.message"></v-list-tile-sub-title>
+            <v-list-tile-title v-text="c.title"></v-list-tile-title>
+            <v-list-tile-sub-title v-text="c.message" style="margin-left: 15px"></v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </template>
     </v-list>
     <v-text-field
-      placeholder="Message"
+      placeholder="Send a message"
       v-model="message"
       append-icon="mdi-send"
       :append-icon-cb="create"
@@ -64,7 +64,6 @@
       retrieve () {
         this.$root.req('Chat:retrieve', {netId: this.netId}).then(response => {
           let list = this.$refs.list.$el
-          console.log('list', list)
           window.scrollTop = window.scrollHeight
           let scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
           this.chat = response
@@ -76,7 +75,6 @@
         })
       },
       keyup (event) {
-        // console.log('event', event)
         if (event.keyCode === 13) this.create()
       }
     }

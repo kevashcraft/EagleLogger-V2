@@ -16,7 +16,10 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
   \i schema/users.sql
   \i schema/net_types.sql
   \i schema/nets.sql
+  \i schema/chat.sql
   \i schema/checkins.sql
+  \i schema/chat_view.sql
+  \i schema/checkins_view.sql
   \i schema/nets_view.sql
   \i schema/net_types_view.sql
   \copy zip_codes FROM 'csv/zip_codes.csv' WITH CSV

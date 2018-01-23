@@ -25,10 +25,12 @@ module.exports = env => {
 
   let cordova = !!(env && env.cordova)
 
+  let cordovaSuffix = cordova ? '-cordova' : ''
+
   let shellScripts = {onBuildEnd: []}
   if (cordova) {
     let CORD_ENV = env.production ? 'production' : 'devel'
-    shellScripts.onBuildEnd.push(`build/cordova-build.sh CORD_ENV`)
+    shellScripts.onBuildEnd.push(`build/cordova-build.sh ${CORD_ENV}`)
   }
 
   return {
@@ -77,7 +79,7 @@ module.exports = env => {
       new CordovaWebpackPlugin({
         output: 'dist/cordova',
         config: 'build/cordova-config.xml',
-        index: 'src/site/index.html',
+        index: 'src/site/index-cordova.html',
         disabled: !cordova
       }),
       new webpack.DefinePlugin({
@@ -88,7 +90,7 @@ module.exports = env => {
         moment: 'moment'
       }),
       new HtmlWebpackPlugin({
-        template: './src/site/index.html'
+        template: `./src/site/index${cordovaSuffix}.html`
       }),
       new CopyWebpackPlugin([
         {from: './src/site/static', flatten: true}
