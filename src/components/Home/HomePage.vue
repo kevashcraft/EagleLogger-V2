@@ -6,7 +6,7 @@
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title>EagleLogger</v-card-title>
-              <v-card-text><span>Hello this is an example of a v-card inside of a v-card</span></v-card-text>
+              <v-card-text><span>Hello this is an example of a v-card inside of a v-card.</span>version: {{appVersion}}</v-card-text>
             </v-card>
           </v-card-text>
         </v-card>
@@ -26,7 +26,8 @@
   export default {
     data () {
       return {
-        where: 'home'
+        where: 'home',
+        appVersion: APP_VERSION
       }
     },
     components: {
