@@ -78,6 +78,10 @@
     </v-content>
     <user-sign-up-dialog ref="UserSignUpDialog"></user-sign-up-dialog>
     <auth-login-dialog ref="AuthLoginDialog"></auth-login-dialog>
+    <v-snackbar
+      top
+      v-model="snackbarShow"
+    >{{ snackbarText }}</v-snackbar>
   </v-app>
 </template>
 
@@ -95,10 +99,18 @@
     data () {
       return {
         title: 'EagleLogger',
-        drawer: null
+        drawer: null,
+        snackbarShow: false,
+        snackbarText: null
       }
     },
-    computed: mapState(['token']),
+    computed: mapState(['token', 'snackbar']),
+    watch: {
+      snackbar (snackbar) {
+        this.snackbarText = snackbar.text
+        this.snackbarShow = true
+      }
+    }
   }
 </script>
 

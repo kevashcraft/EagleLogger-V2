@@ -1,6 +1,7 @@
 <template>
-  <v-card style="position: relative">
-    <v-list style="max-height: 250px; overflow-y: auto; margin-bottom: 50px;" ref="list">
+  <v-card>
+    <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 50px; line-height: 50px; margin-top: -25px; text-align: center; opacity: 0.1">Chat</p>
+    <v-list ref="list">
       <template v-for="c in chat">
         <v-list-tile>
           <v-list-tile-content>
@@ -16,12 +17,15 @@
       append-icon="mdi-send"
       :append-icon-cb="create"
       @keyup.native="keyup"
-      style="position: absolute; bottom: -15px; padding-left: 15px; padding-right: 35px;"
+      style="flex: 0 75px; padding-left: 15px; padding-right: 35px;"
+      v-show="token.authed"
     ></v-text-field>
   </v-card>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     data () {
       return {
@@ -29,6 +33,7 @@
         message: null,
       }
     },
+    computed: mapState(['token']),
     props: ['netId'],
     created () {
       this.$root.$on('ChatUpdated', (data) => {
@@ -58,12 +63,14 @@
       },
       retrieve () {
         this.$root.req('Chat:retrieve', {netId: this.netId}).then(response => {
-          let list = this.$refs.list
-          let scroll = list.$el.scrollTop === list.$el.scrollHeight - list.$el.offsetHeight
+          let list = this.$refs.list.$el
+          console.log('list', list)
+          window.scrollTop = window.scrollHeight
+          let scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
           this.chat = response
           if (scroll) {
             this.$nextTick(() => {
-              list.$el.scrollTop = list.$el.scrollHeight
+              list.scrollTop = list.scrollHeight
             })
           }
         })

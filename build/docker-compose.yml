@@ -13,6 +13,7 @@ services:
       - ../src:/app/src
       - ../build:/app/build
       - ../.babelrc:/app/.babelrc
+      - ../package.json:/app/package.json
       - ../node_modules:/app/node_modules
   postgres:
     build:

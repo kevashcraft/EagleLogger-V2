@@ -13,6 +13,9 @@ module.exports = env => {
     shellScripts.onBuildEnd.push('build/cordova-build.sh')
   }
 
+  let apiUrl = (env && env.api) ? env.api : 'https://eaglelogger.com'
+  console.log('apiUrl', apiUrl)
+
   return {
     entry: './src/site/site.js',
     // context: path.resolve(__dirname, '../'),

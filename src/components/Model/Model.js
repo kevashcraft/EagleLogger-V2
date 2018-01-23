@@ -28,7 +28,7 @@ exports.filter = (table, fields) => {
   let sql = `
     SELECT * FROM ${table}
     WHERE ${filter.set}
-    ORDER BY id DESC
+    ORDER BY id ASC
   `
 
   return exports.query(sql, filter.bind)

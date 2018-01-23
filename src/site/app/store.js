@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     modal: '',
     modalStack: [],
+    snackbar: {},
     token: {authed: false},
     user: {}
   },
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     modalStackSplice (state, index) {
       state.modalStack.splice(index, 1)
+    },
+    snackbarSet (state, snackbar) {
+      state.snackbar = snackbar
     },
     tokenSet (state, token) {
       state.token = token
@@ -76,6 +80,10 @@ export default new Vuex.Store({
       } else {
         console.log("you're trying to save the wrong modal")
       }
+    },
+    snackbar ({commit, state}, snackbar) {
+      commit('snackbarSet', {})
+      commit('snackbarSet', snackbar)
     }
   }
 })

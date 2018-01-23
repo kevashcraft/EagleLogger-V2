@@ -43,7 +43,11 @@
           this.searchLoading = true
           this.$root.req('Callsigns:search', {query, t: this.t}).then(response => {
             if (response.t === this.t) {
-              this.searchResults = response.results
+              if (window.innerHeight < 500) {
+                this.searchResults = response.results.slice(0, 1)
+              } else {
+                this.searchResults = response.results
+              }
               this.searchLoading = false
             }
           })

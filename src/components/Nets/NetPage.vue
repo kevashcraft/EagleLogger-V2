@@ -1,13 +1,14 @@
 <template>
-  <v-container style="position: absolute; top: 50px; left: 0; right: 0; bottom: 0; padding: 0">
+  <v-container fluid style="height: 100%; padding: 0">
     <div class="flex-container">
-      <div style="position: relative; display: flex; flex-direction: column; flex-stretch: 2">
-        <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div>
-        <v-list style="overflow-y: auto" class="list" ref="list">
-          <template v-for="checkin in checkins">
+      <div>
+        <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 50px; line-height: 50px; margin-top: -25px; text-align: center; opacity: 0.1">Checkins</p>
+        <!-- <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div> -->
+        <v-list class="list" ref="list">
+          <template v-for="checkin, index in checkins">
             <v-list-tile :key="checkin.id" class="item">
               <v-list-tile-content>
-                <v-list-tile-title v-text="checkin.callsign"></v-list-tile-title>
+                <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.callsign"></v-list-tile-title>
                 <v-list-tile-sub-title v-text="checkin.title"></v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action class="delete">
@@ -18,7 +19,7 @@
             </v-list-tile>
           </template>
         </v-list>
-        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
+        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId" style="bottom: 0">
           <v-icon dark>mdi-account-check</v-icon>
         </v-btn>
       </div>
@@ -35,7 +36,7 @@
     opacity: 0;
   }
   .item:hover {
-    background: rgba(0,0,0,.45);
+    background: rgba(0, 0, 0, .45);
     .delete {
       opacity: 1;
     }
@@ -43,11 +44,25 @@
   .flex-container {
     height: 100%;
     display: flex;
-    justify-content: stretch;
     flex-direction: column;
+    justify-content: stretch;
     > div {
-      height: 100px;
-      flex: 1;
+      position: relative;
+      flex: 2 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      &:first-of-type {
+        flex: 1 50px;
+        border-bottom: 3px solid rgba(0, 0, 0, .05);
+        > ul {
+          // background: rgba(0, 0, 0, .01)
+        }
+      }
+      > ul {
+        overflow-y: auto;
+        flex: 1 100px;
+      }
     }
   }
 </style>
@@ -91,7 +106,7 @@
     },
     methods: {
       deleteCheckin (id) {
-        this.$root.req('Checkins:delete', {id}).then(response => {
+        this.$root.req('Checkins:delete', {id, netId: this.net.id}).then(response => {
           this.retrieveCheckins()
         })
       },

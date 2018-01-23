@@ -50,7 +50,9 @@ exports.search = async (query, queryString) => {
       callsigns.id as value
     FROM callsigns
     WHERE callsigns.callsign like ANY(ARRAY[${queryString}])
-    ORDER BY similarity(callsigns.callsign || ' ' || callsigns.name, $1) DESC
+      AND callsigns.valid_end > current_date
+    ORDER BY ((similarity(callsigns.callsign, $1) * 90) +
+      (similarity(callsigns.name, $1) * 10)) DESC
     LIMIT 5
   `
   let bind = [query]
