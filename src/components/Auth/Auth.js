@@ -12,8 +12,15 @@ exports.activate = async (req) => {
   if (token) {
     let fields = {active: true}
     await UsersModel.update(token.userId, fields)
+    let user = await UsersModel.retrieve(token.userId)
+    let callsign = await CallsignsModel.retrieve(user.callsignId)
 
-    return true
+    return {
+      statue: true,
+      userId: req.userId,
+      code: req.code,
+      callsign: callsign.callsign
+    }
   } else {
     return false
   }
@@ -33,7 +40,7 @@ exports.create = async (req) => {
   let callsign = await CallsignsModel.find(req.callsign)
   if (!callsign) return false
 
-  let user = await UsersModel.retrieve(callsign.id)
+  let user = await UsersModel.find(callsign.id)
   if (!user) return false
 
   if (!req.password) return false

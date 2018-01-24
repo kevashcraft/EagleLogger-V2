@@ -16,14 +16,20 @@
         activated: false
       }
     },
-    props: ['userId', 'code'],
     mounted () {
       this.activate()
     },
     methods: {
       activate () {
-        this.$root.req('Auth:activate', {userId: this.userId, code: this.code}).then(response => {
-          if (response) this.activated = true
+        let userId = this.$route.params.userId
+        let code = this.$route.params.code
+        this.$root.req('Auth:activate', {userId, code}).then(response => {
+          if (response) {
+            this.$store.dispatch('login', {userId, code})
+            this.$store.dispatch('snackbar', {text: 'Thanks for activating your account!'})
+            this.activated = true
+            this.$router.push('/')
+          }
         })
       }
     }

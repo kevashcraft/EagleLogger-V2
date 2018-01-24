@@ -13,6 +13,7 @@
           <v-text-field
             label="Password"
             type="password"
+            ref="password"
             v-model="user.password"
             placeholder="Your password"
           ></v-text-field>
@@ -74,7 +75,12 @@
       open () {
         this.opened = true
         this.user = JSON.parse(this.userEmpty)
-        this.$nextTick(this.$refs.autofocus.focus)
+        if (this.$store.state.user.callsign) {
+          this.user.callsign = this.$store.state.user.callsign
+          this.$nextTick(this.$refs.password.focus)
+        } else {
+          this.$nextTick(this.$refs.autofocus.focus)
+        }
       },
       close () {
         this.opened = false
@@ -82,10 +88,11 @@
       create () {
         this.$root.req('Auth:create', this.user).then(response => {
           if (response.status) {
-            this.$store.dispatch('login', {userId: response.userId, code: response.code})
+            this.$store.dispatch('login', {callsign: this.user.callsign, userId: response.userId, code: response.code})
+            this.$store.dispatch('snackbar', {text: `Welcome to the net, ${this.user.callsign}!`})
             this.close()
           } else {
-            this.$store.dispatch('logout')
+            this.$store.dispatch('snackbar', {text: `Invalid credentials.`})
           }
         })
       }

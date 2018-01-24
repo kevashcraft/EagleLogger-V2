@@ -67,10 +67,10 @@
           window.scrollTop = window.scrollHeight
           let scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
           this.chat = response
+          this.$nextTick(() => {
+            list.scrollTop = list.scrollHeight
+          })
           if (scroll) {
-            this.$nextTick(() => {
-              list.scrollTop = list.scrollHeight
-            })
           }
         })
       },

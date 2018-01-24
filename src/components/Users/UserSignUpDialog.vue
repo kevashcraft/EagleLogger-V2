@@ -77,6 +77,8 @@
       },
       create () {
         this.$root.req('Users:create', this.user).then(response => {
+          this.close()
+          this.$store.dispatch('snackbar', {text: 'Account created! Check your email for the confirmation link.'})
         })
       }
     }

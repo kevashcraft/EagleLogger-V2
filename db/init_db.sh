@@ -14,6 +14,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
   \i schema/fcc.sql
   \i schema/callsigns.sql
   \i schema/users.sql
+  \i schema/auth.sql
   \i schema/net_types.sql
   \i schema/nets.sql
   \i schema/chat.sql

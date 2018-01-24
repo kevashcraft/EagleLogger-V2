@@ -1,9 +1,8 @@
 <template>
-  <v-container fluid style="height: 100%; padding: 0">
+  <v-container fluid style="height: 100%; padding: 0" class="net-page">
     <div class="flex-container">
       <div>
-        <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 50px; line-height: 50px; margin-top: -25px; text-align: center; opacity: 0.1">Checkins</p>
-        <!-- <div>{{ net.name }} - {{ net.title }} <v-btn @click="$refs.NetStopDialog.open(net.id)" v-show="!net.stopped">Close Net</v-btn><v-btn @click="$refs.NetReopenDialog.open(net.id)" v-show="net.stopped">Re-open Net</v-btn></div> -->
+        <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 100px; line-height: 50px; margin-top: -50px; text-align: center; opacity: 0.1">{{ net.name }}<br><small>{{ checkinCount }} checkins</small></p>
         <v-list class="list" ref="list">
           <template v-for="checkin, index in checkins">
             <v-list-tile :key="checkin.id" class="item">
@@ -38,42 +37,42 @@
     </div>
     <callsign-dialog ref="CallsignDialog"></callsign-dialog>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
-    <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
-    <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
   </v-container>
 </template>
 
 <style lang="scss">
-  .menu {
-    opacity: 0;
-  }
-  .item:hover {
-    background: rgba(0, 0, 0, .45);
+  .net-page {
     .menu {
-      opacity: 1;
+      opacity: 0;
     }
-  }
-  .flex-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    > div {
-      position: relative;
-      flex: 2 100px;
+    .item:hover {
+      background: rgba(0, 0, 0, .45);
+      .menu {
+        opacity: 1;
+      }
+    }
+    .flex-container {
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: stretch;
-      &:first-of-type {
-        flex: 1 50px;
-        border-bottom: 3px solid rgba(0, 0, 0, .05);
-        > ul {
-          // background: rgba(0, 0, 0, .01)
+      > div {
+        position: relative;
+        flex: 2 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        &:first-of-type {
+          flex: 1 50px;
+          border-bottom: 3px solid rgba(0, 0, 0, .05);
+          > ul {
+            // background: rgba(0, 0, 0, .01)
+          }
         }
-      }
-      > ul {
-        overflow-y: auto;
-        flex: 1 100px;
+        > ul {
+          overflow-y: auto;
+          flex: 1 100px;
+        }
       }
     }
   }
@@ -83,20 +82,22 @@
   import CallsignDialog from '../Callsigns/CallsignDialog'
   import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
-  import NetReopenDialog from './NetReopenDialog'
-  import NetStopDialog from './NetStopDialog'
 
   import { mapState } from 'vuex'
 
   export default {
     data () {
       return {
-        net: {id: 0},
-        checkins: [],
+        checkins: []
       }
     },
-    computed: mapState(['token']),
-    components: { CallsignDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
+    computed: {
+      checkinCount () {
+        return this.checkins.length
+      },
+      ...mapState(['net', 'token'])
+    },
+    components: { CallsignDialog, ChatBox, CheckinDialog },
     created () {
       this.$root.$on('NetsUpdated', (data) => {
         if (data = this.net.id) {
@@ -111,7 +112,7 @@
     },
     mounted () {
       this.net.id = parseInt(this.$route.params.id)
-      this.retrieveNet()
+      this.retrieveNet(true)
     },
     beforeDestroy () {
       this.$root.$off('NetsUpdated')
@@ -125,19 +126,21 @@
       },
       retrieveNet () {
         this.$root.req('Nets:retrieve', this.net).then(response => {
-          this.net = response
+          this.$store.commit('netSet', response)
           this.retrieveCheckins()
         })
       },
-      retrieveCheckins () {
+      retrieveCheckins (scroll = false) {
         this.$root.req('Checkins:list', this.net).then(response => {
-          let list = this.$refs.list
-          let scroll = list.$el.scrollTop === list.$el.scrollHeight - list.$el.offsetHeight
+          let list = this.$refs.list.$el
+          scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
+          // if (!scroll) {
+          // }
           this.checkins = response
+          this.$nextTick(() => {
+            list.scrollTop = list.scrollHeight
+          })
           if (scroll) {
-            this.$nextTick(() => {
-              list.$el.scrollTop = list.$el.scrollHeight
-            })
           }
         })
       }

@@ -16,7 +16,7 @@
     "site:build": "webpack --progress --colors --config build/webpack.config.babel.js --env.production",
     "app:dev": "webpack --progress --colors --config build/webpack.config.babel.js --env.cordova",
     "app:build": "webpack --progress --colors --config build/webpack.config.babel.js --env.cordova --env.production",
-    "site:dev": "webpack-dev-server --config build/webpack.config.babel.js --content-base ./src/site/static --content-base generated --inline --hot --history-api-fallback --host 0.0.0.0 --colors",
+    "site:dev": "webpack-dev-server --config build/webpack.config.babel.js --content-base ./src/site/static --content-base generated --inline --hot --history-api-fallback --host 0.0.0.0 --colors --disable-host-check",
     "build": "npm run api:build && npm run site:build",
     "dev": "npm run site:dev | npm-watch api:dev"
   },

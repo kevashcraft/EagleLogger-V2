@@ -2,7 +2,7 @@
   <v-card color="blue" style="margin-top: 48px">
     <v-card-text>
       <v-card>
-        <v-card-title v-show="title" v-text="title" style="font-size: 18px; font-weight: bold"></v-card-title>
+        <v-card-title v-show="title" style="font-size: 18px; font-weight: bold">{{ title }} <small style="margin-left: 15px; font-weight: normal; font-size: 14px">(click on one to open)</small></v-card-title>
         <v-card-text>
           <v-list style="max-height: 250px; overflow-y: auto">
             <template v-for="net in nets">
@@ -58,7 +58,7 @@
         })
       },
       gotoNet (netId) {
-        this.$router.push(`nets/${netId}`)
+        this.$router.push(`/nets/${netId}`)
       }
     }
   }

@@ -3,7 +3,6 @@ import config from '../../api/config'
 
 exports.create = async(req) => {
   sgMail.setApiKey(config.sendgrid.apikey)
-  console.log('req', req)
   const msg = {
     to: req.to,
     from: config.sendgrid.from,
@@ -12,6 +11,6 @@ exports.create = async(req) => {
   }
   if (req.html) msg.html = req.html
 
-  let res = await sgMail.send(msg)
-  console.log('res', res)
+  await sgMail.send(msg)
+  return true
 }

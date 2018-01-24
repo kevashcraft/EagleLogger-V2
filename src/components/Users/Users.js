@@ -20,7 +20,7 @@ exports.create = async (req) => {
   await AuthModel.create(userId, code)
 
   let to = callsign.callsign + '@arrl.net'
-  let link = `http://localhost:8080/activate/${userId}/${code}`
+  let link = `http://eaglelogger.com/activate/${userId}/${code}`
   let html = UserSignUpEmail(callsign.callsign, link)
   let subject = 'EagleLogger Account Activation'
   let message = `
@@ -35,7 +35,7 @@ exports.create = async (req) => {
 
     --EagleLogger
   `
-  Mail.create({to, subject, message, html})
+  // Mail.create({to, subject, message, html})
 
   if (userId) {
     return {success: true, message: 'Account created! Click the activation link in your email.'}

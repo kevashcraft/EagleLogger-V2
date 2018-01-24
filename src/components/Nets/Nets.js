@@ -5,7 +5,7 @@ import moment from 'moment'
 
 let auth = async (req) => {
   let token = await AuthModel.retrieve(req.token.userId, req.token.code)
-  if (!req.id) {
+  if (!req.netId) {
     return !!token
   }
   let net = await NetsModel.retrieve(req.id)

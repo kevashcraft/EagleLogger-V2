@@ -12,13 +12,11 @@ module.exports = env => {
 , '')
   // api server
   let apiServer = execSync('printf "$API_SERVER"').toString()
-  console.log('apiServer.length', apiServer.length)
-  console.log('apiServer', '--' + apiServer + '--')
   if (!apiServer.length) {
     if (env && env.production) {
-      apiServer = 'https://eaglelogger.com:3001'
+      apiServer = 'http://eaglelogger.com:40801'
     } else {
-      apiServer = 'http://localhost:3001'
+      apiServer = 'http://localhost:40801'
     }
   }
   console.log('apiServer', '--' + apiServer + '--')
@@ -35,7 +33,6 @@ module.exports = env => {
 
   return {
     entry: './src/site/site.js',
-    // context: path.resolve(__dirname, '../'),
     output: {
       path: path.resolve(__dirname, '../dist/site'),
       publicPath: cordova ? '' : '/',

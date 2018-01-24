@@ -11,9 +11,18 @@ exports.create = async (callsignId, passwordHash) => {
   return Model.query(sql, bind, true, true)
 }
 
-exports.retrieve = async (id) => {
+exports.find = async (callsignId) => {
   let sql = `
     SELECT * FROM users WHERE callsign_id = $1
+  `
+  let bind = [callsignId]
+
+  return Model.query(sql, bind, true)
+}
+
+exports.retrieve = async (id) => {
+  let sql = `
+    SELECT * FROM users WHERE id = $1
   `
   let bind = [id]
 

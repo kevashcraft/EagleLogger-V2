@@ -7,26 +7,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [ persistedState() ],
   state: {
-    modal: '',
-    modalStack: [],
+    net: {},
     snackbar: {},
     token: {authed: false},
     user: {}
   },
   mutations: {
-    modalSet (state, modal) {
-      state.modal = modal
-    },
-    modalStackPush (state, modal) {
-      if (state.modalStack.indexOf(modal) < 0) {
-        state.modalStack.push(modal)
-      }
-    },
-    modalStackSet (state, stack) {
-      state.modalStack = stack
-    },
-    modalStackSplice (state, index) {
-      state.modalStack.splice(index, 1)
+    netSet (state, net) {
+      state.net = net
     },
     snackbarSet (state, snackbar) {
       state.snackbar = snackbar
@@ -39,47 +27,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login ({commit}, token) {
-      let v = {authed: true, ...token}
-      console.log('v', v)
+    login ({commit, state}, token) {
+      let user = state.user
+      user.callsign = token.callsign
+      commit('userSet', user)
       commit('tokenSet', {authed: true, ...token})
     },
     logout ({commit}) {
       commit('tokenSet', {authed: false})
-    },
-    modalClear ({ commit, state }) {
-      commit('modalSet', '')
-      commit('modalStackSet', [])
-    },
-    modalOpen ({ commit, state }, modal) {
-      // remove if in the stack
-      let prevIndex = state.modalStack.indexOf(modal)
-      if (prevIndex > -1) commit('modalStackSplice', prevIndex)
-
-      commit('modalSet', modal)
-    },
-    modalNext ({ commit, state }) {
-      let modal = ''
-
-      if (state.modalStack.length) {
-        modal = state.modalStack[0]
-
-        setTimeout(() => {
-          commit('modalStackSplice', 0)
-        }, 350)
-      }
-
-      commit('modalSet', modal)
-    },
-    modalSave ({ commit, state }, modal) {
-      if (modal !== state.modal) {
-        if (state.modal.length) {
-          commit('modalStackPush', state.modal)
-        }
-        commit('modalSet', modal)
-      } else {
-        console.log("you're trying to save the wrong modal")
-      }
     },
     snackbar ({commit, state}, snackbar) {
       commit('snackbarSet', {})
