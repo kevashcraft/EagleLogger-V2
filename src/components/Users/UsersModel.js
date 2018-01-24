@@ -2,8 +2,8 @@ import Model from '../Model/Model'
 
 exports.create = async (callsignId, passwordHash) => {
   let sql = `
-    INSERT INTO users (callsign_id, password_hash)
-    VALUES ($1, $2)
+    INSERT INTO users (callsign_id, password_hash, active)
+    VALUES ($1, $2, true)
     RETURNING id
   `
   let bind = [callsignId, passwordHash]

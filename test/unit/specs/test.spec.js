@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import NetsList from '@/components/Nets/NetsList'
+// import NetsList from '../../../src/components/About/AboutPage.vue'
 
 Vue.use(Vuetify)
 
