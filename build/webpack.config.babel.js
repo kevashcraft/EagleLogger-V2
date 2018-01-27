@@ -8,7 +8,7 @@ import path from 'path'
 import webpack from 'webpack'
 module.exports = env => {
   // most recent version of the program
-  let appVersion = execSync('git describe').toString().replace(/\r?\n|\r/g
+  let appVersion = execSync('git describe --abbrev=0 --tags').toString().replace(/\r?\n|\r/g
 , '')
   // api server
   let apiServer = execSync('printf "$API_SERVER"').toString()
