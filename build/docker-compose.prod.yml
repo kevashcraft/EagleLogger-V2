@@ -18,6 +18,10 @@ services:
       dockerfile: build/Dockerfile-postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  cron:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-cron
   redis:
     image: redis:3.2.11
 

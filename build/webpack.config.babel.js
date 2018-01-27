@@ -81,7 +81,8 @@ module.exports = env => {
       }),
       new webpack.DefinePlugin({
         'API_SERVER': `"${apiServer}"`,
-        'APP_VERSION': `"${appVersion}"`
+        'APP_VERSION': `"${appVersion}"`,
+        'CORDOVA': cordova
       }),
       new webpack.ProvidePlugin({
         moment: 'moment'

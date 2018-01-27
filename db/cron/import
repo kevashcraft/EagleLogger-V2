@@ -20,7 +20,8 @@ if [ ! -d "tmp" ]; then
 fi
 
 # download data
-l_amat_url="http://wireless.fcc.gov/uls/data/complete/l_amat.zip"
+DAY=`date --date="yesterday" +%a | tr '[:upper:]' '[:lower:]'`
+l_amat_url="http://wireless.fcc.gov/uls/data/daily/l_am_$DAY.zip"
 wget -O tmp/l_amat.zip $l_amat_url
 
 # unzip
@@ -33,8 +34,6 @@ sed -i 's/\\|/|/' tmp/HD.dat
 perl -pi -e 's/[^[:ascii:]]//g' tmp/HD.dat
 
 # import queries
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
-  \c $DB_NAME
-  SET ROLE $DB_NAME;
+PGPASSWORD=eaglelogger psql -U eaglelogger -h postgres <<-EOSQL
   \i import.sql
 EOSQL

@@ -150,7 +150,8 @@ INSERT INTO fcc_l_amat_en (
   applicant_type_other,
   status_code,
   to_date(nullif(status_date, ''), 'MM/DD/YYYY')
-FROM fcc_l_amat_en_tmp;
+FROM fcc_l_amat_en_tmp
+ON CONFLICT (usid) DO NOTHING;
 
 INSERT INTO fcc_l_amat_hd (
   record_type,
@@ -254,9 +255,10 @@ INSERT INTO fcc_l_amat_hd (
   broadcast_services_type_of_radio_service,
   alien_ruling,
   licensee_name_change
-FROM fcc_l_amat_hd_tmp;
+FROM fcc_l_amat_hd_tmp
+ON CONFLICT (usid) DO NOTHING;
 
--- INSER CALLSIGNS
+-- INSERT CALLSIGNS
 INSERT INTO callsigns (
   frn, callsign, name,
   first_name, middle_initial, last_name,
