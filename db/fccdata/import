@@ -21,7 +21,7 @@ fi
 
 # download data
 l_amat_url="http://wireless.fcc.gov/uls/data/complete/l_amat.zip"
-wget --nv -O tmp/l_amat.zip $l_amat_url
+wget -nv -O tmp/l_amat.zip $l_amat_url
 
 # unzip
 unzip -d tmp -o tmp/l_amat.zip

@@ -9,5 +9,5 @@ RUN chmod 0644 /etc/cron.d/daily-fcc
 RUN service cron start
 
 RUN mkdir /scripts
-COPY ./db/cron/import /scripts/
+COPY ./db/cron/update /scripts/
 COPY ./db/fccdata/import.sql /scripts/
