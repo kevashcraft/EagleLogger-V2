@@ -9,6 +9,4 @@ RUN rm -rf /var/lib/apt/lists/* && \
   apt-get install -y --no-install-recommends wget unzip cron
 
 COPY ./db ${PGINIT_DIR}
-COPY ./db/cron/daily-fcc /etc/cron.d/daily-fcc
-RUN chmod 0644 /etc/cron.d/daily-fcc
-RUN service cron start
+RUN chown postgres.postgres ${PGINIT_DIR} -R

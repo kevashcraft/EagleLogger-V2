@@ -22,7 +22,7 @@ fi
 # download data
 DAY=`date --date="yesterday" +%a | tr '[:upper:]' '[:lower:]'`
 l_amat_url="http://wireless.fcc.gov/uls/data/daily/l_am_$DAY.zip"
-wget -O tmp/l_amat.zip $l_amat_url
+wget --nv -O tmp/l_amat.zip $l_amat_url
 
 # unzip
 unzip -d tmp -o tmp/l_amat.zip
