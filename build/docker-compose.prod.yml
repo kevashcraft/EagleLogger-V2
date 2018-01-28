@@ -1,27 +1,21 @@
 version: '3'
 services:
   site:
-    build:
-      context: ../
-      dockerfile: build/Dockerfile-site
+    image: kevashcraft/eaglelogger-site:latest
     ports:
-      - 40800:80
+      - 80:80
   api:
-    build:
-      context: ../
-      dockerfile: build/Dockerfile-api
+    image: kevashcraft/eaglelogger-api:latest
+    environment:
+      - SENDGRID_API_KEY=$KEY
     ports:
       - 40801:3001
   postgres:
-    build:
-      context: ../
-      dockerfile: build/Dockerfile-postgres
+    image: kevashcraft/eaglelogger-postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data
   cron:
-    build:
-      context: ../
-      dockerfile: build/Dockerfile-cron
+    image: kevashcraft/eaglelogger-crons:latest
   redis:
     image: redis:3.2.11
 

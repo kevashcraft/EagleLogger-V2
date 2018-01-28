@@ -61,6 +61,8 @@ exports.search = async (query, queryString) => {
 }
 
 exports.update = async (id, fields) => {
+  console.log('id', id)
+  console.log('fields', fields)
   await Model.update('callsigns', id, fields)
   return true
 }

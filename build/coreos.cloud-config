@@ -24,9 +24,3 @@ write_files:
       -A INPUT -p icmp -m icmp --icmp-type 3 -j ACCEPT
       -A INPUT -p icmp -m icmp --icmp-type 11 -j ACCEPT
       COMMIT
-runcmd:
- - [ git, clone, http://github.com/kevashcraft/eaglelogger ]
- - [ cp, eaglelogger/build/coreos.eaglelogger.service, /etc/systemd/system/eaglelogger.service ]
- - [ systemctl, daemon-reload ]
- - [ systemctl, enable, eagleloger ]
- - [ systemctl, start, --no-block, eaglelogger ]

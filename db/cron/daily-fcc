@@ -1,1 +1,1 @@
-0 4 * * * /scripts/update
+0 9 * * * root /bin/sh /scripts/update > /proc/1/fd/1 2>/proc/1/fd/2

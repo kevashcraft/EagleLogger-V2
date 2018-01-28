@@ -99,6 +99,9 @@
     },
     components: { CallsignDialog, ChatBox, CheckinDialog },
     created () {
+      if (!this.net) {
+        this.$store.commit('netSet', {})
+      }
       this.$root.$on('NetsUpdated', (data) => {
         if (data = this.net.id) {
           this.retrieveNet()
@@ -112,6 +115,7 @@
     },
     mounted () {
       this.net.id = parseInt(this.$route.params.id)
+      console.log('hello!')
       this.retrieveNet(true)
     },
     beforeDestroy () {

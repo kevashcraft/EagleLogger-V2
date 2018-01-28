@@ -1,4 +1,4 @@
-export default function (callsign, link) {
+export default function (callsign, password) {
   return `
 <!doctype html>
 <html>
@@ -263,22 +263,7 @@ export default function (callsign, link) {
                     <tr>
                       <td>
                         <p>Hey ${callsign},</p>
-                        <p>Welcome to EagleLogger. Please click on the button to confirm your account.</p>
-                        <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                          <tbody>
-                            <tr>
-                              <td align="center">
-                                <table border="0" cellpadding="0" cellspacing="0">
-                                  <tbody>
-                                    <tr>
-                                      <td> <a href="${link}" target="_blank">Activate your Account</a> </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <p>Your password has been reset to: ${password}</p>
                         <p>73 de EagleLogger</p>
                       </td>
                     </tr>

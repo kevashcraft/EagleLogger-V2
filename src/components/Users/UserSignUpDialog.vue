@@ -7,7 +7,7 @@
           To create an account, enter your callsign and a good password.<br>
           An email will be sent to your <a href="http://www.arrl.org/e-mail-forwarding" target="_blank" rel="noreferrer noopener">ARRL email address</a> for confirmation.
         </p>
-        <v-form>
+        <v-form @submit.prevent="create">
           <v-text-field
             label="Callsign"
             placeholder="Your callsign"
@@ -28,7 +28,7 @@
           ></v-text-field>
           <v-layout justify-space-between>
             <v-btn flat left @click="close">close</v-btn>
-            <v-btn @click="create" color="primary">
+            <v-btn type="submit" color="primary">
               <v-icon left>mdi-account-plus</v-icon>
               <span>Create Account</span>
             </v-btn>
@@ -78,7 +78,18 @@
       create () {
         this.$root.req('Users:create', this.user).then(response => {
           this.close()
-          this.$store.dispatch('snackbar', {text: 'Account created! Check your email for the confirmation link.'})
+          // this.$store.dispatch('snackbar', {text: 'Account created! Check your email for the confirmation link.'})
+          this.$root.req('Auth:create', this.user).then(response => {
+            if (response.status) {
+              this.$store.dispatch('login', {callsign: response.user.callsign, userId: response.user.id, code: response.code})
+              this.$store.commit('userSet', response.user)
+              this.$store.dispatch('snackbar', {text: `Welcome to the net, ${this.user.callsign}!`})
+              this.close()
+            } else {
+              this.$store.dispatch('snackbar', {text: `Invalid credentials.`})
+            }
+          })
+
         })
       }
     }

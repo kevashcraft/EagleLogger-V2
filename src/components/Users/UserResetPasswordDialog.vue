@@ -1,34 +1,23 @@
 <template>
-  <v-dialog v-model="opened" max-width="400px" id="AuthLoginDialog">
+  <v-dialog v-model="opened" max-width="400px">
     <v-card>
-      <v-card-title class="title flex-center">Login</v-card-title>
+      <v-card-title class="title flex-center">Reset Password</v-card-title>
       <v-card-text>
-        <v-form @submit.prevent="create">
+        <p class="body-1">
+          Type in your callsign to have a new password sent to your email address.
+        </p>
+        <v-form @submit.prevent="resetPassword">
           <v-text-field
             label="Callsign"
             placeholder="Your callsign"
             ref="autofocus"
             v-model="user.callsign"
           ></v-text-field>
-          <v-layout align-center>
-            <v-flex xs8>
-              <v-text-field
-                label="Password"
-                type="password"
-                ref="password"
-                v-model="user.password"
-                placeholder="Your password"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-btn flat @click="$app.dialog('UserResetPasswordDialog')"><v-icon left>mdi-lock-reset</v-icon> Reset</v-btn>
-            </v-flex>
-          </v-layout>
           <v-layout justify-space-between>
             <v-btn flat left @click="close">close</v-btn>
             <v-btn color="primary" type="submit">
-              <v-icon left>mdi-account-key</v-icon>
-              <span>Login</span>
+              <v-icon left>mdi-lock-reset</v-icon>
+              <span>Reset</span>
             </v-btn>
           </v-layout>
         </v-form>
@@ -61,8 +50,7 @@
       return {
         opened: false,
         user: {
-          callsign: null,
-          password: null
+          callsign: null
         }
       }
     },
@@ -84,24 +72,16 @@
         this.user = JSON.parse(this.userEmpty)
         if (this.$store.state.user.callsign) {
           this.user.callsign = this.$store.state.user.callsign
-          this.$nextTick(this.$refs.password.focus)
-        } else {
-          this.$nextTick(this.$refs.autofocus.focus)
         }
+        this.$nextTick(this.$refs.autofocus.focus)
       },
       close () {
         this.opened = false
       },
-      create () {
-        this.$root.req('Auth:create', this.user).then(response => {
-          if (response.status) {
-            this.$store.dispatch('login', {callsign: response.user.callsign, userId: response.user.id, code: response.code})
-            this.$store.commit('userSet', response.user)
-            this.$store.dispatch('snackbar', {text: `Welcome to the net, ${this.user.callsign}!`})
-            this.close()
-          } else {
-            this.$store.dispatch('snackbar', {text: `Invalid credentials.`})
-          }
+      resetPassword () {
+        this.$root.req('Users:resetPassword', this.user).then(response => {
+          this.$store.dispatch('snackbar', {text: `An new password has been sent to your email address.`})
+          this.close()
         })
       }
     }

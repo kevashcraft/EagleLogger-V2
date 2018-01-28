@@ -3,7 +3,7 @@ CREATE VIEW chat_view AS
   SELECT
     chat.*,
     callsigns.callsign ||
-      COALESCE(' (' || callsigns.name || ')', '') as title
+      COALESCE(' (' || COALESCE(users.name, callsigns.name) || ')', '') as title
   FROM chat
   JOIN users ON users.id = chat.user_id
   JOIN callsigns ON callsigns.id = users.callsign_id

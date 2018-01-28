@@ -1,19 +1,23 @@
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import CordovaWebpackPlugin from 'cordova-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import WebpackShellPlugin from 'webpack-shell-plugin'
 import { execSync } from 'child_process'
 import path from 'path'
 import webpack from 'webpack'
 module.exports = env => {
+  let production = env && env.production
+
   // most recent version of the program
   let appVersion = execSync('git describe --abbrev=0 --tags').toString().replace(/\r?\n|\r/g
 , '')
   // api server
   let apiServer = execSync('printf "$API_SERVER"').toString()
   if (!apiServer.length) {
-    if (env && env.production) {
+    if (production) {
       apiServer = 'http://eaglelogger.com:40801'
     } else {
       apiServer = 'http://localhost:40801'
@@ -31,7 +35,7 @@ module.exports = env => {
     shellScripts.onBuildEnd.push(`build/cordova-build.sh ${CORD_ENV}`)
   }
 
-  return {
+  let config = {
     entry: './src/site/site.js',
     output: {
       path: path.resolve(__dirname, '../dist/site'),
@@ -82,7 +86,8 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'API_SERVER': `"${apiServer}"`,
         'APP_VERSION': `"${appVersion}"`,
-        'CORDOVA': cordova
+        'CORDOVA': cordova,
+        'process.env.NODE_ENV': production ? '"production"' : '"development"'
       }),
       new webpack.ProvidePlugin({
         moment: 'moment'
@@ -103,4 +108,15 @@ module.exports = env => {
       }
     }
   }
+
+  if (production) {
+    config.plugins.push(new UglifyJsPlugin())
+    config.devtool = false
+  } else {
+    if (env && env.analyze) {
+      config.plugins.push(new BundleAnalyzerPlugin())
+    }
+  }
+
+  return config
 }

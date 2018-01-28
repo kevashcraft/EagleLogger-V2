@@ -13,7 +13,17 @@ exports.create = async (callsignId, passwordHash) => {
 
 exports.find = async (callsignId) => {
   let sql = `
-    SELECT * FROM users WHERE callsign_id = $1
+    SELECT
+      users.id,
+      users.callsign_id,
+      users.email,
+      users.password_hash,
+      COALESCE(users.name, callsigns.name) as name,
+      callsigns.spotter_id,
+      callsigns.callsign
+    FROM users
+    JOIN callsigns ON callsigns.id = users.callsign_id
+    WHERE users.callsign_id = $1
   `
   let bind = [callsignId]
 
@@ -22,7 +32,17 @@ exports.find = async (callsignId) => {
 
 exports.retrieve = async (id) => {
   let sql = `
-    SELECT * FROM users WHERE id = $1
+    SELECT
+      users.id,
+      users.callsign_id,
+      users.email,
+      users.password_hash,
+      COALESCE(users.name, callsigns.name) as name,
+      callsigns.spotter_id,
+      callsigns.callsign
+    FROM users
+    JOIN callsigns ON callsigns.id = users.callsign_id
+    WHERE users.id = $1
   `
   let bind = [id]
 

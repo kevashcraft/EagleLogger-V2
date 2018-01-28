@@ -52,7 +52,7 @@ exports.create = async (req) => {
     return {
       status: true,
       code: code,
-      userId: user.id
+      user: user
     }
   } else {
     return {status: false}
