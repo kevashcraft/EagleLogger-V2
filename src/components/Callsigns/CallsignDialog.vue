@@ -10,6 +10,15 @@
             ref="autofocus"
             v-model="callsign.name"
           ></v-text-field>
+          <v-text-field
+            label="Spotter ID"
+            placeholder="SKYWARN Spotter ID"
+            mask="AAA-###nn"
+            v-model="callsign.spotterId"
+          ></v-text-field>
+          <v-layout justify-center v-show="!callsign.ncs">
+            <v-btn class="blue--text" flat v-show="!callsign.ncs" @click="$root.page.$refs.UserNcsDialog.open(callsign)"><v-icon left>mdi-key-plus</v-icon> Make NCS</v-btn>
+          </v-layout>
           <v-layout justify-space-between>
             <v-btn flat left @click="close">close</v-btn>
             <v-btn color="primary" type="submit">
@@ -44,10 +53,12 @@
 </style>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         callsign: {}
       }
     },
@@ -55,17 +66,13 @@
       this.callsignEmpty = JSON.stringify(this.callsign)
     },
     methods: {
-      open (callsignId) {
+      afterOpen (callsignId) {
         this.clear()
         this.retrieve(callsignId)
-        this.opened = true
         this.$nextTick(this.$refs.autofocus.focus)
       },
       clear () {
         this.callsign = JSON.parse(this.callsignEmpty)
-      },
-      close () {
-        this.opened = false
       },
       retrieve (callsignId) {
         this.$root.req('Callsigns:retrieve', {callsignId}).then(response => {

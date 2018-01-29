@@ -8,6 +8,7 @@ CREATE TABLE users (
   name varchar(64),
   radio varchar(256),
   antenna varchar(256),
+  ncs boolean DEFAULT false NOT NULL,
   zip_code_id int REFERENCES zip_codes(id),
   active boolean DEFAULT false NOT NULL,
   deleted boolean DEFAULT false NOT NULL,

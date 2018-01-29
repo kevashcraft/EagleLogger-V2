@@ -14,12 +14,25 @@
           <h4 style="font-weight: normal; font-size: 16px">An Amateur Radio Net Logger</h4>
         </v-card-title>
         <v-card-text v-show="token.authed">
-          <v-layout row>
+          <v-layout row align-center>
             <v-flex xs6>
-              <h4 style="font-size: 16px">{{ user.callsign }}</h4>
+              <v-menu bottom left
+                transition="slide-y-transition"
+                dark
+                >
+                <v-btn slot="activator" flat dark>
+                  <v-icon>mdi-menu-down</v-icon>
+                  <h4 style="font-size: 16px">{{ user.callsign }}</h4>
+                </v-btn>
+                <v-list>
+                  <v-list-tile @click="$store.dispatch('logout')" v-show="token.authed">
+                    <v-list-tile-title><v-icon left>mdi-logout-variant</v-icon> Logout</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
             </v-flex>
             <v-flex xs6 class="text-xs-center">
-              <a @click="$refs.UserSettingsDialog.open()">
+              <a @click="$refs.UserSettingsDialog.open()" class="hover-white">
                 <v-icon style="font-size: 16px">mdi-settings</v-icon>
                 <span style="line-height: 16px">My Settings</span>
               </a>
@@ -27,7 +40,7 @@
           </v-layout>
         </v-card-text>
         <v-card-text class="flex-center" style="display: flex" v-show="!token.authed">
-          <v-btn @click="$refs.UserSignUpDialog.open()" v-show="!user.callsign" color="primary" style="flex: 1"><v-icon left>mdi-account-plus</v-icon> Sign Up</v-btn>
+          <v-btn @click="$refs.UserSignUpDialog.open()" color="primary" style="flex: 1"><v-icon left>mdi-account-plus</v-icon> Sign Up</v-btn>
           <v-btn @click="$refs.AuthLoginDialog.open()" flat dark style="flex: 1"><v-icon left>mdi-account-key</v-icon> Login</v-btn>
         </v-card-text>
       </v-card>
@@ -42,7 +55,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </router-link>
-        <router-link to="/net-types" :class="{'current-page': $route.path === '/net-types'}">
+        <router-link to="/net-types" :class="{'current-page': $route.path === '/net-types'}" v-show="user.ncs">
           <v-list-tile @click="">
             <v-list-tile-action>
               <v-icon>mdi-playlist-minus</v-icon>
@@ -84,22 +97,7 @@
       <v-spacer></v-spacer>
         <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu bottom left
-        transition="slide-y-transition"
-        dark
-        >
-        <v-btn icon slot="activator" dark>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile @click="$refs.AuthLoginDialog.open()" v-show="!token.authed">
-            <v-list-tile-title>Login <v-icon>mdi-account-key</v-icon></v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="$store.dispatch('logout')" v-show="token.authed">
-            <v-list-tile-title>Logout <v-icon>mdi-logout-variant</v-icon></v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <router-view name="menu"></router-view>
     </v-toolbar>
     <v-content>
       <transition name="slide-y-transition" mode="out-in">
@@ -134,7 +132,13 @@
   .main-menu a {
     text-decoration: none;
     color: white !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
+  }
+  .hover-white {
+    transition: color .2s ease;
+  }
+  .hover-white:hover {
+    color: white !important;
   }
   .current-page a {
     color: #2196F3 !important;
@@ -146,7 +150,7 @@
     color: #2196F3 !important;
   }
   .main-menu i {
-    font-size: 32px !important;
+    font-size: 28px !important;
     color: white !important;
   }
   .main-menu li:hover a {

@@ -10,7 +10,10 @@
 </template>
 
 <script>
+  import Page from '@/components/Mixins/Page'
+
   export default {
+    mixins: [Page],
     data () {
       return {
         activated: false

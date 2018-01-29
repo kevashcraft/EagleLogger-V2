@@ -23,10 +23,12 @@
 </template>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         callsign: {},
         searchResults: [],
         searchInput: null,
@@ -64,8 +66,7 @@
       },
     },
     methods: {
-      open () {
-        this.opened = true
+      afterOpen () {
         this.focusSearch()
       },
       create (callsignId) {

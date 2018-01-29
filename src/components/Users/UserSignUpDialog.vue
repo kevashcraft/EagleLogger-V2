@@ -40,10 +40,12 @@
 </template>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         user: {
           callsign: null,
           password: null
@@ -67,13 +69,9 @@
       this.userEmpty = JSON.stringify(this.user)
     },
     methods: {
-      open () {
-        this.opened = true
+      afterOpen () {
         this.user = JSON.parse(this.userEmpty)
         this.$nextTick(this.$refs.autofocus.focus)
-      },
-      close () {
-        this.opened = false
       },
       create () {
         this.$root.req('Users:create', this.user).then(response => {

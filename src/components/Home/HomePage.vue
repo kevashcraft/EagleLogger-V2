@@ -33,9 +33,11 @@
 </template>
 
 <script>
+  import Page from '@/components/Mixins/Page'
   import NetsList from '../Nets/NetsList.vue'
 
   export default {
+    mixins: [Page],
     data () {
       return {
         appVersion: APP_VERSION

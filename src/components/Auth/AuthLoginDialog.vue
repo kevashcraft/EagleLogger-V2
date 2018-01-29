@@ -56,10 +56,12 @@
 </style>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         user: {
           callsign: null,
           password: null
@@ -77,10 +79,7 @@
       this.userEmpty = JSON.stringify(this.user)
     },
     methods: {
-      open () {
-        if (this.$root.openedDialog) this.$root.openedDialog.close()
-        this.$root.openedDialog = this
-        this.opened = true
+      afterOpen () {
         this.user = JSON.parse(this.userEmpty)
         if (this.$store.state.user.callsign) {
           this.user.callsign = this.$store.state.user.callsign
@@ -88,9 +87,6 @@
         } else {
           this.$nextTick(this.$refs.autofocus.focus)
         }
-      },
-      close () {
-        this.opened = false
       },
       create () {
         this.$root.req('Auth:create', this.user).then(response => {

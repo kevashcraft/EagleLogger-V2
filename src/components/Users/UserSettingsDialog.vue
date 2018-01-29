@@ -44,10 +44,12 @@
 </template>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         user: {
           name: null,
           newPassword: null,
@@ -59,14 +61,10 @@
       this.userEmpty = JSON.stringify(this.user)
     },
     methods: {
-      open () {
-        this.opened = true
+      afterOpen () {
         this.user = JSON.parse(this.userEmpty)
         this.user = this.$store.state.user
         this.$nextTick(this.$refs.autofocus.focus)
-      },
-      close () {
-        this.opened = false
       },
       update () {
         this.$root.req('Users:update', this.user).then(response => {

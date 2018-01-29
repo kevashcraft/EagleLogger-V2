@@ -5,7 +5,7 @@
         <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 100px; line-height: 50px; margin-top: -50px; text-align: center; opacity: 0.1">{{ net.name }}<br><small>{{ checkinCount }} checkins</small></p>
         <v-list class="list" ref="list">
           <template v-for="checkin, index in checkins">
-            <v-list-tile :key="checkin.id" class="item">
+            <v-list-tile :key="checkin.id" class="item" @dblclick="$refs.CallsignDialog.open(checkin.callsignId)">
               <v-list-tile-content>
                 <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.title"></v-list-tile-title>
                 <v-list-tile-sub-title v-text="checkin.subtitle"></v-list-tile-sub-title>
@@ -37,6 +37,9 @@
     </div>
     <callsign-dialog ref="CallsignDialog"></callsign-dialog>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
+    <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
+    <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
+    <user-ncs-dialog ref="UserNcsDialog"></user-ncs-dialog>
   </v-container>
 </template>
 
@@ -79,13 +82,18 @@
 </style>
 
 <script>
+  import Page from '@/components/Mixins/Page'
   import CallsignDialog from '../Callsigns/CallsignDialog'
   import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
+  import NetReopenDialog from './NetReopenDialog'
+  import NetStopDialog from './NetStopDialog'
+  import UserNcsDialog from '../Users/UserNcsDialog'
 
   import { mapState } from 'vuex'
 
   export default {
+    mixins: [Page],
     data () {
       return {
         checkins: []
@@ -97,7 +105,7 @@
       },
       ...mapState(['net', 'token'])
     },
-    components: { CallsignDialog, ChatBox, CheckinDialog },
+    components: { CallsignDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog, UserNcsDialog },
     created () {
       if (!this.net) {
         this.$store.commit('netSet', {})
@@ -115,7 +123,6 @@
     },
     mounted () {
       this.net.id = parseInt(this.$route.params.id)
-      console.log('hello!')
       this.retrieveNet(true)
     },
     beforeDestroy () {
@@ -130,16 +137,16 @@
       },
       retrieveNet () {
         this.$root.req('Nets:retrieve', this.net).then(response => {
-          this.$store.commit('netSet', response)
-          this.retrieveCheckins()
+          if (response) {
+            this.$store.commit('netSet', response)
+            this.retrieveCheckins()
+          }
         })
       },
       retrieveCheckins (scroll = false) {
         this.$root.req('Checkins:list', this.net).then(response => {
           let list = this.$refs.list.$el
           scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
-          // if (!scroll) {
-          // }
           this.checkins = response
           this.$nextTick(() => {
             list.scrollTop = list.scrollHeight

@@ -13,14 +13,15 @@
 </template>
 
 <script>
+  import Page from '@/components/Mixins/Page'
   import NetTypeDialog from './NetTypeDialog.vue'
   import NetTypesList from './NetTypesList.vue'
 
   export default {
+    mixins: [Page],
     data () {
       return {}
     },
-
     components: {
       NetTypeDialog,
       NetTypesList

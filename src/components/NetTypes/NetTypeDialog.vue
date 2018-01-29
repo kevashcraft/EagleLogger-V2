@@ -22,11 +22,13 @@
 </template>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
         action: 'Create',
-        opened: false,
         netType: {
           name: null,
           frequency: null
@@ -37,16 +39,12 @@
       this.netTypeEmpty = JSON.stringify(this.netType)
     },
     methods: {
-      open (action) {
+      afterOpen (action) {
         this.action = action
-        this.opened = true
         this.clear()
       },
       clear () {
         this.netType = JSON.parse(this.netTypeEmpty)
-      },
-      close () {
-        this.opened = false
       },
       post () {
         this[this.action.toLowerCase()]()

@@ -1,15 +1,5 @@
 import Model from '../Model/Model'
 
-// exports.create = async (req) => {
-//   let sql = `
-//     INSERT INTO callsigns (net_id, callsign_id)
-//     VALUES ($1, $2)
-//   `
-//   let bind = [req.netId, req.callsignId]
-
-//   return Model.query(sql, bind, true, true)
-// }
-
 exports.find = async (callsign) => {
   let sql = `
     SELECT * FROM callsigns
@@ -34,8 +24,12 @@ exports.list = async (deleted) => {
 
 exports.retrieve = async (id) => {
   let sql = `
-    SELECT * FROM callsigns
-    WHERE id = $1
+    SELECT
+      callsigns.*,
+      users.ncs
+    FROM callsigns
+    LEFT JOIN users ON users.callsign_id = callsigns.id
+    WHERE callsigns.id = $1
   `
   let bind = [id]
 
@@ -61,8 +55,6 @@ exports.search = async (query, queryString) => {
 }
 
 exports.update = async (id, fields) => {
-  console.log('id', id)
-  console.log('fields', fields)
   await Model.update('callsigns', id, fields)
   return true
 }

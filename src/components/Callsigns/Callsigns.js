@@ -1,20 +1,12 @@
 import CallsignsModel from './CallsignsModel'
-
 import AuthModel from '../Auth/AuthModel'
+import UsersModel from '../Users/UsersModel'
 
 let auth = async (req) => {
+  let user = false
   let token = await AuthModel.retrieve(req.token.userId, req.token.code)
-  return !!token
-}
-
-exports.create = async (req) => {
-  return CallsignsModel.create(req)
-}
-
-exports.delete = async (req) => {
-  req.fields = { deleted: true }
-
-  CallsignsModel.update(req)
+  if (token) user = await UsersModel.retrieve(token.userId)
+  return user && user.ncs
 }
 
 exports.list = async (req) => {

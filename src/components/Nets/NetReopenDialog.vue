@@ -11,10 +11,12 @@
 </template>
 
 <script>
+  import Dialog from '@/components/Mixins/Dialog'
+
   export default {
+    mixins: [Dialog],
     data () {
       return {
-        opened: false,
         net: {}
       }
     },
@@ -22,17 +24,13 @@
       this.netEmpty = JSON.stringify(this.net)
     },
     methods: {
-      open (netId) {
-        this.opened = true
+      afterOpen (netId) {
         this.clear(netId)
       },
       clear (netId) {
         let net = JSON.parse(this.netEmpty)
         net.id = netId
         this.net = net
-      },
-      close () {
-        this.opened = false
       },
       update () {
         this.$root.req('Nets:reopen', this.net).then(response => {
