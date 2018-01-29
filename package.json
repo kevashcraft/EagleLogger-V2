@@ -83,6 +83,7 @@
     "socket.io-file": "^2.0.15",
     "socket.io-file-client": "^2.0.121",
     "style-loader": "^0.19.1",
+    "tether-shepherd": "^1.8.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "vue": "^2.5.13",

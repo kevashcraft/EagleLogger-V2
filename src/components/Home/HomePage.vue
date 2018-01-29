@@ -5,7 +5,7 @@
         <v-card flat color="blue" class="v-card-parent">
           <v-card-text>
             <v-card class="v-card-child">
-              <v-card-title><h3>EagleLogger Testing </h3></v-card-title>
+              <v-card-title class="wt-testing"><h3>EagleLogger Testing </h3></v-card-title>
               <v-card-text>
                 <p>Welcome to EagleLgoger and thanks for testing out the program!</p>
                 <p>You can <a href="/nets/1" style="text-decoration: none"><v-btn color="orange white--text"><v-icon>mdi-email</v-icon>Join the EagleNet</v-btn></a> here or sign up for a temporary account.</p>
@@ -26,7 +26,7 @@
             </v-card>
           </v-card-text>
         </v-card>
-        <nets-list title="Active Nets" style="margin-bottom: 50px"></nets-list>
+        <nets-list style="margin-bottom: 50px"></nets-list>
       </v-flex>
     </v-layout>
   </v-container>

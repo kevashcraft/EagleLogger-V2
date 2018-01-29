@@ -1,12 +1,13 @@
 <template>
-  <v-dialog v-model="opened">
+  <v-dialog v-model="opened" max-width="450px">
     <v-card>
-      <v-card-title center>{{ action }} Net Type</v-card-title>
+      <v-card-title class="title flex-center capitalize">{{ action }} Net Type</v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="post">
           <v-text-field
             label="Name"
             placeholder="Net name"
+            ref="autofocus"
             v-model="netType.name"
           ></v-text-field>
           <v-text-field
@@ -14,7 +15,13 @@
             placeholder="Net frequency"
             v-model="netType.frequency"
           ></v-text-field>
-          <v-btn @click="post">Click</v-btn>
+          <v-layout justify-space-between>
+            <v-btn flat left @click="close">close</v-btn>
+            <v-btn type="submit" class="capitalize" color="primary">
+              <v-icon left>mdi-content-save-outline</v-icon>
+              <span>{{ action }}</span>
+            </v-btn>
+          </v-layout>
         </v-form>
       </v-card-text>
     </v-card>
@@ -39,8 +46,12 @@
       this.netTypeEmpty = JSON.stringify(this.netType)
     },
     methods: {
-      afterOpen (action) {
+      afterOpen ({action, netTypeId}) {
         this.action = action
+        if (action === 'update') {
+          this.retrieve(netTypeId)
+        }
+        this.$nextTick(this.$refs.autofocus.focus)
         this.clear()
       },
       clear () {
@@ -51,9 +62,21 @@
       },
       create () {
         this.$root.req('NetTypes:create', this.netType).then(response => {
+          this.$store.dispatch('snackbar', {text: `${this.netType.name} has been created.`})
           this.close()
         })
       },
+      retrieve (id) {
+        this.$root.req('NetTypes:retrieve', {id}).then(response => {
+          this.netType = response
+        })
+      },
+      update () {
+        this.$root.req('NetTypes:update', this.netType).then(response => {
+          this.$store.dispatch('snackbar', {text: `${this.netType.name} has been updated.`})
+          this.close()
+        })
+      }
     }
   }
 </script>

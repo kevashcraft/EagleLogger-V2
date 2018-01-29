@@ -55,7 +55,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </router-link>
-        <router-link to="/net-types" :class="{'current-page': $route.path === '/net-types'}" v-show="user.ncs">
+        <router-link to="/net-types" :class="{'current-page': $route.path === '/net-types'}" v-show="user.ncs" class="wt">
           <v-list-tile @click="">
             <v-list-tile-action>
               <v-icon>mdi-playlist-minus</v-icon>
@@ -88,7 +88,7 @@
       </v-list>
       <v-card style="margin-top: 10px;" v-show="token.authed" class="grey darken-4">
         <v-card-text class="flex-center" style="display: flex">
-          <router-view name="controls"></router-view>
+          <v-btn color="orange white--text" @click="walkthrough"><v-icon left>mdi-walk</v-icon>Walkthrough</v-btn>
         </v-card-text>
       </v-card>
     </v-navigation-drawer>
@@ -166,6 +166,7 @@
   import Vue from 'vue'
 
   import { mapState } from 'vuex'
+  import Shepherd from 'tether-shepherd'
 
   export default {
     components: {
@@ -192,9 +193,62 @@
     beforeCreate () {
       Vue.prototype.$app = this
     },
+    mounted () {
+      this.tour = new Shepherd.Tour({
+        defaults: {
+          classes: 'shepherd-theme-arrows'
+        }
+      })
+
+      this.tour.addStep('Home', {
+        title: 'EagleLogger Walkthrough',
+        text: "Welcome to EagleLogger! Let's walk through the basics.",
+        attachTo: '.wt-testing bottom',
+        advanceOn: '.docs-link click',
+        buttons: [
+          {
+            text: 'Next',
+            action: () => {
+              this.$router.push('/nets')
+              setTimeout(() => {
+                this.tour.next()
+              }, 500)
+            }
+          }
+        ]
+      })
+      this.tour.addStep('Nets', {
+        title: 'Net Lists',
+        text: "Welcome to EagleLogger! Let's walk through the basics.",
+        attachTo: '.wt-testing bottom',
+        advanceOn: '.docs-link click',
+        buttons: [
+          {
+            text: 'Next',
+            action: () => {
+              this.$router.push('/nets')
+                this.tour.next()
+              // setTimeout(() => {
+              // }, 500)
+            }
+          }
+        ]
+      })
+    },
     methods: {
       dialog (ref) {
         this.$refs[ref].open()
+      },
+      walkthrough () {
+        let currentPage = this.$route.path
+        this.$router.push(`/`)
+        this.tour.on('complete', () => {this.$router.push(currentPage)})
+        this.tour.on('cancel', () => {this.$router.push(currentPage)})
+
+        setTimeout(() => {
+          this.tour.start()
+        }, 500)
+
       }
     }
   }

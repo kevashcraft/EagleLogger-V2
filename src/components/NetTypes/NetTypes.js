@@ -12,7 +12,7 @@ let auth = async (req) => {
 exports.create = async (req) => {
   if (!(await auth(req))) return false
 
-  return NetTypesModel.create(req.name)
+  return NetTypesModel.create(req.name, req.startTime, req.frequency)
 }
 
 exports.delete = async (req) => {
@@ -28,18 +28,18 @@ exports.list = async (req) => {
 }
 
 exports.retrieve = async (req) => {
-  return NetTypesModel.retrieve(req.netId)
+  return NetTypesModel.retrieve(req.id)
 }
 
 exports.update = async (req) => {
   if (!(await auth(req))) return false
 
-  req.fields = {
+  let fields = {
     name: req.name,
-    freq: req.freq,
+    frequency: req.frequency,
     nts: req.nts,
-    starttime: req.starttime
+    start_time: req.startTime
   }
 
-  NetTypesModel.update(req)
+  NetTypesModel.update(req.id, fields)
 }

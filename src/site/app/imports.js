@@ -1,3 +1,5 @@
 import '../../../node_modules/vuetify/dist/vuetify.min.css'
 import '../../../node_modules/mdi/css/materialdesignicons.min.css'
+import '../../../node_modules/tether-shepherd/dist/css/shepherd-theme-arrows.css'
+// import '../../../node_modules/tether-shepherd/dist/css/shepherd-theme-arrows-plain-buttons.css'
 import '../styles/classes.scss'

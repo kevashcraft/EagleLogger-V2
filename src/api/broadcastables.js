@@ -8,7 +8,8 @@ export default {
     reopen: {data: 'id'}
   },
   NetTypes: {
-    create: {}
+    create: {},
+    update: {}
   },
   Checkins: {
     create: {data: 'netId'},

@@ -1,11 +1,11 @@
 <template>
-  <v-card color="blue" style="margin-top: 48px">
+  <v-card color="blue">
     <v-card-text>
       <v-card>
         <v-card-text>
           <v-list style="max-height: 250px; overflow-y: auto">
             <template v-for="netType in netTypes">
-              <v-list-tile :key="netType.id">
+              <v-list-tile :key="netType.id" @click="$root.page.$refs.NetTypeDialog.open({action: 'update', netTypeId: netType.id})">
                 <v-list-tile-content>
                   <v-list-tile-title v-text="netType.name"></v-list-tile-title>
                   <v-list-tile-sub-title v-text="netType.desription"></v-list-tile-sub-title>
@@ -33,6 +33,9 @@
     },
     mounted () {
       this.list()
+    },
+    beforeDestroy () {
+      this.$root.$off('NetTypesUpdated')
     },
     methods: {
       list () {

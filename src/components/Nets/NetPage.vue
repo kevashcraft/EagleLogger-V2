@@ -8,7 +8,10 @@
             <v-list-tile :key="checkin.id" class="item" @dblclick="$refs.CallsignDialog.open(checkin.callsignId)">
               <v-list-tile-content>
                 <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-text="checkin.subtitle"></v-list-tile-sub-title>
+                <v-list-tile-sub-title>
+                  <span>{{ checkin.subtitle }}</span>
+                  <a :href="'mailto:' + checkin.email" v-show="checkin.email">email</a>
+                </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-menu left
                 class="menu"

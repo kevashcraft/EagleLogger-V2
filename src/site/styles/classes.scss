@@ -1,3 +1,23 @@
+.capitalize {
+  text-transform: capitalize;
+}
+
 .flex-center {
   justify-content: space-around
+}
+
+.shepherd-theme-arrows {
+  font-family: Roboto, sans-serif !important;
+}
+
+.shepherd-theme-arrows header {
+  background: #1565C0 !important;
+  color: #fff !important;
+}
+.shepherd-theme-arrows header h3 {
+  font-weight: 500 !important;
+}
+
+.shepherd-theme-arrows .shepherd-button {
+  line-height: 18px !important;
 }
