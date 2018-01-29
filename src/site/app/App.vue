@@ -86,9 +86,16 @@
           </v-list-tile>
         </router-link>
       </v-list>
-      <v-card style="margin-top: 10px;" v-show="token.authed" class="grey darken-4">
-        <v-card-text class="flex-center" style="display: flex">
-          <v-btn color="orange white--text" @click="walkthrough"><v-icon left>mdi-walk</v-icon>Walkthrough</v-btn>
+      <v-card style="margin-top: 10px;" class="grey darken-4">
+        <v-card-text>
+          <v-layout row wrap>
+            <v-flex xs12 class="flex-center">
+              <v-btn color="orange white--text" @click="walkthrough"><v-icon left>mdi-walk</v-icon>Walkthrough</v-btn>
+            </v-flex>
+            <v-flex xs12 class="flex-center" style="margin: 15px" v-show="token.authed">
+              <v-btn color="blue lighten-2 white--text" @click="$refs.FeedbackDialog.open()"><v-icon left>mdi-help-network</v-icon>Feedback/Support</v-btn>
+            </v-flex>
+          </v-layout>
         </v-card-text>
       </v-card>
     </v-navigation-drawer>
@@ -104,6 +111,7 @@
         <router-view name="page"></router-view>
       </transition>
     </v-content>
+    <feedback-dialog ref="FeedbackDialog"></feedback-dialog>
     <user-reset-password-dialog ref="UserResetPasswordDialog"></user-reset-password-dialog>
     <user-sign-up-dialog ref="UserSignUpDialog"></user-sign-up-dialog>
     <user-settings-dialog ref="UserSettingsDialog"></user-settings-dialog>
@@ -160,6 +168,7 @@
 
 <script>
   import AuthLoginDialog from '@/components/Auth/AuthLoginDialog'
+  import FeedbackDialog from '@/components/Feedback/FeedbackDialog'
   import UserResetPasswordDialog from '@/components/Users/UserResetPasswordDialog'
   import UserSettingsDialog from '@/components/Users/UserSettingsDialog'
   import UserSignUpDialog from '@/components/Users/UserSignUpDialog'
@@ -171,6 +180,7 @@
   export default {
     components: {
       AuthLoginDialog,
+      FeedbackDialog,
       UserResetPasswordDialog,
       UserSettingsDialog,
       UserSignUpDialog

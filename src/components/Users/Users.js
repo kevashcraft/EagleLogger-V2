@@ -38,9 +38,7 @@ exports.create = async (req) => {
     ${link}
 
 
-    73,
-
-    --EagleLogger
+    73 de EagleLogger
   `
   // Mail.create({to, subject, message, html})
 
