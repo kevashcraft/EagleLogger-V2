@@ -15,7 +15,14 @@ exports.list = async (req) => {
 }
 
 exports.retrieve = async (req) => {
-  return CallsignsModel.retrieve(req.callsignId)
+  let callsign = await CallsignsModel.retrieve(req.callsignId)
+  let titles = await CallsignsModel.retrieveTitles(req.callsignId)
+  callsign.titleIds = titles.map(title => title.titleId)
+  return callsign
+}
+
+exports.retrieveTitles = async (req) => {
+  return CallsignsModel.retrieveTitles(req.callsignId)
 }
 
 exports.search = async (req) => {
@@ -32,6 +39,37 @@ exports.update = async (req) => {
   if (!(await auth(req))) return false
   let fields = {
     name: req.name
+  }
+
+  await exports.updateTitles(req)
+  return CallsignsModel.update(req.id, fields)
+}
+
+exports.updateTitles = async (req) => {
+  if (!(await auth(req))) return false
+  let titles = await CallsignsModel.retrieveTitles(req.id)
+  let titleIds = titles.map(title => title.titleId)
+
+  req.titleIds.forEach(async titleId => {
+    if (titleIds.indexOf(titleId) < 0) {
+      await CallsignsModel.createTitle(req.id, titleId)
+    }
+  })
+
+  titleIds.forEach(async titleId => {
+    if (req.titleIds.indexOf(titleId) < 0) {
+      await CallsignsModel.deleteTitle(req.id, titleId)
+    }
+  })
+
+  return true
+}
+
+exports.upgrade = async (req) => {
+  if (!(await auth(req))) return false
+
+  let fields = {
+    ncs: true
   }
 
   return CallsignsModel.update(req.id, fields)

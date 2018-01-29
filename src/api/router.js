@@ -4,6 +4,7 @@ import Chat from '../components/Chat/Chat'
 import Checkins from '../components/Checkins/Checkins'
 import Nets from '../components/Nets/Nets'
 import NetTypes from '../components/NetTypes/NetTypes'
+import Titles from '../components/Titles/Titles'
 import Users from '../components/Users/Users'
 
 export default {
@@ -13,5 +14,6 @@ export default {
   Checkins,
   Nets,
   NetTypes,
+  Titles,
   Users
 }

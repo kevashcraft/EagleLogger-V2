@@ -17,10 +17,10 @@ exports.find = async (callsignId) => {
       users.id,
       users.callsign_id,
       users.email,
-      users.ncs,
       users.password_hash,
       COALESCE(users.name, callsigns.name) as name,
       callsigns.spotter_id,
+      callsigns.ncs,
       callsigns.callsign
     FROM users
     JOIN callsigns ON callsigns.id = users.callsign_id
@@ -37,10 +37,10 @@ exports.retrieve = async (id) => {
       users.id,
       users.callsign_id,
       users.email,
-      users.ncs,
       users.password_hash,
       COALESCE(users.name, callsigns.name) as name,
       callsigns.spotter_id,
+      callsigns.ncs,
       callsigns.callsign
     FROM users
     JOIN callsigns ON callsigns.id = users.callsign_id

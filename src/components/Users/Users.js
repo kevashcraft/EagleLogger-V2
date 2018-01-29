@@ -113,18 +113,3 @@ exports.update = async (req) => {
 
   return UsersModel.retrieve(req.id)
 }
-
-exports.upgrade = async (req) => {
-  let user = false
-  let token = await AuthModel.retrieve(req.token.userId, req.token.code)
-  if (token) user = await UsersModel.retrieve(token.userId)
-  if (!(user && user.ncs)) return false
-
-  user = await UsersModel.find(req.id)
-
-  let fields = {
-    ncs: true
-  }
-
-  return UsersModel.update(user.id, fields)
-}

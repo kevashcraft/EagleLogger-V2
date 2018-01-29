@@ -43,7 +43,9 @@
         this.callsign = callsign
       },
       upgrade () {
-        this.$root.req('Users:upgrade', this.callsign).then(response => {
+        console.log('upgrading!')
+        this.$root.req('Callsigns:upgrade', this.callsign).then(response => {
+          console.log('upgraded!')
           this.close()
           this.$store.dispatch('snackbar', {text: `${this.callsign.callsign} has been made an NCS.`})
         })

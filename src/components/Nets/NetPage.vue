@@ -36,10 +36,10 @@
       <chat-box :net-id="net.id"></chat-box>
     </div>
     <callsign-dialog ref="CallsignDialog"></callsign-dialog>
+    <callsign-ncs-dialog ref="CallsignNcsDialog"></callsign-ncs-dialog>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
     <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
     <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
-    <user-ncs-dialog ref="UserNcsDialog"></user-ncs-dialog>
   </v-container>
 </template>
 
@@ -84,11 +84,11 @@
 <script>
   import Page from '@/components/Mixins/Page'
   import CallsignDialog from '../Callsigns/CallsignDialog'
+  import CallsignNcsDialog from '../Callsigns/CallsignNcsDialog'
   import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
   import NetReopenDialog from './NetReopenDialog'
   import NetStopDialog from './NetStopDialog'
-  import UserNcsDialog from '../Users/UserNcsDialog'
 
   import { mapState } from 'vuex'
 
@@ -105,7 +105,7 @@
       },
       ...mapState(['net', 'token'])
     },
-    components: { CallsignDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog, UserNcsDialog },
+    components: { CallsignDialog, CallsignNcsDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
     created () {
       if (!this.net) {
         this.$store.commit('netSet', {})

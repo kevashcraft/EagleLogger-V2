@@ -12,6 +12,7 @@ CREATE TABLE callsigns (
   phone varchar(16),
   address varchar(256),
   spotter_id varchar(16),
+  ncs boolean DEFAULT false NOT NULL,
   zip_code_id int REFERENCES zip_codes (id),
   valid_start date,
   valid_end date,

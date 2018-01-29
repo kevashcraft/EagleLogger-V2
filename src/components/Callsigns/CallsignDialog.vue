@@ -16,8 +16,18 @@
             mask="AAA-###nn"
             v-model="callsign.spotterId"
           ></v-text-field>
+          <v-select
+            label="Official Positions"
+            chips
+            multiple
+            :items="titles"
+            item-text="title"
+            item-value="id"
+            hint="Select official positions"
+            v-model="callsign.titleIds"
+          ></v-select>
           <v-layout justify-center v-show="!callsign.ncs">
-            <v-btn class="blue--text" flat v-show="!callsign.ncs" @click="$root.page.$refs.UserNcsDialog.open(callsign)"><v-icon left>mdi-key-plus</v-icon> Make NCS</v-btn>
+            <v-btn class="blue--text" flat v-show="!callsign.ncs" @click="$root.page.$refs.CallsignNcsDialog.open(callsign)"><v-icon left>mdi-key-plus</v-icon> Make NCS</v-btn>
           </v-layout>
           <v-layout justify-space-between>
             <v-btn flat left @click="close">close</v-btn>
@@ -59,11 +69,16 @@
     mixins: [Dialog],
     data () {
       return {
-        callsign: {}
+        callsign: {
+          titleIds: [],
+          ncs: true
+        },
+        titles: []
       }
     },
     created () {
       this.callsignEmpty = JSON.stringify(this.callsign)
+      this.listTitles()
     },
     methods: {
       afterOpen (callsignId) {
@@ -73,6 +88,11 @@
       },
       clear () {
         this.callsign = JSON.parse(this.callsignEmpty)
+      },
+      listTitles () {
+        this.$root.req('Titles:list', {}).then(response => {
+          this.titles = response
+        })
       },
       retrieve (callsignId) {
         this.$root.req('Callsigns:retrieve', {callsignId}).then(response => {

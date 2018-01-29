@@ -1,5 +1,30 @@
 import Model from '../Model/Model'
 
+exports.createTitle = async (callsignId, titleId) => {
+  let sql = `
+    INSERT INTO callsign_titles (callsign_id, title_id)
+    VALUES ($1, $2)
+    ON CONFLICT (callsign_id, title_id) DO UPDATE SET deleted = false
+    RETURNING id
+  `
+  let bind = [callsignId, titleId]
+
+  return Model.query(sql, bind, true, true)
+}
+
+exports.deleteTitle = async (callsignId, titleId) => {
+  let sql = `
+    UPDATE callsign_titles
+    SET deleted = true
+    WHERE callsign_id = $1
+      AND title_id = $2
+  `
+
+  let bind = [callsignId, titleId]
+
+  return Model.run(sql, bind)
+}
+
 exports.find = async (callsign) => {
   let sql = `
     SELECT * FROM callsigns
@@ -25,15 +50,26 @@ exports.list = async (deleted) => {
 exports.retrieve = async (id) => {
   let sql = `
     SELECT
-      callsigns.*,
-      users.ncs
+      callsigns.*
     FROM callsigns
-    LEFT JOIN users ON users.callsign_id = callsigns.id
     WHERE callsigns.id = $1
   `
   let bind = [id]
 
   return Model.query(sql, bind, true)
+}
+
+exports.retrieveTitles = async (id) => {
+  let sql = `
+    SELECT
+      callsign_titles.*
+    FROM callsign_titles
+    WHERE callsign_titles.callsign_id = $1
+      AND NOT callsign_titles.deleted
+  `
+  let bind = [id]
+
+  return Model.query(sql, bind)
 }
 
 exports.search = async (query, queryString) => {
