@@ -22,6 +22,22 @@
             type="number"
             v-model="netType.frequency"
           ></v-text-field>
+          <v-layout v-show="!deleteConfirm">
+            <v-btn flat @click="deleteConfirm = true">
+              <v-icon left>mdi-delete</v-icon>
+              <span>Delete Net Type</span>
+            </v-btn>
+          </v-layout>
+          <v-layout justify-space-around v-show="deleteConfirm">
+            <v-btn @click="deleteConfirm = false" v-show="deleteConfirm" color="green">
+              <v-icon left>mdi-cancel</v-icon>
+              <span>Cancel</span>
+            </v-btn>
+            <v-btn @click="updateDelete" v-show="deleteConfirm" color="red">
+              <v-icon left>mdi-delete</v-icon>
+              <span>Delete</span>
+            </v-btn>
+          </v-layout>
           <v-layout justify-space-between>
             <v-btn flat left @click="close">close</v-btn>
             <v-btn type="submit" class="capitalize" color="primary">
@@ -43,6 +59,7 @@
     data () {
       return {
         action: 'Create',
+        deleteConfirm: false,
         netType: {
           name: null,
           startTime: null,
@@ -55,6 +72,7 @@
     },
     methods: {
       afterOpen ({action, netTypeId}) {
+        this.deleteConfirm = false
         this.action = action
         if (action === 'update') {
           this.retrieve(netTypeId)
@@ -82,6 +100,12 @@
       update () {
         this.$root.req('NetTypes:update', this.netType).then(response => {
           this.$store.dispatch('snackbar', {text: `${this.netType.name} has been updated.`})
+          this.close()
+        })
+      },
+      updateDelete () {
+        this.$root.req('NetTypes:delete', this.netType).then(response => {
+          this.$store.dispatch('snackbar', {text: `${this.netType.name} has been deleted.`})
           this.close()
         })
       }

@@ -4,11 +4,13 @@ export default {
   },
   Nets: {
     create: {},
+    delete: {},
     stop: {data: 'id'},
     reopen: {data: 'id'}
   },
   NetTypes: {
     create: {},
+    delete: {},
     update: {}
   },
   Checkins: {

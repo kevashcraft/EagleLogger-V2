@@ -17,9 +17,9 @@ exports.create = async (req) => {
 
 exports.delete = async (req) => {
   if (!(await auth(req))) return false
-  req.fields = { deleted: true }
+  let fields = { deleted: true }
 
-  NetTypesModel.update(req)
+  NetTypesModel.update(req.id, fields)
 }
 
 exports.list = async (req) => {
