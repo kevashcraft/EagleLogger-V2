@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="height: 100%; padding: 0" class="net-page">
     <div class="flex-container">
-      <div>
+      <div class="shepherd-net-checkins">
         <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 100px; line-height: 50px; margin-top: -50px; text-align: center; opacity: 0.1">{{ net.name }}<br><small>{{ checkinCount }} checkins</small></p>
         <v-list class="list" ref="list">
           <template v-for="checkin, index in checkins">
@@ -36,7 +36,7 @@
           <v-icon dark>mdi-account-check</v-icon>
         </v-btn>
       </div>
-      <chat-box :net-id="net.id"></chat-box>
+      <chat-box :net-id="net.id" class="shepherd-net-chat"></chat-box>
     </div>
     <callsign-dialog ref="CallsignDialog"></callsign-dialog>
     <callsign-ncs-dialog ref="CallsignNcsDialog"></callsign-ncs-dialog>

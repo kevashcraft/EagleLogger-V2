@@ -46,7 +46,7 @@
       </v-card>
       <v-list dense class="main-menu" style="flex: 1" two-line>
         <router-link to="/" :class="{'current-page': $route.path === '/'}">
-          <v-list-tile @click="">
+          <v-list-tile @click="closeNavDrawer">
             <v-list-tile-action>
               <v-icon>mdi-home</v-icon>
             </v-list-tile-action>
@@ -56,7 +56,7 @@
           </v-list-tile>
         </router-link>
         <router-link to="/net-types" :class="{'current-page': $route.path === '/net-types'}" v-show="user.ncs" class="wt">
-          <v-list-tile @click="">
+          <v-list-tile @click="closeNavDrawer">
             <v-list-tile-action>
               <v-icon>mdi-playlist-minus</v-icon>
             </v-list-tile-action>
@@ -66,7 +66,7 @@
           </v-list-tile>
         </router-link>
         <router-link to="/nets" :class="{'current-page': $route.path.substring(0,5) === '/nets'}">
-          <v-list-tile @click="">
+          <v-list-tile @click="closeNavDrawer">
             <v-list-tile-action>
               <v-icon>mdi-playlist-check</v-icon>
             </v-list-tile-action>
@@ -76,7 +76,7 @@
           </v-list-tile>
         </router-link>
         <router-link to="/about" :class="{'current-page': $route.path === '/about'}">
-          <v-list-tile @click="">
+          <v-list-tile @click="closeNavDrawer">
             <v-list-tile-action>
               <v-icon>mdi-information-outline</v-icon>
             </v-list-tile-action>
@@ -176,6 +176,7 @@
 
   import { mapState } from 'vuex'
   import Shepherd from 'tether-shepherd'
+  import walkthrough from './walkthrough'
 
   export default {
     components: {
@@ -210,46 +211,19 @@
         }
       })
 
-      this.tour.addStep('Home', {
-        title: 'EagleLogger Walkthrough',
-        text: "Welcome to EagleLogger! Let's walk through the basics.",
-        attachTo: '.wt-testing bottom',
-        advanceOn: '.docs-link click',
-        buttons: [
-          {
-            text: 'Next',
-            action: () => {
-              this.$router.push('/nets')
-              setTimeout(() => {
-                this.tour.next()
-              }, 500)
-            }
-          }
-        ]
-      })
-      this.tour.addStep('Nets', {
-        title: 'Net Lists',
-        text: "Welcome to EagleLogger! Let's walk through the basics.",
-        attachTo: '.wt-testing bottom',
-        advanceOn: '.docs-link click',
-        buttons: [
-          {
-            text: 'Next',
-            action: () => {
-              this.$router.push('/nets')
-                this.tour.next()
-              // setTimeout(() => {
-              // }, 500)
-            }
-          }
-        ]
-      })
+      walkthrough(this)
     },
     methods: {
+      closeNavDrawer () {
+        if (window.innerWidth < 1264) {
+          this.drawer = false
+        }
+      },
       dialog (ref) {
         this.$refs[ref].open()
       },
       walkthrough () {
+        this.closeNavDrawer()
         let currentPage = this.$route.path
         this.$router.push(`/`)
         this.tour.on('complete', () => {this.$router.push(currentPage)})

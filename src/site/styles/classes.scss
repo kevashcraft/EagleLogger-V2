@@ -7,17 +7,34 @@
   justify-content: space-around
 }
 
+.shepherd-content {
+  background: rgba(0, 0, 0, 0.85) !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.shepherd-element-attached-top .shepherd-content::before {
+  border-bottom-color: rgba(255, 200, 8, 0.8) !important;
+}
+
+.shepherd-element-attached-bottom .shepherd-content::before {
+  border-top-color: rgba(255, 200, 8, 0.8) !important;
+}
+
+.shepherd-text::first-letter {
+  color: lighten(rgba(21, 101, 192, 1.0), 25%) !important;
+}
 
 .shepherd-theme-arrows {
   font-family: Roboto, sans-serif !important;
 }
 
 .shepherd-theme-arrows header {
-  background: #1565C0 !important;
+  background: rgba(21, 101, 192, 1.0) !important;
   color: #fff !important;
 }
 .shepherd-theme-arrows header h3 {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .shepherd-theme-arrows .shepherd-button {
