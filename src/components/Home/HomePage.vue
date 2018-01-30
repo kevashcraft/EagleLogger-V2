@@ -2,34 +2,49 @@
   <v-container fluid style="height: 100%; padding: 0; overflow-y: scroll">
     <v-layout row justify-space-around style="padding: 20px 0; height: 100px">
       <v-flex xs11 md8>
-        <v-card flat color="blue darken-3" class="v-card-parent">
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 15px">
           <v-card-text>
             <v-card class="v-card-child">
-              <v-card-title class="shepherd-welcome"><h3>EagleLogger Testing </h3></v-card-title>
+              <v-card-title class="shepherd-welcome"><h3>Welcome to EagleLogger</h3></v-card-title>
               <v-card-text>
-                <p>Welcome to EagleLgoger and thanks for testing out the program!</p>
-                <p>You can <a href="/nets/1" style="text-decoration: none"><v-btn color="orange white--text"><v-icon>mdi-email</v-icon>Join the EagleNet</v-btn></a> here or sign up for a temporary account.</p>
-                <p>Please <a href="mailto:app@eaglelogger.com" style="text-decoration: none"><v-btn color="primary"><v-icon>mdi-email</v-icon>Email Me</v-btn></a> if you have any issues or good ideas.</p>
+                <p>EagleLogger is an <strong>amateur radio net logging application</strong> built for the <a href="http://www.arrlwcf.org" target="_blank" rel="noreferrer noopener">WCF section</a> of the ARRL.</p>
+                <p><strong>Quick Links</strong></p>
+                <v-layout wrap row justify-space-between>
+                  <v-flex xs3>
+                    <a @click="$router.push('/nets')">
+                      <v-btn color="primary">
+                        <v-icon left>mdi-format-list-bulleted-type</v-icon>
+                        <span>Active Nets</span>
+                      </v-btn>
+                    </a>
+                  </v-flex>
+                  <v-flex xs3>
+                    <v-btn color="orange" @click="$app.walkthrough()">
+                      <v-icon left>mdi-walk</v-icon>
+                      <span>Walkthrough</span>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex xs3>
+                    <v-btn color="primary" @click="$app.$refs.UserSignUpDialog.open()">
+                      <v-icon left>mdi-account-plus</v-icon>
+                      <span>Sign up!</span>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+                <p style="margin-top: 15px"><strong>Initial Release</strong></p>
+                <p>This is the initial release of the program ({{appVersion}}), so if you find a bug or have a good idea to add, please <a @click="$app.$refs.FeedbackDialog.open()">send some feedback</a>.</p>
+                <p v-show="!isCordova && isAndroid"><a href="https://play.google.com/store/apps/details?id=com.eaglelogger.app" target="_blank" rel="noreferrer noopener">Checkout the App!</a></p>
+                <p>Thanks for visiting and <strong>enjoy the net</strong>!</p>
               </v-card-text>
             </v-card>
           </v-card-text>
         </v-card>
-        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 35px">
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 35px; margin-bottom: 35px" id="active-nets">
           <v-card-text>
             <v-card class="v-card-child">
-              <v-card-title><h3>Welcome to EagleLogger</h3></v-card-title>
-              <v-card-text>
-                <p>EagleLogger is an amateur radio net logging application built for the <a href="http://www.arrlwcf.org" target="_blank" rel="noreferrer noopener">WCF section</a> of the ARRL.</p>
-                <p>This is the beta version of the program ({{appVersion}}) and there are still a few bugs to be worked out. If you find a bug or have a good idea for a new feature, please email it to <a href="mailto:app@eaglelogger.com">app@eaglelogger.com</a>.</p>
-                <p>Thanks for visiting and enjoy the net!</p>
-              </v-card-text>
-            </v-card>
-          </v-card-text>
-        </v-card>
-        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 35px; margin-bottom: 35px">
-          <v-card-text>
-            <v-card class="v-card-child">
-              <v-card-title><h3>Active Nets</h3></v-card-title>
+              <v-card-title>
+                <h3 class="red--text">Active Nets <small class="black--text" style="font-weight: normal">(click on a net to open it)</small></h3>
+              </v-card-title>
               <v-card-text>
                 <nets-list class="shepherd-active-nets"></nets-list>
               </v-card-text>
@@ -49,7 +64,9 @@
     mixins: [Page],
     data () {
       return {
-        appVersion: APP_VERSION
+        appVersion: APP_VERSION,
+        isCordova: CORDOVA,
+        isAndroid: /(android)/i.test(navigator.userAgent)
       }
     },
     components: {

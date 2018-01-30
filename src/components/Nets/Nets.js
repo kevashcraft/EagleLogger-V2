@@ -44,7 +44,7 @@ exports.list = async (req) => {
     nets = []
 
     if (activeNets.length) {
-      nets.push({header: 'Active Nets'})
+      nets.push({header: '<span class="red--text">Active Nets</span>'})
       nets = nets.concat(activeNets)
     }
 
