@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="height: 100%; padding: 0; overflow-y: scroll">
-    <v-layout row justify-space-around style="padding: 20px 0; height: 100px">
-      <v-flex xs12 md8 lg6>
+    <v-layout row wrap justify-space-around style="padding: 20px 0; height: 100px">
+      <v-flex xs12 md8>
         <v-card>
           <v-card-title>
             <h3 class="headline">Radio Nets</h3>
@@ -12,21 +12,26 @@
             </p>
           </v-card-text>
         </v-card>
-        <v-card style="margin-top: 48px">
-          <v-card-title>
-            <v-layout center-align>
-              <h3>List of Nets <small style="font-weight: normal">(click on a net to open it)</small></h3>
-            </v-layout>
-          </v-card-title>
+      </v-flex>
+      <v-flex xs11 md8>
+        <v-card flat color="blue darken-3" class="v-card-parent shepherd-nets-list" style="margin-top: 35px; margin-bottom: 35px">
           <v-card-text>
-
-            <nets-list ref="NetList" all></nets-list>
+            <v-card class="v-card-child">
+              <v-card-title>
+                <v-layout center-align>
+                  <h3>List of Nets <small style="font-weight: normal">(click on a net to open it)</small></h3>
+                </v-layout>
+              </v-card-title>
+              <v-card-text>
+                <nets-list ref="NetList" all></nets-list>
+              </v-card-text>
+            </v-card>
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
     <net-start-dialog ref="NetStartDialog" @update="$refs.NetList.list()"></net-start-dialog>
-    <v-btn fab absolute bottom right @click="$refs.NetTypeDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px">
+    <v-btn fab absolute bottom right color="orange" @click="$refs.NetStartDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
   </v-container>

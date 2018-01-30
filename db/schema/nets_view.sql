@@ -16,7 +16,7 @@ CREATE VIEW nets_view AS
     net_types.nts,
     net_types.skywarn,
     net_types.name ||
-      COALESCE(' (' || net_types.frequency || ')', '') ||
+      COALESCE(' (' || net_types.frequency || 'MHz)', '') ||
       COALESCE(' - ' || TO_CHAR(nets.started, 'Dy, Mon fmDDth @ HH24:MI'), '')
       as title,
     net_types.description ||

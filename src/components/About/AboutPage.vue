@@ -1,8 +1,8 @@
 <template>
   <v-container fluid style="height: 100%; padding: 0; overflow-y: scroll">
     <v-layout row justify-space-around style="padding: 20px 0; height: 100px">
-      <v-flex xs12 md8 lg6>
-        <v-card flat color="blue" class="v-card-parent">
+      <v-flex xs11 md8 lg6>
+        <v-card flat color="blue darken-3" class="v-card-parent">
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title><h3>About EagleLogger</h3></v-card-title>
@@ -14,7 +14,7 @@
             </v-card>
           </v-card-text>
         </v-card>
-        <v-card flat color="blue" class="v-card-parent" style="margin-top: 50px; margin-bottom: 50px">
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 50px; margin-bottom: 50px">
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title><h3>Quick Stats</h3></v-card-title>
@@ -28,7 +28,7 @@
             </v-card>
           </v-card-text>
         </v-card>
-        <v-card flat color="blue" class="v-card-parent" style="margin-top: 50px; margin-bottom: 50px">
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 50px; margin-bottom: 50px">
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title><h3>Road Map</h3></v-card-title>

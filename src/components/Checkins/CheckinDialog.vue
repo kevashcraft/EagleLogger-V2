@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="opened" max-width="450px">
-    <v-card>
+    <v-card class="shepherd-net-checkin">
       <v-card-title class="title flex-center">Checkin</v-card-title>
       <v-card-text>
         <v-select

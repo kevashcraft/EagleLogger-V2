@@ -62,8 +62,6 @@
     },
     methods: {
       afterOpen () {
-        this.clear()
-        console.log('this.$refs.autofocus', this.$refs.autofocus)
         this.$nextTick(this.$refs.autofocus.focus)
       },
       clear () {
@@ -72,6 +70,7 @@
       create () {
         this.feedback.page = this.$route.path
         this.$root.req('Feedback:create', this.feedback).then(response => {
+          this.clear()
           this.$store.dispatch('snackbar', {text: "Thanks! We'll be in touch."})
           this.close()
         })

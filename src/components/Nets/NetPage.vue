@@ -32,7 +32,7 @@
             </v-list-tile>
           </template>
         </v-list>
-        <v-btn dark fab absolute bottom right @click="$refs.CheckinDialog.open()" v-show="!net.stopped && net.ncsId === token.userId">
+        <v-btn dark fab absolute bottom right color="orange" @click="$refs.CheckinDialog.open()" v-show="(!net.stopped && net.ncsId === token.userId) || walkingthrough" class="shepherd-net-checkin-btn">
           <v-icon dark>mdi-account-check</v-icon>
         </v-btn>
       </div>
@@ -41,6 +41,7 @@
     <callsign-dialog ref="CallsignDialog"></callsign-dialog>
     <callsign-ncs-dialog ref="CallsignNcsDialog"></callsign-ncs-dialog>
     <checkin-dialog ref="CheckinDialog" :net-id="net.id"></checkin-dialog>
+    <net-delete-dialog ref="NetDeleteDialog"></net-delete-dialog>
     <net-stop-dialog ref="NetStopDialog"></net-stop-dialog>
     <net-reopen-dialog ref="NetReopenDialog"></net-reopen-dialog>
   </v-container>
@@ -90,6 +91,7 @@
   import CallsignNcsDialog from '../Callsigns/CallsignNcsDialog'
   import ChatBox from '../Chat/ChatBox'
   import CheckinDialog from '../Checkins/CheckinDialog'
+  import NetDeleteDialog from './NetDeleteDialog'
   import NetReopenDialog from './NetReopenDialog'
   import NetStopDialog from './NetStopDialog'
 
@@ -99,7 +101,8 @@
     mixins: [Page],
     data () {
       return {
-        checkins: []
+        checkins: [],
+        walkingthrough: false
       }
     },
     computed: {
@@ -108,7 +111,15 @@
       },
       ...mapState(['net', 'token'])
     },
-    components: { CallsignDialog, CallsignNcsDialog, ChatBox, CheckinDialog, NetReopenDialog, NetStopDialog },
+    components: {
+      CallsignDialog,
+      CallsignNcsDialog,
+      ChatBox,
+      CheckinDialog,
+      NetDeleteDialog,
+      NetReopenDialog,
+      NetStopDialog
+    },
     created () {
       if (!this.net) {
         this.$store.commit('netSet', {})
@@ -125,6 +136,7 @@
       })
     },
     mounted () {
+      this.walkingthrough = false
       this.net.id = parseInt(this.$route.params.id)
       this.retrieveNet(true)
     },

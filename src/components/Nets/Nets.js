@@ -29,7 +29,7 @@ exports.delete = async (req) => {
 
   let fields = { deleted: true }
 
-  NetsModel.update(req.id, fields)
+  return NetsModel.update(req.id, fields)
 }
 
 exports.list = async (req) => {

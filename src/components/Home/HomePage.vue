@@ -1,8 +1,8 @@
 <template>
   <v-container fluid style="height: 100%; padding: 0; overflow-y: scroll">
     <v-layout row justify-space-around style="padding: 20px 0; height: 100px">
-      <v-flex xs12 md8>
-        <v-card flat color="blue" class="v-card-parent">
+      <v-flex xs11 md8>
+        <v-card flat color="blue darken-3" class="v-card-parent">
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title class="shepherd-welcome"><h3>EagleLogger Testing </h3></v-card-title>
@@ -14,7 +14,7 @@
             </v-card>
           </v-card-text>
         </v-card>
-        <v-card flat color="blue" class="v-card-parent">
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 35px">
           <v-card-text>
             <v-card class="v-card-child">
               <v-card-title><h3>Welcome to EagleLogger</h3></v-card-title>
@@ -26,7 +26,16 @@
             </v-card>
           </v-card-text>
         </v-card>
-        <nets-list style="margin-bottom: 50px" class="shepherd-active-nets"></nets-list>
+        <v-card flat color="blue darken-3" class="v-card-parent" style="margin-top: 35px; margin-bottom: 35px">
+          <v-card-text>
+            <v-card class="v-card-child">
+              <v-card-title><h3>Active Nets</h3></v-card-title>
+              <v-card-text>
+                <nets-list class="shepherd-active-nets"></nets-list>
+              </v-card-text>
+            </v-card>
+          </v-card-text>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>

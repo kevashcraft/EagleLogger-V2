@@ -7,6 +7,10 @@
   justify-content: space-around
 }
 
+.shepherd-step {
+  z-index: 300;
+}
+
 .shepherd-content {
   background: rgba(0, 0, 0, 0.85) !important;
   color: white !important;
@@ -14,24 +18,29 @@
 }
 
 .shepherd-element-attached-top .shepherd-content::before {
-  border-bottom-color: rgba(255, 200, 8, 0.8) !important;
+  // border-bottom-color: rgba(255, 200, 8, 0.8) !important;
+  border-bottom-color: rgb(255, 152, 0) !important;
 }
 
 .shepherd-element-attached-bottom .shepherd-content::before {
-  border-top-color: rgba(255, 200, 8, 0.8) !important;
+  // border-top-color: rgba(255, 200, 8, 0.8) !important;
+  border-top-color: rgb(255, 152, 0) !important;
 }
 
-.shepherd-text::first-letter {
-  color: lighten(rgba(21, 101, 192, 1.0), 25%) !important;
-}
+// .shepherd-text::first-letter {
+//   color: lighten(rgba(21, 101, 192, 1.0), 25%) !important;
+// }
 
 .shepherd-theme-arrows {
   font-family: Roboto, sans-serif !important;
 }
 
 .shepherd-theme-arrows header {
-  background: rgba(21, 101, 192, 1.0) !important;
+  // background: rgba(21, 101, 192, 1.0) !important;
+  // background: rgba(255, 200, 8, 1.0) !important;
+  background: rgb(255, 152, 0) !important;
   color: #fff !important;
+  // color: rgba(0, 0, 0, 0.8) !important;
 }
 .shepherd-theme-arrows header h3 {
   font-weight: 600 !important;
@@ -39,4 +48,5 @@
 
 .shepherd-theme-arrows .shepherd-button {
   line-height: 18px !important;
+  background: rgb(21, 101, 192) !important;
 }

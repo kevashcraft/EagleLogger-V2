@@ -10,6 +10,10 @@ CREATE VIEW net_types_view AS
     TO_CHAR(net_types.start_time, 'HH24:MI') as start_time,
     net_types.nts,
     net_types.skywarn,
+    net_types.name ||
+      COALESCE(' at ' || TO_CHAR(net_types.start_time, 'HH24:MI'), '') ||
+      COALESCE(' on ' || net_types.frequency || 'MHz', '')
+      as title,
     net_types.deleted
   FROM net_types
   ORDER BY net_types.name ASC

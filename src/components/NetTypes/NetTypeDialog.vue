@@ -11,8 +11,15 @@
             v-model="netType.name"
           ></v-text-field>
           <v-text-field
+            label="Start time"
+            placeholder="Net start time"
+            type="time"
+            v-model="netType.startTime"
+          ></v-text-field>
+          <v-text-field
             label="Frequency"
             placeholder="Net frequency"
+            type="number"
             v-model="netType.frequency"
           ></v-text-field>
           <v-layout justify-space-between>
@@ -38,6 +45,7 @@
         action: 'Create',
         netType: {
           name: null,
+          startTime: null,
           frequency: null
         }
       }

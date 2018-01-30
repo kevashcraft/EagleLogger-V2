@@ -81,7 +81,7 @@
             if (response.status) {
               this.$store.dispatch('login', {callsign: response.user.callsign, userId: response.user.id, code: response.code})
               this.$store.commit('userSet', response.user)
-              this.$store.dispatch('snackbar', {text: `Welcome to the net, ${this.user.callsign}!`})
+              this.$store.dispatch('snackbar', {text: `Welcome to the net <span class='orange--text'>${this.user.callsign}</span>!`})
               this.close()
             } else {
               this.$store.dispatch('snackbar', {text: `Invalid credentials.`})

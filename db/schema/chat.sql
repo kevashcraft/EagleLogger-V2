@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS chat;
+DROP TABLE IF EXISTS chat CASCADE;
 CREATE TABLE chat (
   id serial NOT NULL,
   created timestamp DEFAULT current_timestamp NOT NULL,

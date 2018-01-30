@@ -89,11 +89,22 @@
       <v-card style="margin-top: 10px;" class="grey darken-4">
         <v-card-text>
           <v-layout row wrap>
-            <v-flex xs12 class="flex-center">
+            <v-flex xs12 class="flex-center" v-show="!user.ncs">
               <v-btn color="orange white--text" @click="walkthrough"><v-icon left>mdi-walk</v-icon>Walkthrough</v-btn>
             </v-flex>
+            <v-flex xs2 class="flex-center" v-show="user.ncs">
+              <v-tooltip top>
+                <v-btn flat icon color="orange" @click="walkthrough" slot="activator">
+                  <v-icon>mdi-walk</v-icon>
+                </v-btn>
+                <span>Standard Walkthrough</span>
+              </v-tooltip>
+            </v-flex>
+            <v-flex xs10 class="flex-center" v-show="user.ncs">
+              <v-btn color="orange white--text" @click="walkthrough(true)"><v-icon left>mdi-microphone</v-icon>NCS Walkthrough</v-btn>
+            </v-flex>
             <v-flex xs12 class="flex-center" style="margin: 15px" v-show="token.authed">
-              <v-btn color="blue lighten-2 white--text" @click="$refs.FeedbackDialog.open()"><v-icon left>mdi-help-network</v-icon>Feedback/Support</v-btn>
+              <v-btn color="blue darken-3 white--text" @click="$refs.FeedbackDialog.open()"><v-icon left>mdi-help-network</v-icon>Feedback/Support</v-btn>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -119,7 +130,8 @@
     <v-snackbar
       top
       v-model="snackbarShow"
-    >{{ snackbarText }}</v-snackbar>
+      color="blue-grey darken-1"
+    ><span v-html="snackbarText" class="snackbar-text"></span></v-snackbar>
   </v-app>
 </template>
 
@@ -149,13 +161,19 @@
     color: white !important;
   }
   .current-page a {
-    color: #2196F3 !important;
+    color: rgb(21, 101, 192) !important;
   }
   .main-menu li > a:hover {
     background-color: rgba(255,255,255,.14) !important;
   }
   .main-menu li > a:hover i {
-    color: #2196F3 !important;
+    color: rgb(21, 101, 192) !important;
+  }
+  .main-menu .current-page li > a:hover {
+    background-color: initial !important;
+  }
+  .main-menu .current-page li > a:hover i {
+    color: white !important;
   }
   .main-menu i {
     font-size: 28px !important;
@@ -163,6 +181,9 @@
   }
   .main-menu li:hover a {
     /*color: blue !important;*/
+  }
+  .snackbar-text {
+
   }
 </style>
 
@@ -175,7 +196,6 @@
   import Vue from 'vue'
 
   import { mapState } from 'vuex'
-  import Shepherd from 'tether-shepherd'
   import walkthrough from './walkthrough'
 
   export default {
@@ -205,12 +225,6 @@
       Vue.prototype.$app = this
     },
     mounted () {
-      this.tour = new Shepherd.Tour({
-        defaults: {
-          classes: 'shepherd-theme-arrows'
-        }
-      })
-
       walkthrough(this)
     },
     methods: {
@@ -222,7 +236,7 @@
       dialog (ref) {
         this.$refs[ref].open()
       },
-      walkthrough () {
+      walkthrough (ncs = false) {
         this.closeNavDrawer()
         let currentPage = this.$route.path
         this.$router.push(`/`)
@@ -230,7 +244,11 @@
         this.tour.on('cancel', () => {this.$router.push(currentPage)})
 
         setTimeout(() => {
-          this.tour.start()
+          if (ncs) {
+            this.ncsTour.start()
+          } else {
+            this.tour.start()
+          }
         }, 500)
 
       }

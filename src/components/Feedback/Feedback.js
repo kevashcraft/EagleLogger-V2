@@ -22,6 +22,7 @@ exports.create = async (req) => {
 
     73 de EagleLogger
   `
+
   Mail.create({to, subject, message})
 
   return true
