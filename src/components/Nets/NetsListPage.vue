@@ -31,7 +31,7 @@
       </v-flex>
     </v-layout>
     <net-start-dialog ref="NetStartDialog" @update="$refs.NetList.list()"></net-start-dialog>
-    <v-btn fab absolute bottom right color="orange" @click="$refs.NetStartDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px">
+    <v-btn fab absolute bottom right color="orange" @click="$refs.NetStartDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px" v-show="user.ncs">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
   </v-container>

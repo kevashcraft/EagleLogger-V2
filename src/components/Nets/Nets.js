@@ -1,5 +1,6 @@
 import NetsModel from './NetsModel'
 import AuthModel from '../Auth/AuthModel'
+import UsersModel from '../Users/UsersModel'
 
 import moment from 'moment'
 
@@ -14,6 +15,7 @@ let auth = async (req) => {
 
 exports.create = async (req) => {
   if (!(await auth(req))) return false
+  let user = UsersModel.retrieve(req.token.userId)
 
   let started = moment()
   let timeArray = req.startTime.split(':')
@@ -21,7 +23,7 @@ exports.create = async (req) => {
   started.minute(timeArray[1])
   started.second(0)
   started.millisecond(0)
-  return NetsModel.create(req.netTypeId, req.token.userId, started)
+  return NetsModel.create(req.netTypeId, user.callsignId, started)
 }
 
 exports.delete = async (req) => {

@@ -9,22 +9,28 @@
               <v-card-text>
                 <p>EagleLogger is an <strong>amateur radio net logging application</strong> built for the <a href="http://www.arrlwcf.org" target="_blank" rel="noreferrer noopener">WCF section</a> of the ARRL.</p>
                 <p><strong>Quick Links</strong></p>
-                <v-layout wrap row justify-space-between>
-                  <v-flex xs3>
-                    <a @click="$router.push('/nets')">
+                <v-layout wrap row justify-space-around>
+                  <v-flex xs12 md3 class="flex-center">
+                    <a @click="$router.push('/nets')" >
                       <v-btn color="primary">
                         <v-icon left>mdi-format-list-bulleted-type</v-icon>
                         <span>Active Nets</span>
                       </v-btn>
                     </a>
                   </v-flex>
-                  <v-flex xs3>
+                  <v-flex xs12 md4 class="flex-center">
                     <v-btn color="orange" @click="$app.walkthrough()">
                       <v-icon left>mdi-walk</v-icon>
                       <span>Walkthrough</span>
                     </v-btn>
                   </v-flex>
-                  <v-flex xs3>
+                  <v-flex xs12 md4 class="flex-center" v-show="token.authed && user.ncs">
+                    <v-btn color="orange white--text" @click="$app.walkthrough()">
+                      <v-icon left>mdi-microphone</v-icon>
+                      <span>NCS Walkthrough</span>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex xs12 md3 class="flex-center" v-show="!token.authed">
                     <v-btn color="primary" @click="$app.$refs.UserSignUpDialog.open()">
                       <v-icon left>mdi-account-plus</v-icon>
                       <span>Sign up!</span>
@@ -60,6 +66,8 @@
   import Page from '@/components/Mixins/Page'
   import NetsList from '../Nets/NetsList.vue'
 
+  import { mapState } from 'vuex'
+
   export default {
     mixins: [Page],
     data () {
@@ -69,6 +77,7 @@
         isAndroid: /(android)/i.test(navigator.userAgent)
       }
     },
+    computed: mapState(['token', 'user']),
     components: {
       NetsList
     }

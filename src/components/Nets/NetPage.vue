@@ -5,7 +5,7 @@
         <p class="display-1" style="position: absolute; top: 50%; left: 50%; width: 300px; margin-left: -150px; height: 100px; line-height: 50px; margin-top: -50px; text-align: center; opacity: 0.1">{{ net.name }}<br><small>{{ checkinCount }} checkins</small></p>
         <v-list class="list" ref="list">
           <template v-for="checkin, index in checkins">
-            <v-list-tile :key="checkin.id" class="item" @dblclick="$refs.CallsignDialog.open(checkin.callsignId)">
+            <v-list-tile :key="checkin.id" class="item" @dblclick="callsignEdit(checkin.callsignId)">
               <v-list-tile-content>
                 <v-list-tile-title v-text="(index + 1) + ' - ' + checkin.title"></v-list-tile-title>
                 <v-list-tile-sub-title>
@@ -145,6 +145,10 @@
       this.$root.$off('CheckinsUpdated')
     },
     methods: {
+      callsignEdit (callsignId) {
+        if (this.net.ncsId === this.token.userId)
+          this.$refs.CallsignDialog.open(callsignId)
+      },
       deleteCheckin (id) {
         this.$root.req('Checkins:delete', {id, netId: this.net.id}).then(response => {
           this.retrieveCheckins()
