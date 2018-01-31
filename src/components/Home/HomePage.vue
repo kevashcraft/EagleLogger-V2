@@ -25,7 +25,7 @@
                     </v-btn>
                   </v-flex>
                   <v-flex xs12 md4 class="flex-center" v-show="token.authed && user.ncs">
-                    <v-btn color="orange white--text" @click="$app.walkthrough()">
+                    <v-btn color="orange white--text" @click="$app.walkthrough(true)">
                       <v-icon left>mdi-microphone</v-icon>
                       <span>NCS Walkthrough</span>
                     </v-btn>
