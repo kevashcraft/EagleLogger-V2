@@ -1,12 +1,14 @@
 import CheckinsModel from './CheckinsModel'
 import AuthModel from '../Auth/AuthModel'
 import NetsModel from '../Nets/NetsModel'
+import UsersModel from '../Users/UsersModel'
 
 let auth = async (req) => {
   let token = await AuthModel.retrieve(req.token.userId, req.token.code)
   if (!token) return false
+  let user = await UsersModel.retrieve(token.userId)
   let net = await NetsModel.retrieve(req.netId)
-  return (net.ncsId === token.userId)
+  return (net.ncsId === user.callsignId)
 }
 
 exports.create = async (req) => {

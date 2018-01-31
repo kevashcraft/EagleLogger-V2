@@ -2,7 +2,7 @@
   <v-menu bottom left
     transition="slide-y-transition"
     dark
-    v-show="net.ncsId === token.userId"
+    :style="{opacity: net.ncsId === user.callsignId ? 1 : 0}"
     >
     <v-btn icon slot="activator" dark>
       <v-icon>mdi-dots-vertical</v-icon>
@@ -34,6 +34,6 @@
   import { mapState } from 'vuex'
 
   export default {
-    computed: mapState(['net', 'token']),
+    computed: mapState(['net', 'user']),
   }
 </script>

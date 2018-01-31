@@ -54,8 +54,5 @@
       return {}
     },
     computed: mapState(['user']),
-    mounted () {
-      console.log('this.user.ncs', this.user.ncs)
-    }
   }
 </script>

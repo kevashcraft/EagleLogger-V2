@@ -5,7 +5,7 @@
       <v-card-text>
         <p class="body-1">
           To create an account, enter your callsign and a good password.<br>
-          An email will be sent to your <a href="http://www.arrl.org/e-mail-forwarding" target="_blank" rel="noreferrer noopener">ARRL email address</a> for confirmation.
+          <span style="text-decoration: line-through">An email will be sent to your <a href="http://www.arrl.org/e-mail-forwarding" target="_blank" rel="noreferrer noopener">ARRL email address</a> for confirmation.</span>. <strong>Open sign-ups are currently active!</strong>
         </p>
         <v-form @submit.prevent="create">
           <v-text-field

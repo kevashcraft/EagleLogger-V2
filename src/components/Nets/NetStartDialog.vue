@@ -61,9 +61,13 @@
       },
       create () {
         this.$root.req('Nets:create', this.net).then(response => {
-          this.$store.dispatch('snackbar', {text: 'The net has been started.'})
-          this.close()
-          this.$router.push(`/nets/${response}`)
+          if (response) {
+            this.$store.dispatch('snackbar', {text: 'The net has been started.'})
+            this.close()
+            this.$router.push(`/nets/${response}`)
+          } else {
+            this.$store.dispatch('snackbar', {text: 'Could not start the net.'})
+          }
         })
       },
       list () {

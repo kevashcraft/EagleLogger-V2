@@ -33,7 +33,11 @@ export default new Vuex.Store({
       commit('userSet', user)
       commit('tokenSet', {authed: true, ...token})
     },
-    logout ({commit}) {
+    logout ({commit, state}) {
+      let user = state.user
+      user.callsignId = false
+      user.ncs = false
+      commit('userSet', user)
       commit('tokenSet', {authed: false})
     },
     snackbar ({commit, state}, snackbar) {

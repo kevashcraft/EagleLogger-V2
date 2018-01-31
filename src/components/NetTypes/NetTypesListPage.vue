@@ -29,7 +29,7 @@
       </v-flex>
     </v-layout>
     <net-type-dialog ref="NetTypeDialog"></net-type-dialog>
-    <v-btn fab absolute bottom right color="orange" @click="$refs.NetTypeDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px">
+    <v-btn fab absolute bottom right color="orange" @click="$refs.NetTypeDialog.open({action: 'create'})" dark style="bottom: 25px; right: 25px" v-show="user.ncs">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
   </v-container>
@@ -40,14 +40,17 @@
   import NetTypeDialog from './NetTypeDialog.vue'
   import NetTypesList from './NetTypesList.vue'
 
+  import { mapState } from 'vuex'
+
   export default {
     mixins: [Page],
-    data () {
-      return {}
-    },
     components: {
       NetTypeDialog,
       NetTypesList
-    }
+    },
+    data () {
+      return {}
+    },
+    computed: mapState(['user'])
   }
 </script>

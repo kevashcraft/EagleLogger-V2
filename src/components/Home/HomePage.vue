@@ -39,8 +39,10 @@
                 </v-layout>
                 <p style="margin-top: 15px"><strong>Initial Release</strong></p>
                 <p>This is the initial release of the program ({{appVersion}}), so if you find a bug or have a good idea to add, please <a @click="$app.$refs.FeedbackDialog.open()">send some feedback</a>.</p>
-                <p v-show="!isCordova && isAndroid"><a href="https://play.google.com/store/apps/details?id=com.eaglelogger.app" target="_blank" rel="noreferrer noopener">Checkout the App!</a></p>
                 <p>Thanks for visiting and <strong>enjoy the net</strong>!</p>
+                <p v-show="!isCordova && isAndroid">
+                  <a href='https://play.google.com/store/apps/details?id=com.eaglelogger.app&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="150px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+                </p>
               </v-card-text>
             </v-card>
           </v-card-text>

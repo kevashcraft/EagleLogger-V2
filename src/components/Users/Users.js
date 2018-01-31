@@ -47,6 +47,10 @@ exports.create = async (req) => {
   }
 }
 
+exports.retrieve = async (req) => {
+  return UsersModel.retrieve(req.id)
+}
+
 exports.resetPassword = async (req) => {
   let callsign = await CallsignsModel.find(req.callsign)
   let user = false
@@ -100,10 +104,6 @@ exports.update = async (req) => {
 
   console.log('req.spotterId', req.spotterId)
   if (req.spotterId && req.spotterId !== user.spotterId) {
-    console.log('req.spotterId', req.spotterId)
-    console.log('req.spotterId', req.spotterId)
-    console.log('req.spotterId', req.spotterId)
-    console.log('req.spotterId', req.spotterId)
     await CallsignsModel.update(user.callsignId, {spotter_id: req.spotterId})
   }
 

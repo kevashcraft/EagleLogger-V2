@@ -64,14 +64,14 @@
       retrieve () {
         this.$root.req('Chat:retrieve', {netId: this.netId}).then(response => {
           let list = this.$refs.list.$el
-          window.scrollTop = window.scrollHeight
-          let scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
+          // window.scrollTop = window.scrollHeight
+          // let scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
           this.chat = response
           this.$nextTick(() => {
             list.scrollTop = list.scrollHeight
           })
-          if (scroll) {
-          }
+          // if (scroll) {
+          // }
         })
       },
       keyup (event) {

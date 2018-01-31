@@ -1,0 +1,31 @@
+version: '3'
+services:
+  site:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-site
+    ports:
+      - 40800:80
+  api:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-api
+    environment:
+      - SENDGRID_API_KEY=$SENDGRID_API_KEY
+    ports:
+      - 40801:3001
+  postgres:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  cron:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile-cron
+  redis:
+    image: redis:3.2.11
+
+volumes:
+  postgres_data:

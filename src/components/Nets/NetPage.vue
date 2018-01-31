@@ -15,7 +15,7 @@
               </v-list-tile-content>
               <v-menu left
                 class="menu"
-                v-show="!net.stopped && net.ncsId === token.userId"
+                v-show="!net.stopped && net.ncsId === user.callsignId"
                 >
                 <v-btn icon slot="activator">
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -32,7 +32,7 @@
             </v-list-tile>
           </template>
         </v-list>
-        <v-btn dark fab absolute bottom right color="orange" @click="$refs.CheckinDialog.open()" v-show="(!net.stopped && net.ncsId === token.userId) || walkingthrough" class="shepherd-net-checkin-btn">
+        <v-btn dark fab absolute bottom right color="orange" @click="$refs.CheckinDialog.open()" v-show="(!net.stopped && net.ncsId === user.callsignId) || walkingthrough" class="shepherd-net-checkin-btn">
           <v-icon dark>mdi-account-check</v-icon>
         </v-btn>
       </div>
@@ -109,7 +109,7 @@
       checkinCount () {
         return this.checkins.length
       },
-      ...mapState(['net', 'token'])
+      ...mapState(['net', 'token', 'user'])
     },
     components: {
       CallsignDialog,
@@ -146,7 +146,7 @@
     },
     methods: {
       callsignEdit (callsignId) {
-        if (this.net.ncsId === this.token.userId)
+        if (this.net.ncsId === this.user.callsignId)
           this.$refs.CallsignDialog.open(callsignId)
       },
       deleteCheckin (id) {
@@ -165,13 +165,13 @@
       retrieveCheckins (scroll = false) {
         this.$root.req('Checkins:list', this.net).then(response => {
           let list = this.$refs.list.$el
-          scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
+          // scroll = list.scrollTop === list.scrollHeight - list.offsetHeight
           this.checkins = response
           this.$nextTick(() => {
             list.scrollTop = list.scrollHeight
           })
-          if (scroll) {
-          }
+          // if (scroll) {
+          // }
         })
       }
     }

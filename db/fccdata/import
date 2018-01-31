@@ -20,6 +20,7 @@ if [ ! -d "tmp" ]; then
 fi
 
 # download data
+echo "Downloading l_amat.zip"
 l_amat_url="http://wireless.fcc.gov/uls/data/complete/l_amat.zip"
 wget -nv -O tmp/l_amat.zip $l_amat_url
 

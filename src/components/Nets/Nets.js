@@ -9,13 +9,15 @@ let auth = async (req) => {
   if (!req.netId) {
     return !!token
   }
+  let user = await UsersModel.retrieve(token.userId)
   let net = await NetsModel.retrieve(req.id)
-  return (net.ncsId === token.userId)
+  return (net.ncsId === user.callsignId)
 }
 
 exports.create = async (req) => {
   if (!(await auth(req))) return false
-  let user = UsersModel.retrieve(req.token.userId)
+  let user = await UsersModel.retrieve(req.token.userId)
+  console.log('user', user)
 
   let started = moment()
   let timeArray = req.startTime.split(':')

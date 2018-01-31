@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS checkins;
+DROP TABLE IF EXISTS checkins CASCADE;
 CREATE TABLE checkins (
   id serial NOT NULL,
   created timestamp DEFAULT current_timestamp NOT NULL,

@@ -7,8 +7,38 @@
             <v-card class="v-card-child">
               <v-card-title><h3>About EagleLogger</h3></v-card-title>
               <v-card-text>
-                <p>EagleLogger is an amateur radio net logging application built for the <a href="http://www.arrlwcf.org" target="_blank" rel="noreferrer noopener">WCF section</a> of the ARRL.</p>
-                <p>The application is built with <a href="https://nodejs.org/en/" target="_blank" rel="noreferrer noopener">NodeJS</a>, <a href="https://socket.io/" target="_blank" rel="noreferrer noopener">SocketIO</a>, <a href="https://vuejs.org/" target="_blank" rel="noreferrer noopener">VueJS</a> and <a href="https://vuetifyjs.com/" target="_blank" rel="noreferrer noopener">Vuetify</a> with a <a href="https://www.postgresql.org/" target="_blank" rel="noreferrer noopener">PostgreSQL</a> database. It's running on <a href="https://www.docker.com/" target="_blank" rel="noreferrer noopener">Docker</a> containers on a <a href="https://coreos.com/" target="_blank" rel="noreferrer noopener">CoreOS</a> server hosted by <a href="https://www.digitalocean.com/" target="_blank" rel="noreferrer noopener">DigitalOcean</a>.</p>
+                <p>
+                  EagleLogger is an amateur radio net logging application used to keep track of checkins and provide a live chat for hams. It contains an updated copy of the FCC's license database to aide in lookups.
+                </p>
+                <p>
+                  <strong>Software stack:</strong>
+                  <ul style="margin-left: 25px">
+                    <li>
+                      <a href="https://www.docker.com/" target="_blank" rel="noreferrer noopener">Docker</a>
+                    </li>
+                    <li>
+                      <a href="https://www.postgresql.org/" target="_blank" rel="noreferrer noopener">PostgreSQL</a>
+                    </li>
+                    <li>
+                      <a href="https://nodejs.org/en/" target="_blank" rel="noreferrer noopener">NodeJS</a>
+                    </li>
+                    <li>
+                      <a href="https://socket.io/" target="_blank" rel="noreferrer noopener">SocketIO</a>
+                    </li>
+                    <li>
+                      <a href="https://vuejs.org/" target="_blank" rel="noreferrer noopener">VueJS</a>
+                    </li>
+                    <li>
+                      <a href="https://vuetifyjs.com/" target="_blank" rel="noreferrer noopener">Vuetify</a>
+                    </li>
+                    <li>
+                      <a href="https://cordova.apache.org/" target="_blank" rel="noreferrer noopener">Apache Cordova</a>
+                    </li>
+                  </ul>
+                </p>
+                <p>
+                  It's running on a <a href="https://coreos.com/" target="_blank" rel="noreferrer noopener">CoreOS</a> server hosted by <a href="https://www.digitalocean.com/" target="_blank" rel="noreferrer noopener">DigitalOcean</a>.
+                </p>
                 <p>EagleLogger is an open source application and your <strong>contributions are welcome</strong>!</p>
               </v-card-text>
             </v-card>
@@ -35,13 +65,6 @@
               <v-card-text>
                 <ol style="padding: 0 15px 15px">
                   <li>Find and Fix initial bugs</li>
-                  <li>Release Android App</li>
-                  <li>Automatically Retrieve Daily FCC Database Updates</li>
-                  <li>Cleanup Net Controls</li>
-                  <li>Cleanup Net Types Page</li>
-                  <li>Add User Setting</li>
-                  <li>Add Station Level Appointee Badges</li>
-                  <li>Add SKYWARN Numbers</li>
                   <li>Add Announcement Dialog</li>
                   <li>Add Traffic Counts</li>
                   <li>Add Traffic Tracking</li>
