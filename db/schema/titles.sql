@@ -24,6 +24,12 @@ INSERT INTO titles (title) VALUES
   ('Thursday NCS'),
   ('Friday NCS'),
   ('Saturday NCS'),
+  ('Section Manager'),
+  ('Assistant Section Manager'),
+  ('Affiliated Club Coordinator'),
+  ('Section Traffic Manager'),
+  ('Section Youth Coordinator'),
+  ('Technical Coordinator'),
   ('SKYWARN NCS')
 ;
 
