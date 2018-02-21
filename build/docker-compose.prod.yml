@@ -1,23 +1,71 @@
 version: '3'
 services:
-  site:
-    image: kevashcraft/eaglelogger-site:latest
+  nginx:
+    image: nginx
+    container_name: nginx_proxy
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d:ro
+      - nginx_certs:/etc/nginx/certs:ro
+      - nginx_vhosts:/etc/nginx/vhost.d:ro
+      - nginx_html:/usr/share/nginx/html:ro
+
+  dockergen:
+    image: jwilder/docker-gen
+    command: -notify-sighup nginx_proxy -watch /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+    depends_on:
+      - nginx
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.docker_gen: "true"
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+      - nginx_certs:/etc/nginx/certs
+      - nginx_vhosts:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /home/core/build/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    depends_on:
+      - dockergen
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx_conf:/etc/nginx/conf.d:ro
+      - nginx_certs:/etc/nginx/certs:rw
+      - nginx_vhosts:/etc/nginx/vhost.d:rw
+      - nginx_html:/usr/share/nginx/html:rw
+
+  site:
+    image: kevashcraft/eaglelogger-site:latest
+    environment:
+      VIRTUAL_HOST: eaglelogger.com,www.eaglelogger.com
+      LETSENCRYPT_HOST: eaglelogger.com,www.eaglelogger.com
+      LETSENCRYPT_EMAIL: webmaster@eaglelogger.com
+
   api:
     image: kevashcraft/eaglelogger-api:latest
     environment:
-      - SENDGRID_API_KEY=$KEY
-    ports:
-      - 40801:3001
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      VIRTUAL_HOST: api.eaglelogger.com
+      LETSENCRYPT_HOST: api.eaglelogger.com
+      LETSENCRYPT_EMAIL: webmaster@eaglelogger.com
+
   postgres:
     image: kevashcraft/eaglelogger-postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data
   cron:
-    image: kevashcraft/eaglelogger-crons:latest
+    image: kevashcraft/eaglelogger-cron:latest
   redis:
     image: redis:3.2.11
 
 volumes:
+  nginx_certs:
+  nginx_conf:
+  nginx_html:
+  nginx_vhosts:
   postgres_data:

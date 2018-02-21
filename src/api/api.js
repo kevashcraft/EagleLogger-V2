@@ -5,10 +5,12 @@ import redisAdapter from 'socket.io-redis'
 import router from './router'
 import broadcastables from './broadcastables'
 
+import dns from 'dns'
+
 let http = Server()
 let io = IO(http)
 
-io.adapter(redisAdapter({host: 'redis', port: 6379}))
+io.adapter(redisAdapter({host: 'eaglelogger-redis.default.svc.cluster.local', port: 6379}))
 
 io.on('connection', (socket) => {
   socket.on('request', async (request, callback) => {

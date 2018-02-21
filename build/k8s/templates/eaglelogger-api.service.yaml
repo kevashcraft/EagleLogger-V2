@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: eaglelogger-api
+  labels:
+    app: eaglelogger-api
+    project: eaglelogger
+spec:
+  selector:
+    app: eaglelogger-api
+    project: eaglelogger
+  ports:
+  - port: 80
+    targetPort: 3001

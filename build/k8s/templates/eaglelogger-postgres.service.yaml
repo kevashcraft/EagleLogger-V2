@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: eaglelogger-postgres
+  labels:
+    app: eaglelogger-postgres
+    project: eaglelogger
+spec:
+  selector:
+    app: eaglelogger-postgres
+    project: eaglelogger
+  ports:
+  - port: 5432
+    targetPort: 5432

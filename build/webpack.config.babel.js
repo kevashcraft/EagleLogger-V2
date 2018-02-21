@@ -18,7 +18,7 @@ module.exports = env => {
   let apiServer = execSync('printf "$API_SERVER"').toString()
   if (!apiServer.length) {
     if (production) {
-      apiServer = 'http://eaglelogger.com:40801'
+      apiServer = 'https://api.eaglelogger.com'
     } else {
       apiServer = 'http://localhost:40801'
     }
