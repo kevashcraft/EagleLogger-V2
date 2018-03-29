@@ -1,0 +1,12 @@
+FROM postgres:10.1
+
+ARG PGINIT_DIR=/docker-entrypoint-initdb.d/
+
+ENV DB_NAME=eaglelogger
+ENV PGINIT_DIR=${PGINIT_DIR}
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends wget unzip cron && \
+  rm -rf /var/lib/apt/lists/*
+
+COPY ./db ${PGINIT_DIR}
+RUN chown postgres.postgres ${PGINIT_DIR} -R

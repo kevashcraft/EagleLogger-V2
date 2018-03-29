@@ -2,8 +2,8 @@ version: '3'
 services:
   app:
     build:
-      context: ../
-      dockerfile: build/Dockerfile
+      context: ../../
+      dockerfile: build/dev/Dockerfile
     ports:
       - 8080:8080
       - 40801:3001
