@@ -14,6 +14,6 @@ describe('NetsList.vue', () => {
 
     // const NetsListComponent = mount(NetsList)
 
-    expect(NetsListComponent.thing).to.contain('something')
+    // expect(NetsListComponent.thing).to.contain('something')
   })
 })
