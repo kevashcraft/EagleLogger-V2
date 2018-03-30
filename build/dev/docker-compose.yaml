@@ -1,0 +1,52 @@
+version: '3'
+services:
+  site:
+    build:
+      context: ../../
+      dockerfile: build/dev/Dockerfile-site
+    ports:
+      - 8080:8080
+    volumes:
+      - ../../src:/app/src
+      - ../../.git:/app/.git
+      - ../../build/dev:/app/build/dev
+      - ../../.babelrc:/app/.babelrc
+      - ../../package.json:/app/package.json
+      - ../../package-lock.json:/app/package-lock.json
+    environment:
+      - API_SERVER=http://localhost:40801
+  app:
+    build:
+      context: ../../
+      dockerfile: build/dev/Dockerfile-api
+      args:
+        - PORT=3000
+    ports:
+      - 40801:3000
+    depends_on:
+      - postgres
+    volumes:
+      - ../../src:/app/src
+      - ../../.babelrc:/app/.babelrc
+      - ../../package.json:/app/package.json
+      - ../../package-lock.json:/app/package-lock.json
+    environment:
+      - SENDGRID_API_KEY=DEMO_KEY
+      - REDIS_ADDRESS=redis
+      - EMAIL_FROM=EagleLogger <server@eaglelogger.com>
+      - PG_HOST=postgres
+      - PG_USER=eaglelogger
+      - PG_PASS=eaglelogger
+      - PG_DATABASE=eaglelogger
+  postgres:
+    build:
+      context: ../../
+      dockerfile: build/dev/Dockerfile-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  redis:
+    image: redis:3.2.11
+
+volumes:
+  postgres_data:
+  node_modules:

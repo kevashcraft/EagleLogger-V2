@@ -10,7 +10,8 @@ import dns from 'dns'
 let http = Server()
 let io = IO(http)
 
-io.adapter(redisAdapter({host: 'eaglelogger-redis.default.svc.cluster.local', port: 6379}))
+//'eaglelogger-redis.default.svc.cluster.local'
+io.adapter(redisAdapter({host: process.env.REDIS_ADDRESS, port: 6379}))
 
 io.on('connection', (socket) => {
   socket.on('request', async (request, callback) => {

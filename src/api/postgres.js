@@ -1,11 +1,10 @@
 import { native } from 'pg'
-import config from './config'
 
 const pool = new native.Pool({
-  host: config.postgres.hostname,
-  user: config.postgres.username,
-  password: config.postgres.password,
-  database: config.postgres.database
+  host: process.env.PG_HOST,
+  user: process.env.PG_USER,
+  password: process.env.PG_PASS,
+  database: process.env.PG_DATABASE
 })
 
 export default pool

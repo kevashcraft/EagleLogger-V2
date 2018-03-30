@@ -1,23 +1,12 @@
-FROM node:9.4 as builder
+FROM node:9.4
 
-RUN mkdir /app/src -p
-RUN mkdir /app/.git -p
-RUN mkdir /app/build -p
-
+RUN mkdir /app
 WORKDIR /app
 
 COPY package*.json ./
-COPY ./build/webpack.config.babel.js ./build/
-COPY .babelrc ./
-COPY ./src ./src/
-COPY ./.git ./.git/
 
 RUN npm install
-RUN npm run site:build
 
-FROM nginx:1.13
+EXPOSE 8080
 
-COPY ./build/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /app/dist/site /usr/share/nginx/html
-
-EXPOSE 80
+CMD ["npm","run","site:dev"]

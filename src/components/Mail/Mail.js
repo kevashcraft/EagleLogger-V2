@@ -1,12 +1,11 @@
 import sgMail from '@sendgrid/mail'
-import config from '../../api/config'
 
 exports.create = async(req) => {
   console.log('process.env.SENDGRID_API_KEY', process.env.SENDGRID_API_KEY)
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   const msg = {
     to: req.to,
-    from: config.sendgrid.from,
+    from: process.env.EMAIL_FROM,
     subject: req.subject,
     text: req.message
   }
