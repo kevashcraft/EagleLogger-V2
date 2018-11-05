@@ -4,3 +4,4 @@ tmp/
 /test/unit/coverage
 
 config.js
+build/k8s/values.yaml
